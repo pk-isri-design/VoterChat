@@ -149,3 +149,80 @@ h1, h2, h3, h4, h5, h6 {
   margin: 10px 0; 
   display: block; 
 }
+
+/* ============================================
+   MOBILE RESPONSIVE STYLES
+   ============================================ */
+
+/* Hide scrollbar utility */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+@media (max-width: 640px) {
+  /* Tighter outer margins on mobile */
+  .chat-header    { margin: 8px 8px 0 8px !important; }
+  .chat-tabs      { margin: 0 8px !important; padding: 10px 8px !important; gap: 8px !important; }
+  .chat-area      { margin: 0 8px !important; padding: 12px !important; }
+  .chat-footer    { margin: 0 8px 8px 8px !important; padding: 10px !important; border-radius: 0 0 12px 12px !important; }
+
+  /* Username truncation in header */
+  .header-username {
+    max-width: 110px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 0.78rem !important;
+  }
+
+  /* Footer: wrap into 2 rows on mobile */
+  .footer-row {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  /* Input takes full row on mobile */
+  .footer-input {
+    order: -1;            /* move to top row */
+    flex: 1 1 100% !important;
+  }
+
+  /* Controls row: trash, language, mic, send in one narrow row */
+  .footer-controls {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+  }
+
+  /* Language dropdown shorter on mobile */
+  .lang-select {
+    flex: 1 !important;
+    font-size: 0.78rem !important;
+    padding: 0 6px !important;
+  }
+
+  /* Chat bubbles: allow wider on small screens */
+  .chat-bubble {
+    max-width: 88% !important;
+  }
+
+  /* Tab buttons smaller text */
+  .tab-btn {
+    font-size: 0.75rem !important;
+    padding: 6px 10px !important;
+  }
+
+  /* Timeline graphic smaller on mobile */
+  .welcome-img {
+    height: 140px !important;
+  }
+
+  /* Login card full width */
+  .login-card {
+    padding: 28px 20px !important;
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .header-username { display: none; } /* hide name on very small phones */
+}

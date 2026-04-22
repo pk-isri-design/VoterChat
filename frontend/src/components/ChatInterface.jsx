@@ -150,13 +150,13 @@ export default function ChatInterface({ user }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       {/* Header */}
-      <header className="glass" style={{ padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '20px 20px 0 20px', borderRadius: '16px 16px 0 0', borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}>
+      <header className="glass chat-header" style={{ padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '20px 20px 0 20px', borderRadius: '16px 16px 0 0', borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Sparkles color="var(--primary)" />
           <h2 className="gradient-text" style={{ margin: 0, fontSize: '1.2rem' }}>VoterHelp</h2>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>{user.displayName || user.email}</span>
+          <span className="header-username" style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>{user.displayName || user.email}</span>
           <button onClick={logout} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }} title="Logout">
             <LogOut size={20} />
           </button>
@@ -173,13 +173,13 @@ export default function ChatInterface({ user }) {
         background: 'rgba(255, 255, 255, 0.4)',
         borderLeft: '1px solid var(--glass-border)',
         borderRight: '1px solid var(--glass-border)',
-        scrollbarWidth: 'none', // Firefox
-        msOverflowStyle: 'none' // IE/Edge
-      }} className="hide-scrollbar">
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none'
+      }} className="hide-scrollbar chat-tabs">
         {tabs.map((tab, index) => (
           <button
             key={index}
-            className="btn-secondary"
+            className="btn-secondary tab-btn"
             onClick={() => handleStaticTabClick(tab)}
             style={{
               whiteSpace: 'nowrap',
@@ -195,10 +195,10 @@ export default function ChatInterface({ user }) {
       </div>
 
       {/* Chat Area */}
-      <div className="glass-panel" style={{ flex: 1, margin: '0 20px', borderRadius: '0', borderTop: 'none', borderBottom: 'none', overflowY: 'auto', padding: '20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <div className="glass-panel chat-area" style={{ flex: 1, margin: '0 20px', borderRadius: '0', borderTop: 'none', borderBottom: 'none', overflowY: 'auto', padding: '20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
         {messages.length === 1 && (
           <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }} className="animate-fade-in">
-            <img src="/chat_timeline_graphic.png" alt="Election Timeline" style={{ width: '100%', maxWidth: '900px', height: 'auto', objectFit: 'contain', opacity: 0.95, borderRadius: 'var(--radius-md)' }} />
+            <img src="/chat_timeline_graphic.png" alt="Election Timeline" className="welcome-img" style={{ width: '100%', maxWidth: '900px', height: 'auto', objectFit: 'contain', opacity: 0.95, borderRadius: 'var(--radius-md)' }} />
           </div>
         )}
         {messages.map((msg, index) => (
@@ -206,7 +206,7 @@ export default function ChatInterface({ user }) {
             <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: msg.role === 'user' ? 'var(--primary)' : 'var(--secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               {msg.role === 'user' ? <User size={20} color="white" /> : <Info size={20} color="white" />}
             </div>
-            <div style={{
+            <div className="chat-bubble" style={{
               background: msg.role === 'user' ? 'rgba(217, 119, 6, 0.15)' : 'rgba(255, 255, 255, 0.8)',
               padding: '15px 20px',
               borderRadius: 'var(--radius-md)',
@@ -234,8 +234,8 @@ export default function ChatInterface({ user }) {
       </div>
 
       {/* Input Area */}
-      <footer className="glass" style={{ padding: '20px', margin: '0 20px 20px 20px', borderRadius: '0 0 16px 16px' }}>
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+      <footer className="glass chat-footer" style={{ padding: '20px', margin: '0 20px 20px 20px', borderRadius: '0 0 16px 16px' }}>
+        <div className="footer-row" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <button
             onClick={clearChat}
             title="Clear Chat"
@@ -256,6 +256,7 @@ export default function ChatInterface({ user }) {
             <Trash2 size={20} />
           </button>
           <select
+            className="lang-select"
             value={speechLanguage}
             onChange={(e) => setSpeechLanguage(e.target.value)}
             style={{
@@ -297,11 +298,12 @@ export default function ChatInterface({ user }) {
             {isListening ? <MicOff size={20} /> : <Mic size={20} />}
           </button>
           <input
+            className="footer-input"
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-            placeholder="Ask about elections, timelines, or procedures..."
+            placeholder="Ask about elections..."
             style={{
               flex: 1,
               background: '#ffffff',
