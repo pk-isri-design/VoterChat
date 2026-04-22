@@ -111,6 +111,39 @@ export default function ChatInterface({ user }) {
     ]);
   };
 
+  const tabs = [
+    { 
+      label: "Register as Voter", 
+      response: `**How to Register as a Voter in India:**\n\n1. **Eligibility:** You must be an Indian citizen, 18 years or older as of January 1st of the revision year, and an ordinary resident of the polling area.\n2. **Application:** Fill out **Form 6**.\n3. **How to Apply:**\n   - **Online:** Visit the NVSP portal (nvsp.in) or use the Voter Helpline App (VHA).\n   - **Offline:** Submit Form 6 to your local Electoral Registration Officer (ERO), Assistant ERO, or Booth Level Officer (BLO).`
+    },
+    { 
+      label: "Missing from List (SIR)", 
+      response: `**How to re-include your name if removed (SIR - Shifted, Identified dead, Missing):**\n\nIf your name was deleted by mistake, you must re-apply for inclusion. Please fill out **Form 6** and submit it to your Electoral Registration Officer (ERO) or Booth Level Officer (BLO) to get enrolled again. It is your statutory right to be on the voter list if you are eligible.`
+    },
+    { 
+      label: "Correct Address", 
+      response: `**How to correct your address on your Voter ID (EPIC):**\n\nIf your Voter ID has the wrong address, or any other error, you must submit an application using **Form 8** for rectification. The Electoral Registration Officer will issue a new EPIC with the same number after making the necessary corrections.`
+    },
+    { 
+      label: "Change Constituency", 
+      response: `**How to change your constituency after shifting residence:**\n\n- If you shifted residence **within the same constituency**, fill out **Form 8A**.\n- If you shifted to a **new constituency entirely**, you must fill out **Form 6** and submit it to the ERO of your *new* area of residence to ensure you are enrolled there.`
+    },
+    { 
+      label: "How to use this app", 
+      response: `**Welcome to VoterHelp! Here is how to use this app:**\n\n1. **Ask Questions:** Type any question about the election process in the text box below (e.g., "What is the Model Code of Conduct?").\n2. **Voice Input:** Click the microphone icon to speak your question instead of typing. You can select your preferred language from the dropdown.\n3. **Quick Guides:** Click any of the tabs above to instantly view static guides on common procedures.`
+    },
+  ];
+
+  const handleStaticTabClick = (tab) => {
+    // Instantly append the user's implicit question and the static response
+    setMessages(prev => [
+      ...prev,
+      { role: 'user', parts: [{ text: tab.label }] },
+      { role: 'model', parts: [{ text: tab.response }] }
+    ]);
+    scrollToBottom();
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       {/* Header */}
@@ -126,6 +159,37 @@ export default function ChatInterface({ user }) {
           </button>
         </div>
       </header>
+
+      {/* Static Tabs */}
+      <div style={{ 
+        display: 'flex', 
+        gap: '10px', 
+        padding: '15px 20px', 
+        margin: '0 20px',
+        overflowX: 'auto',
+        background: 'rgba(255, 255, 255, 0.4)',
+        borderLeft: '1px solid var(--glass-border)',
+        borderRight: '1px solid var(--glass-border)',
+        scrollbarWidth: 'none', // Firefox
+        msOverflowStyle: 'none' // IE/Edge
+      }} className="hide-scrollbar">
+        {tabs.map((tab, index) => (
+          <button 
+            key={index}
+            className="btn-secondary"
+            onClick={() => handleStaticTabClick(tab)}
+            style={{ 
+              whiteSpace: 'nowrap', 
+              fontSize: '0.85rem',
+              background: 'white',
+              boxShadow: '0 2px 5px rgba(0,0,0,0.02)',
+              border: '1px solid rgba(0,0,0,0.05)'
+            }}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
 
       {/* Chat Area */}
       <div className="glass-panel" style={{ flex: 1, margin: '0 20px', borderRadius: '0', borderTop: 'none', borderBottom: 'none', overflowY: 'auto', padding: '20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -168,12 +232,7 @@ export default function ChatInterface({ user }) {
 
       {/* Input Area */}
       <footer className="glass" style={{ padding: '20px', margin: '0 20px 20px 20px', borderRadius: '0 0 16px 16px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
-        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-            <button className="btn-secondary" onClick={() => handleQuickAction('timeline')} style={{ fontSize: '0.8rem' }}>Show Timeline</button>
-            <button className="btn-secondary" onClick={() => handleQuickAction('explain12')} style={{ fontSize: '0.8rem' }}>Explain Like I'm 12</button>
-            <button className="btn-secondary" onClick={() => handleQuickAction('simulate')} style={{ fontSize: '0.8rem' }}>Simulate Voting Day</button>
-          </div>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <button 
             onClick={clearChat} 
             style={{ 
