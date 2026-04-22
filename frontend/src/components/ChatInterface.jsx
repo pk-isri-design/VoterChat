@@ -197,7 +197,7 @@ export default function ChatInterface({ user }) {
       <div className="glass-panel" style={{ flex: 1, margin: '0 20px', borderRadius: '0', borderTop: 'none', borderBottom: 'none', overflowY: 'auto', padding: '20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
         {messages.length === 1 && (
           <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }} className="animate-fade-in">
-            <img src="/vote-illustration.png" alt="Casting Vote" style={{ height: '200px', objectFit: 'contain', opacity: 0.9 }} />
+            <img src="/election_timeline.png" alt="Election Commission Timeline" style={{ height: '250px', width: '100%', objectFit: 'cover', borderRadius: 'var(--radius-md)', opacity: 0.9, boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }} />
           </div>
         )}
         {messages.map((msg, index) => (
