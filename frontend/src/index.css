@@ -142,3 +142,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 .markdown-body li { margin-bottom: 0.25em; }
 .markdown-body strong { color: #000; font-weight: 600; }
+.markdown-body img { 
+  max-width: 100%; 
+  max-height: 250px; 
+  border-radius: var(--radius-sm); 
+  margin: 10px 0; 
+  display: block; 
+}
