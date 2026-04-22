@@ -129,17 +129,23 @@ export default function ChatInterface({ user }) {
 
       {/* Chat Area */}
       <div className="glass-panel" style={{ flex: 1, margin: '0 20px', borderRadius: '0', borderTop: 'none', borderBottom: 'none', overflowY: 'auto', padding: '20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        {messages.length === 1 && (
+          <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }} className="animate-fade-in">
+            <img src="/vote-illustration.png" alt="Casting Vote" style={{ height: '200px', objectFit: 'contain', opacity: 0.9 }} />
+          </div>
+        )}
         {messages.map((msg, index) => (
           <div key={index} style={{ display: 'flex', gap: '15px', flexDirection: msg.role === 'user' ? 'row-reverse' : 'row' }} className="animate-fade-in">
             <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: msg.role === 'user' ? 'var(--primary)' : 'var(--secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               {msg.role === 'user' ? <User size={20} color="white" /> : <Info size={20} color="white" />}
             </div>
             <div style={{ 
-              background: msg.role === 'user' ? 'rgba(59, 130, 246, 0.2)' : 'rgba(255, 255, 255, 0.05)', 
+              background: msg.role === 'user' ? 'rgba(217, 119, 6, 0.15)' : 'rgba(255, 255, 255, 0.8)', 
               padding: '15px 20px', 
               borderRadius: 'var(--radius-md)', 
               maxWidth: '75%',
-              border: `1px solid ${msg.role === 'user' ? 'rgba(59, 130, 246, 0.3)' : 'var(--glass-border)'}`
+              border: `1px solid ${msg.role === 'user' ? 'rgba(217, 119, 6, 0.3)' : 'var(--glass-border)'}`,
+              boxShadow: '0 2px 10px rgba(0,0,0,0.02)'
             }}>
               {msg.role === 'user' ? (
                 <p style={{ margin: 0 }}>{msg.parts[0].text}</p>
@@ -191,7 +197,7 @@ export default function ChatInterface({ user }) {
             value={speechLanguage} 
             onChange={(e) => setSpeechLanguage(e.target.value)}
             style={{
-              background: 'rgba(0, 0, 0, 0.2)',
+              background: 'rgba(255, 255, 255, 0.6)',
               border: '1px solid var(--glass-border)',
               borderRadius: 'var(--radius-md)',
               padding: '0 10px',
@@ -215,7 +221,7 @@ export default function ChatInterface({ user }) {
             style={{ 
               display: 'flex', alignItems: 'center', justifyContent: 'center', 
               padding: '0 15px', 
-              background: isListening ? 'rgba(239, 68, 68, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+              background: isListening ? 'rgba(239, 68, 68, 0.1)' : 'rgba(255, 255, 255, 0.6)',
               color: isListening ? '#ef4444' : 'var(--text-main)',
               border: `1px solid ${isListening ? 'rgba(239, 68, 68, 0.3)' : 'var(--glass-border)'}`
             }}
@@ -231,7 +237,7 @@ export default function ChatInterface({ user }) {
             placeholder="Ask about elections, timelines, or procedures..."
             style={{ 
               flex: 1, 
-              background: 'rgba(0, 0, 0, 0.2)', 
+              background: 'rgba(255, 255, 255, 0.6)', 
               border: '1px solid var(--glass-border)', 
               borderRadius: 'var(--radius-md)', 
               padding: '12px 15px', 
