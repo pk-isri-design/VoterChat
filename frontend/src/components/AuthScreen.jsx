@@ -15,11 +15,22 @@ export default function AuthScreen() {
   };
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-      <div className="glass animate-fade-in" style={{ padding: '40px', maxWidth: '400px', width: '100%', textAlign: 'center' }}>
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-          <img src="/vote-illustration.png" alt="Voting Process" style={{ width: '150px', height: '150px', objectFit: 'contain' }} />
-        </div>
+    <div style={{ 
+      display: 'flex', 
+      minHeight: '100vh', 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      padding: '20px',
+      backgroundImage: 'url(/election_timeline.png)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed',
+      position: 'relative'
+    }}>
+      {/* Light overlay to ensure the background illustration acts as a watermark and doesn't overpower the login box */}
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(253, 245, 235, 0.7)' }}></div>
+      
+      <div className="glass animate-fade-in" style={{ position: 'relative', zIndex: 1, padding: '40px', maxWidth: '450px', width: '100%', textAlign: 'center', background: 'rgba(255, 255, 255, 0.9)' }}>
         <h1 className="gradient-text" style={{ fontSize: '2rem', marginBottom: '10px' }}>VoterHelp</h1>
         <p style={{ color: 'var(--text-muted)', marginBottom: '30px' }}>
           Your intelligent, non-partisan assistant for navigating the election process globally.
