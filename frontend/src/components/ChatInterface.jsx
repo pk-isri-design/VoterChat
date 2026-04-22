@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { marked } from 'marked';
 import { logout } from '../firebase';
-import { Send, LogOut, Loader2, Sparkles, User, Info, Trash2 } from 'lucide-react';
+import { Send, LogOut, Loader2, Sparkles, User, Info, Trash2, Mic, MicOff } from 'lucide-react';
 
 export default function ChatInterface({ user }) {
   const [messages, setMessages] = useState([
@@ -10,7 +10,48 @@ export default function ChatInterface({ user }) {
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [speechLanguage, setSpeechLanguage] = useState('en-IN');
   const messagesEndRef = useRef(null);
+  const recognitionRef = useRef(null);
+
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = false;
+      recognitionRef.current.interimResults = false;
+
+      recognitionRef.current.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setInput(transcript);
+      };
+
+      recognitionRef.current.onerror = (event) => {
+        console.error("Speech recognition error", event.error);
+        setIsListening(false);
+      };
+
+      recognitionRef.current.onend = () => {
+        setIsListening(false);
+      };
+    }
+  }, []);
+
+  const toggleListening = () => {
+    if (isListening) {
+      recognitionRef.current?.stop();
+      setIsListening(false);
+    } else {
+      if (recognitionRef.current) {
+        recognitionRef.current.lang = speechLanguage;
+        recognitionRef.current.start();
+        setIsListening(true);
+      } else {
+        alert("Your browser does not support Speech Recognition.");
+      }
+    }
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -146,6 +187,42 @@ export default function ChatInterface({ user }) {
           </button>
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
+          <select 
+            value={speechLanguage} 
+            onChange={(e) => setSpeechLanguage(e.target.value)}
+            style={{
+              background: 'rgba(0, 0, 0, 0.2)',
+              border: '1px solid var(--glass-border)',
+              borderRadius: 'var(--radius-md)',
+              padding: '0 10px',
+              color: 'var(--text-main)',
+              outline: 'none',
+              cursor: 'pointer'
+            }}
+            title="Select Spoken Language"
+          >
+            <option value="en-IN" style={{color: 'black'}}>English</option>
+            <option value="hi-IN" style={{color: 'black'}}>Hindi (हिन्दी)</option>
+            <option value="bn-IN" style={{color: 'black'}}>Bengali (বাংলা)</option>
+            <option value="ta-IN" style={{color: 'black'}}>Tamil (தமிழ்)</option>
+            <option value="te-IN" style={{color: 'black'}}>Telugu (తెలుగు)</option>
+            <option value="mr-IN" style={{color: 'black'}}>Marathi (मराठी)</option>
+            <option value="gu-IN" style={{color: 'black'}}>Gujarati (ગુજરાતી)</option>
+          </select>
+          <button 
+            className="btn-secondary"
+            onClick={toggleListening}
+            style={{ 
+              display: 'flex', alignItems: 'center', justifyContent: 'center', 
+              padding: '0 15px', 
+              background: isListening ? 'rgba(239, 68, 68, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+              color: isListening ? '#ef4444' : 'var(--text-main)',
+              border: `1px solid ${isListening ? 'rgba(239, 68, 68, 0.3)' : 'var(--glass-border)'}`
+            }}
+            title={isListening ? "Stop listening" : "Start speaking"}
+          >
+            {isListening ? <MicOff size={20} /> : <Mic size={20} />}
+          </button>
           <input 
             type="text" 
             value={input}
