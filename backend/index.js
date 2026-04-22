@@ -63,8 +63,10 @@ app.post('/api/chat', async (req, res) => {
       systemInstruction: SYSTEM_PROMPT 
     });
 
+    const cleanHistory = (history || []).filter(msg => msg.parts && msg.parts[0] && msg.parts[0].text.trim() !== "");
+
     const chat = model.startChat({
-      history: history || [],
+      history: cleanHistory,
       generationConfig: {
         maxOutputTokens: 8192,
       },

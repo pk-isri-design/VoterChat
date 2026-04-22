@@ -72,10 +72,12 @@ export default function ChatInterface({ user }) {
 
     try {
       // Format history for Gemini API (only user/model roles allowed)
-      const history = messages.map(msg => ({
-        role: msg.role === 'model' ? 'model' : 'user',
-        parts: msg.parts
-      }));
+      const history = messages
+        .filter(msg => msg.parts && msg.parts[0] && msg.parts[0].text.trim() !== "")
+        .map(msg => ({
+          role: msg.role === 'model' ? 'model' : 'user',
+          parts: msg.parts
+        }));
       
       // Gemini requires the history to start with a 'user' message. 
       // Remove our hardcoded welcome message from the history context.
