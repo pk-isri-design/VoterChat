@@ -66,7 +66,7 @@ export default function ChatInterface({ user }) {
     if (!textToSend.trim()) return;
 
     const newMessages = [...messages, { role: 'user', parts: [{ text: textToSend }] }];
-    setMessages(newMessages);
+    setMessages([...newMessages, { role: 'model', parts: [{ text: "" }] }]); // Placeholder for streaming response
     setInput('');
     setLoading(true);
 
@@ -83,15 +83,63 @@ export default function ChatInterface({ user }) {
         history.shift();
       }
 
-      const response = await axios.post('http://localhost:3001/api/chat', {
-        message: textToSend,
-        history: history
+      const response = await fetch('http://localhost:3001/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: textToSend, history })
       });
 
-      setMessages([...newMessages, { role: 'model', parts: [{ text: response.data.text }] }]);
+      if (!response.ok) {
+        throw new Error("Server error");
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      let fullResponse = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        
+        // Turn off loading animation as soon as first chunk arrives
+        setLoading(false);
+        
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split('\n\n');
+        
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            try {
+              const data = JSON.parse(line.slice(6));
+              if (data.error) throw new Error(data.error);
+              fullResponse += data.text;
+              
+              setMessages(currentMessages => {
+                const updated = [...currentMessages];
+                const lastIdx = updated.length - 1;
+                if (updated[lastIdx].role === 'model') {
+                  updated[lastIdx].parts[0].text = fullResponse;
+                }
+                return updated;
+              });
+            } catch (e) {
+              console.error("Error parsing stream chunk", e);
+            }
+          }
+        }
+      }
     } catch (error) {
       console.error("Chat error", error);
-      setMessages([...newMessages, { role: 'model', parts: [{ text: "I'm sorry, I'm having trouble connecting to the server. Please try again later." }] }]);
+      setMessages(prev => {
+        const updated = [...prev];
+        const lastIdx = updated.length - 1;
+        if (updated[lastIdx].role === 'model' && updated[lastIdx].parts[0].text === "") {
+          updated[lastIdx].parts[0].text = "I'm sorry, I'm having trouble connecting to the server. Please try again later.";
+        } else if (updated[lastIdx].role !== 'model') {
+           updated.push({ role: 'model', parts: [{ text: "I'm sorry, I'm having trouble connecting to the server. Please try again later." }] });
+        }
+        return updated;
+      });
     } finally {
       setLoading(false);
     }

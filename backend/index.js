@@ -66,17 +66,32 @@ app.post('/api/chat', async (req, res) => {
     const chat = model.startChat({
       history: history || [],
       generationConfig: {
-        maxOutputTokens: 1000,
+        maxOutputTokens: 8192,
       },
     });
 
-    const result = await chat.sendMessage(message);
-    const responseText = result.response.text();
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    // Flush headers to start the stream immediately
+    res.flushHeaders();
 
-    res.json({ text: responseText });
+    const result = await chat.sendMessageStream(message);
+    
+    for await (const chunk of result.stream) {
+      const chunkText = chunk.text();
+      res.write(`data: ${JSON.stringify({ text: chunkText })}\n\n`);
+    }
+
+    res.end();
   } catch (error) {
     console.error("Error generating response:", error);
-    res.status(500).json({ error: "Failed to generate response. Please try again later." });
+    if (!res.headersSent) {
+      res.status(500).json({ error: "Failed to generate response. Please try again later." });
+    } else {
+      res.write(`data: ${JSON.stringify({ error: "Stream interrupted due to an error." })}\n\n`);
+      res.end();
+    }
   }
 });
 
