@@ -66,7 +66,7 @@ export default function ChatInterface({ user }) {
     if (!textToSend.trim()) return;
 
     const newMessages = [...messages, { role: 'user', parts: [{ text: textToSend }] }];
-    setMessages([...newMessages, { role: 'model', parts: [{ text: "" }] }]); // Placeholder for streaming response
+    setMessages(newMessages);
     setInput('');
     setLoading(true);
 
@@ -83,73 +83,15 @@ export default function ChatInterface({ user }) {
         history.shift();
       }
 
-      const response = await fetch('http://localhost:3001/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: textToSend, history })
+      const response = await axios.post('http://localhost:3001/api/chat', {
+        message: textToSend,
+        history: history
       });
 
-      if (!response.ok) {
-        throw new Error("Server error");
-      }
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder("utf-8");
-      let fullResponse = "";
-      let buffer = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        
-        // Turn off loading animation as soon as first chunk arrives
-        setLoading(false);
-        
-        buffer += decoder.decode(value, { stream: true });
-        
-        let boundary = buffer.indexOf('\n\n');
-        while (boundary !== -1) {
-          const message = buffer.slice(0, boundary);
-          buffer = buffer.slice(boundary + 2);
-          
-          if (message.startsWith('data: ')) {
-            try {
-              const dataStr = message.slice(6);
-              if (dataStr === '[DONE]') continue;
-              
-              const data = JSON.parse(dataStr);
-              if (data.error) throw new Error(data.error);
-              if (data.text) {
-                fullResponse += data.text;
-                
-                setMessages(currentMessages => {
-                  const updated = [...currentMessages];
-                  const lastIdx = updated.length - 1;
-                  if (updated[lastIdx].role === 'model') {
-                    updated[lastIdx].parts[0].text = fullResponse;
-                  }
-                  return updated;
-                });
-              }
-            } catch (e) {
-              console.error("Error parsing stream chunk", e, message);
-            }
-          }
-          boundary = buffer.indexOf('\n\n');
-        }
-      }
+      setMessages([...newMessages, { role: 'model', parts: [{ text: response.data.text }] }]);
     } catch (error) {
       console.error("Chat error", error);
-      setMessages(prev => {
-        const updated = [...prev];
-        const lastIdx = updated.length - 1;
-        if (updated[lastIdx].role === 'model' && updated[lastIdx].parts[0].text === "") {
-          updated[lastIdx].parts[0].text = "I'm sorry, I'm having trouble connecting to the server. Please try again later.";
-        } else if (updated[lastIdx].role !== 'model') {
-           updated.push({ role: 'model', parts: [{ text: "I'm sorry, I'm having trouble connecting to the server. Please try again later." }] });
-        }
-        return updated;
-      });
+      setMessages([...newMessages, { role: 'model', parts: [{ text: "I'm sorry, I'm having trouble connecting to the server. Please try again later." }] }]);
     } finally {
       setLoading(false);
     }

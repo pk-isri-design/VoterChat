@@ -70,28 +70,12 @@ app.post('/api/chat', async (req, res) => {
       },
     });
 
-    res.setHeader('Content-Type', 'text/event-stream');
-    res.setHeader('Cache-Control', 'no-cache');
-    res.setHeader('Connection', 'keep-alive');
-    // Flush headers to start the stream immediately
-    res.flushHeaders();
-
-    const result = await chat.sendMessageStream(message);
-    
-    for await (const chunk of result.stream) {
-      const chunkText = chunk.text();
-      res.write(`data: ${JSON.stringify({ text: chunkText })}\n\n`);
-    }
-
-    res.end();
+    const result = await chat.sendMessage(message);
+    const responseText = result.response.text();
+    res.json({ text: responseText });
   } catch (error) {
     console.error("Error generating response:", error);
-    if (!res.headersSent) {
-      res.status(500).json({ error: "Failed to generate response. Please try again later." });
-    } else {
-      res.write(`data: ${JSON.stringify({ error: "Stream interrupted due to an error." })}\n\n`);
-      res.end();
-    }
+    res.status(500).json({ error: "Failed to generate response. Please try again later." });
   }
 });
 
