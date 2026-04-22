@@ -231,38 +231,40 @@ export default function ChatInterface({ user }) {
       </div>
 
       {/* Input Area */}
-      <footer className="glass" style={{ padding: '20px', margin: '0 20px 20px 20px', borderRadius: '0 0 16px 16px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <footer className="glass" style={{ padding: '20px', margin: '0 20px 20px 20px', borderRadius: '0 0 16px 16px' }}>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <button 
             onClick={clearChat} 
+            title="Clear Chat"
             style={{ 
               background: 'rgba(239, 68, 68, 0.1)', 
               color: '#ef4444', 
-              border: '1px solid rgba(239, 68, 68, 0.2)', 
-              padding: '8px 16px', 
-              borderRadius: 'var(--radius-sm)', 
+              border: '1px solid rgba(239, 68, 68, 0.3)', 
+              padding: '0 15px', 
+              height: '46px',
+              borderRadius: 'var(--radius-md)', 
               cursor: 'pointer', 
-              fontSize: '0.8rem',
               display: 'flex',
               alignItems: 'center',
-              gap: '5px'
+              justifyContent: 'center',
+              flexShrink: 0
             }}
           >
-            <Trash2 size={14} /> Clear Chat
+            <Trash2 size={20} />
           </button>
-        </div>
-        <div style={{ display: 'flex', gap: '10px' }}>
           <select 
             value={speechLanguage} 
             onChange={(e) => setSpeechLanguage(e.target.value)}
             style={{
-              background: 'rgba(255, 255, 255, 0.6)',
-              border: '1px solid var(--glass-border)',
+              background: '#ffffff',
+              border: '1px solid #cbd5e1',
               borderRadius: 'var(--radius-md)',
               padding: '0 10px',
+              height: '46px',
               color: 'var(--text-main)',
               outline: 'none',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.05)'
             }}
             title="Select Spoken Language"
           >
@@ -280,9 +282,12 @@ export default function ChatInterface({ user }) {
             style={{ 
               display: 'flex', alignItems: 'center', justifyContent: 'center', 
               padding: '0 15px', 
-              background: isListening ? 'rgba(239, 68, 68, 0.1)' : 'rgba(255, 255, 255, 0.6)',
+              height: '46px',
+              background: isListening ? 'rgba(239, 68, 68, 0.1)' : '#ffffff',
               color: isListening ? '#ef4444' : 'var(--text-main)',
-              border: `1px solid ${isListening ? 'rgba(239, 68, 68, 0.3)' : 'var(--glass-border)'}`
+              border: `1px solid ${isListening ? 'rgba(239, 68, 68, 0.4)' : '#cbd5e1'}`,
+              boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+              flexShrink: 0
             }}
             title={isListening ? "Stop listening" : "Start speaking"}
           >
@@ -296,20 +301,30 @@ export default function ChatInterface({ user }) {
             placeholder="Ask about elections, timelines, or procedures..."
             style={{ 
               flex: 1, 
-              background: 'rgba(255, 255, 255, 0.6)', 
-              border: '1px solid var(--glass-border)', 
+              background: '#ffffff', 
+              border: '1px solid #cbd5e1', 
               borderRadius: 'var(--radius-md)', 
-              padding: '12px 15px', 
+              padding: '0 15px', 
+              height: '46px',
               color: 'var(--text-main)',
               outline: 'none',
-              fontSize: '1rem'
+              fontSize: '1rem',
+              boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.05)'
             }}
           />
           <button 
             className="btn-primary" 
             onClick={() => handleSend()} 
             disabled={loading || !input.trim()}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 20px', opacity: (loading || !input.trim()) ? 0.5 : 1 }}
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              padding: '0 20px', 
+              height: '46px',
+              opacity: (loading || !input.trim()) ? 0.5 : 1,
+              flexShrink: 0
+            }}
           >
             <Send size={20} />
           </button>
