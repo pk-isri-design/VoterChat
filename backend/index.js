@@ -12,7 +12,13 @@ const __dirname = path.dirname(__filename);
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: [
+    'https://voterhelp-60466.web.app',
+    'https://voterhelp-60466.firebaseapp.com',
+    'http://localhost:5173'
+  ]
+}));
 app.use(express.json());
 
 const port = process.env.PORT || 3001;
@@ -49,7 +55,7 @@ ${knowledgeBase}
 app.post('/api/chat', async (req, res) => {
   try {
     const { message, history } = req.body;
-    
+
     if (!message) {
       return res.status(400).json({ error: "Message is required" });
     }
@@ -58,9 +64,9 @@ app.post('/api/chat', async (req, res) => {
       return res.status(500).json({ error: "Gemini API key is not configured on the server." });
     }
 
-    const model = genAI.getGenerativeModel({ 
-      model: "gemini-flash-latest", 
-      systemInstruction: SYSTEM_PROMPT 
+    const model = genAI.getGenerativeModel({
+      model: "gemini-flash-latest",
+      systemInstruction: SYSTEM_PROMPT
     });
 
     const cleanHistory = (history || []).filter(msg => msg.parts && msg.parts[0] && msg.parts[0].text.trim() !== "");

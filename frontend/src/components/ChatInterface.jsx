@@ -78,14 +78,15 @@ export default function ChatInterface({ user }) {
           role: msg.role === 'model' ? 'model' : 'user',
           parts: msg.parts
         }));
-      
+
       // Gemini requires the history to start with a 'user' message. 
       // Remove our hardcoded welcome message from the history context.
       if (history.length > 0 && history[0].role === 'model') {
         history.shift();
       }
 
-      const response = await axios.post('http://localhost:3001/api/chat', {
+      const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const response = await axios.post(`${apiBase}/api/chat`, {
         message: textToSend,
         history: history
       });
@@ -114,24 +115,24 @@ export default function ChatInterface({ user }) {
   };
 
   const tabs = [
-    { 
-      label: "Register as Voter", 
+    {
+      label: "Register as Voter",
       response: `![Register as Voter](/tab-register.png)\n\n### How to Register as a Voter in India\n\n**Step 1: Check Eligibility**\nYou must be an Indian citizen, 18 years or older as of January 1st of the revision year, and an ordinary resident of the polling area.\n\n**Step 2: Obtain the Form**\nFill out **Form 6**.\n\n**Step 3: Gather Documents**\nYou will need a recent passport-sized photograph, a valid Proof of Age (like a birth certificate or 10th marksheet), and a valid Proof of Residence (like an Aadhaar card, electricity bill, or passport).\n\n**Step 4: Submission**\n- **Online:** Visit the NVSP portal (nvsp.in) or use the Voter Helpline App (VHA) to upload your documents and submit.\n- **Offline:** Submit physical copies to your local Electoral Registration Officer (ERO) or Booth Level Officer (BLO).\n\n**Step 5: Verification**\nA BLO will visit your residence to verify your address. Once approved, your name will be added to the electoral roll!`
     },
-    { 
-      label: "Missing from List (SIR)", 
+    {
+      label: "Missing from List (SIR)",
       response: `![Missing from List](/tab-missing.png)\n\n### How to Re-enroll if Removed by Mistake (SIR)\n\nIf your name was deleted during the Summary Revision (identified as Shifted, Dead, or Missing), follow these steps:\n\n**Step 1: Verification**\nVerify that your name is actually missing by searching the electoral roll online at the NVSP portal.\n\n**Step 2: File Form 6 Again**\nIf deleted by mistake, you must re-apply for fresh inclusion. Fill out **Form 6**.\n\n**Step 3: Immediate Action**\nSubmit the form immediately to your Electoral Registration Officer (ERO) or Booth Level Officer (BLO). It is your statutory right to be on the voter list if you are an eligible resident.\n\n**Step 4: Physical Verification**\nThe BLO will visit your residence to verify that you are indeed living at that address.`
     },
-    { 
-      label: "Correct Address", 
+    {
+      label: "Correct Address",
       response: `![Correct Address](/tab-correct.png)\n\n### How to Correct Your Address on Voter ID\n\nIf your Voter ID has the wrong address or typos, follow these steps:\n\n**Step 1: Obtain Form 8**\nYou must submit an application using **Form 8** for rectification of particulars.\n\n**Step 2: Attach Proof**\nAttach a valid document proving your correct address (e.g., Aadhaar, Bank Passbook, utility bill).\n\n**Step 3: Submission**\nSubmit the form online via NVSP/VHA or offline to your ERO/BLO.\n\n**Step 4: Issuance**\nThe Electoral Registration Officer will issue a new EPIC (Voter ID card) with the exact same EPIC number after making the necessary corrections in their database.`
     },
-    { 
-      label: "Change Constituency", 
+    {
+      label: "Change Constituency",
       response: `![Change Constituency](/tab-change.png)\n\n### How to Change Your Constituency\n\nIf you have shifted your residence permanently, follow these steps:\n\n**Step 1: Identify your Shift**\n- **Within the same constituency:** Fill out **Form 8A**.\n- **To a completely new constituency:** You must treat this as a new enrollment and fill out **Form 6**.\n\n**Step 2: Declare Previous Address**\nWhen filling out Form 6 for a new constituency, ensure you declare your previous address. This ensures your name is deleted from the old constituency's list, as being registered in two places is illegal.\n\n**Step 3: Submission**\nSubmit the forms to the ERO of your *new* area of residence to ensure you are enrolled there.`
     },
-    { 
-      label: "How to use this app", 
+    {
+      label: "How to use this app",
       response: `![App Guide](/tab-guide.png)\n\n### Welcome to VoterHelp!\n\nHere is a step-by-step guide on how to use this assistant:\n\n**1. Ask Custom Questions:**\nType any question about the election process in the text box below (e.g., "What is the Model Code of Conduct?"). The AI will read the official Election Commission guidelines to answer you.\n\n**2. Use Voice Input:**\nClick the microphone icon to speak your question instead of typing! You can select your preferred regional language (Hindi, Bengali, Tamil, etc.) from the dropdown next to the mic.\n\n**3. Quick Static Guides:**\nClick any of the scrolling tabs above to instantly view step-by-step guides on common procedures like registering to vote or correcting your address.`
     },
   ];
@@ -163,10 +164,10 @@ export default function ChatInterface({ user }) {
       </header>
 
       {/* Static Tabs */}
-      <div style={{ 
-        display: 'flex', 
-        gap: '10px', 
-        padding: '15px 20px', 
+      <div style={{
+        display: 'flex',
+        gap: '10px',
+        padding: '15px 20px',
         margin: '0 20px',
         overflowX: 'auto',
         background: 'rgba(255, 255, 255, 0.4)',
@@ -176,12 +177,12 @@ export default function ChatInterface({ user }) {
         msOverflowStyle: 'none' // IE/Edge
       }} className="hide-scrollbar">
         {tabs.map((tab, index) => (
-          <button 
+          <button
             key={index}
             className="btn-secondary"
             onClick={() => handleStaticTabClick(tab)}
-            style={{ 
-              whiteSpace: 'nowrap', 
+            style={{
+              whiteSpace: 'nowrap',
               fontSize: '0.85rem',
               background: 'white',
               boxShadow: '0 2px 5px rgba(0,0,0,0.02)',
@@ -205,10 +206,10 @@ export default function ChatInterface({ user }) {
             <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: msg.role === 'user' ? 'var(--primary)' : 'var(--secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               {msg.role === 'user' ? <User size={20} color="white" /> : <Info size={20} color="white" />}
             </div>
-            <div style={{ 
-              background: msg.role === 'user' ? 'rgba(217, 119, 6, 0.15)' : 'rgba(255, 255, 255, 0.8)', 
-              padding: '15px 20px', 
-              borderRadius: 'var(--radius-md)', 
+            <div style={{
+              background: msg.role === 'user' ? 'rgba(217, 119, 6, 0.15)' : 'rgba(255, 255, 255, 0.8)',
+              padding: '15px 20px',
+              borderRadius: 'var(--radius-md)',
               maxWidth: '75%',
               border: `1px solid ${msg.role === 'user' ? 'rgba(217, 119, 6, 0.3)' : 'var(--glass-border)'}`,
               boxShadow: '0 2px 10px rgba(0,0,0,0.02)'
@@ -235,17 +236,17 @@ export default function ChatInterface({ user }) {
       {/* Input Area */}
       <footer className="glass" style={{ padding: '20px', margin: '0 20px 20px 20px', borderRadius: '0 0 16px 16px' }}>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          <button 
-            onClick={clearChat} 
+          <button
+            onClick={clearChat}
             title="Clear Chat"
-            style={{ 
-              background: 'rgba(239, 68, 68, 0.1)', 
-              color: '#ef4444', 
-              border: '1px solid rgba(239, 68, 68, 0.3)', 
-              padding: '0 15px', 
+            style={{
+              background: 'rgba(239, 68, 68, 0.1)',
+              color: '#ef4444',
+              border: '1px solid rgba(239, 68, 68, 0.3)',
+              padding: '0 15px',
               height: '46px',
-              borderRadius: 'var(--radius-md)', 
-              cursor: 'pointer', 
+              borderRadius: 'var(--radius-md)',
+              cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -254,8 +255,8 @@ export default function ChatInterface({ user }) {
           >
             <Trash2 size={20} />
           </button>
-          <select 
-            value={speechLanguage} 
+          <select
+            value={speechLanguage}
             onChange={(e) => setSpeechLanguage(e.target.value)}
             style={{
               background: '#ffffff',
@@ -270,20 +271,20 @@ export default function ChatInterface({ user }) {
             }}
             title="Select Spoken Language"
           >
-            <option value="en-IN" style={{color: 'black'}}>English</option>
-            <option value="hi-IN" style={{color: 'black'}}>Hindi (हिन्दी)</option>
-            <option value="bn-IN" style={{color: 'black'}}>Bengali (বাংলা)</option>
-            <option value="ta-IN" style={{color: 'black'}}>Tamil (தமிழ்)</option>
-            <option value="te-IN" style={{color: 'black'}}>Telugu (తెలుగు)</option>
-            <option value="mr-IN" style={{color: 'black'}}>Marathi (मराठी)</option>
-            <option value="gu-IN" style={{color: 'black'}}>Gujarati (ગુજરાતી)</option>
+            <option value="en-IN" style={{ color: 'black' }}>English</option>
+            <option value="hi-IN" style={{ color: 'black' }}>Hindi (हिन्दी)</option>
+            <option value="bn-IN" style={{ color: 'black' }}>Bengali (বাংলা)</option>
+            <option value="ta-IN" style={{ color: 'black' }}>Tamil (தமிழ்)</option>
+            <option value="te-IN" style={{ color: 'black' }}>Telugu (తెలుగు)</option>
+            <option value="mr-IN" style={{ color: 'black' }}>Marathi (मराठी)</option>
+            <option value="gu-IN" style={{ color: 'black' }}>Gujarati (ગુજરાતી)</option>
           </select>
-          <button 
+          <button
             className="btn-secondary"
             onClick={toggleListening}
-            style={{ 
-              display: 'flex', alignItems: 'center', justifyContent: 'center', 
-              padding: '0 15px', 
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              padding: '0 15px',
               height: '46px',
               background: isListening ? 'rgba(239, 68, 68, 0.1)' : '#ffffff',
               color: isListening ? '#ef4444' : 'var(--text-main)',
@@ -295,18 +296,18 @@ export default function ChatInterface({ user }) {
           >
             {isListening ? <MicOff size={20} /> : <Mic size={20} />}
           </button>
-          <input 
-            type="text" 
+          <input
+            type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
             placeholder="Ask about elections, timelines, or procedures..."
-            style={{ 
-              flex: 1, 
-              background: '#ffffff', 
-              border: '1px solid #cbd5e1', 
-              borderRadius: 'var(--radius-md)', 
-              padding: '0 15px', 
+            style={{
+              flex: 1,
+              background: '#ffffff',
+              border: '1px solid #cbd5e1',
+              borderRadius: 'var(--radius-md)',
+              padding: '0 15px',
               height: '46px',
               color: 'var(--text-main)',
               outline: 'none',
@@ -314,15 +315,15 @@ export default function ChatInterface({ user }) {
               boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.05)'
             }}
           />
-          <button 
-            className="btn-primary" 
-            onClick={() => handleSend()} 
+          <button
+            className="btn-primary"
+            onClick={() => handleSend()}
             disabled={loading || !input.trim()}
-            style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center', 
-              padding: '0 20px', 
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '0 20px',
               height: '46px',
               opacity: (loading || !input.trim()) ? 0.5 : 1,
               flexShrink: 0
