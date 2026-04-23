@@ -54,11 +54,23 @@ ${knowledgeBase}
 
 app.post('/api/chat', async (req, res) => {
   try {
-    const { message, history } = req.body;
+    const { message, history, language } = req.body;
 
     if (!message) {
       return res.status(400).json({ error: "Message is required" });
     }
+
+    const languageMap = {
+      'en-IN': 'English',
+      'hi-IN': 'Hindi',
+      'bn-IN': 'Bengali',
+      'ta-IN': 'Tamil',
+      'te-IN': 'Telugu',
+      'mr-IN': 'Marathi',
+      'gu-IN': 'Gujarati'
+    };
+    const langName = languageMap[language] || 'the same language as the user query';
+    const dynamicSystemPrompt = SYSTEM_PROMPT + `\n9. You MUST respond in ${langName}. Do not respond in English if the user asked in another language.`;
 
     if (!process.env.GEMINI_API_KEY) {
       return res.status(500).json({ error: "Gemini API key is not configured on the server." });
@@ -66,7 +78,7 @@ app.post('/api/chat', async (req, res) => {
 
     const model = genAI.getGenerativeModel({
       model: "gemini-flash-latest",
-      systemInstruction: SYSTEM_PROMPT
+      systemInstruction: dynamicSystemPrompt
     });
 
     const cleanHistory = (history || []).filter(msg => msg.parts && msg.parts[0] && msg.parts[0].text.trim() !== "");

@@ -2,29 +2,74 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { marked } from 'marked';
 import { logout } from '../firebase';
-import { Send, LogOut, Loader2, Sparkles, User, Info, Trash2, Mic, MicOff } from 'lucide-react';
+import { Send, LogOut, Loader2, Sparkles, User, Info, Trash2, Mic, MicOff, Globe, Volume2, Square } from 'lucide-react';
+import { translations } from '../utils/translations';
 
 export default function ChatInterface({ user }) {
+  const [appLanguage, setAppLanguage] = useState('en-IN');
   const [messages, setMessages] = useState([
-    { role: 'model', parts: [{ text: "Hello! I'm VoterHelp, your intelligent and non-partisan election assistant. How can I help you understand the election process today?" }] }
+    { role: 'model', parts: [{ text: translations['en-IN'].welcome }] }
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [speechLanguage, setSpeechLanguage] = useState('en-IN');
+  const [availableVoices, setAvailableVoices] = useState([]);
+  const [speechTrigger, setSpeechTrigger] = useState(null);
+  const [playingIndex, setPlayingIndex] = useState(null);
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
+  const speechTimeoutRef = useRef(null);
+  const speechChunksRef = useRef([]);
+
+  useEffect(() => {
+    const loadVoices = () => {
+      setAvailableVoices(window.speechSynthesis.getVoices());
+    };
+    loadVoices();
+    if (window.speechSynthesis) {
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (speechTrigger) {
+      handleSend(speechTrigger, true);
+      setSpeechTrigger(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [speechTrigger]);
+  
+  useEffect(() => {
+    setMessages(prev => {
+      const newMessages = [...prev];
+      if (newMessages.length === 1 && newMessages[0].role === 'model') {
+        newMessages[0].parts[0].text = translations[appLanguage].welcome;
+      }
+      return newMessages;
+    });
+  }, [appLanguage]);
 
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
       recognitionRef.current = new SpeechRecognition();
-      recognitionRef.current.continuous = false;
-      recognitionRef.current.interimResults = false;
+      recognitionRef.current.continuous = true;
+      recognitionRef.current.interimResults = true;
 
       recognitionRef.current.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        setInput(transcript);
+        let finalTranscript = '';
+        for (let i = 0; i < event.results.length; i++) {
+          finalTranscript += event.results[i][0].transcript;
+        }
+        setInput(finalTranscript);
+
+        if (speechTimeoutRef.current) clearTimeout(speechTimeoutRef.current);
+        
+        speechTimeoutRef.current = setTimeout(() => {
+          recognitionRef.current?.stop();
+          setIsListening(false);
+          setSpeechTrigger(finalTranscript);
+        }, 3000);
       };
 
       recognitionRef.current.onerror = (event) => {
@@ -39,12 +84,18 @@ export default function ChatInterface({ user }) {
   }, []);
 
   const toggleListening = () => {
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.resume();
+    }
+    
     if (isListening) {
       recognitionRef.current?.stop();
       setIsListening(false);
     } else {
       if (recognitionRef.current) {
-        recognitionRef.current.lang = speechLanguage;
+        if (speechTimeoutRef.current) clearTimeout(speechTimeoutRef.current);
+        recognitionRef.current.lang = appLanguage;
         recognitionRef.current.start();
         setIsListening(true);
       } else {
@@ -61,7 +112,9 @@ export default function ChatInterface({ user }) {
     scrollToBottom();
   }, [messages, loading]);
 
-  const handleSend = async (textOverride) => {
+  const handleSend = async (textOverride, isVoiceCommand = false) => {
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    
     const textToSend = textOverride || input;
     if (!textToSend.trim()) return;
 
@@ -88,10 +141,12 @@ export default function ChatInterface({ user }) {
       const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001';
       const response = await axios.post(`${apiBase}/api/chat`, {
         message: textToSend,
-        history: history
+        history: history,
+        language: appLanguage
       });
 
-      setMessages([...newMessages, { role: 'model', parts: [{ text: response.data.text }] }]);
+      const responseText = response.data.text;
+      setMessages([...newMessages, { role: 'model', parts: [{ text: responseText }] }]);
     } catch (error) {
       console.error("Chat error", error);
       setMessages([...newMessages, { role: 'model', parts: [{ text: "I'm sorry, I'm having trouble connecting to the server. Please try again later." }] }]);
@@ -109,35 +164,20 @@ export default function ChatInterface({ user }) {
   };
 
   const clearChat = () => {
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    speechChunksRef.current = [];
+    setPlayingIndex(null);
     setMessages([
-      { role: 'model', parts: [{ text: "Hello! I'm VoterHelp, your intelligent and non-partisan election assistant. How can I help you understand the election process today?" }] }
+      { role: 'model', parts: [{ text: translations[appLanguage].welcome }] }
     ]);
   };
 
-  const tabs = [
-    {
-      label: "Register as Voter",
-      response: `![Register as Voter](/tab-register.png)\n\n### How to Register as a Voter in India\n\n**Step 1: Check Eligibility**\nYou must be an Indian citizen, 18 years or older as of January 1st of the revision year, and an ordinary resident of the polling area.\n\n**Step 2: Obtain the Form**\nFill out **Form 6**.\n\n**Step 3: Gather Documents**\nYou will need a recent passport-sized photograph, a valid Proof of Age (like a birth certificate or 10th marksheet), and a valid Proof of Residence (like an Aadhaar card, electricity bill, or passport).\n\n**Step 4: Submission**\n- **Online:** Visit the NVSP portal (nvsp.in) or use the Voter Helpline App (VHA) to upload your documents and submit.\n- **Offline:** Submit physical copies to your local Electoral Registration Officer (ERO) or Booth Level Officer (BLO).\n\n**Step 5: Verification**\nA BLO will visit your residence to verify your address. Once approved, your name will be added to the electoral roll!`
-    },
-    {
-      label: "Missing from List (SIR)",
-      response: `![Missing from List](/tab-missing.png)\n\n### How to Re-enroll if Removed by Mistake (SIR)\n\nIf your name was deleted during the Summary Revision (identified as Shifted, Dead, or Missing), follow these steps:\n\n**Step 1: Verification**\nVerify that your name is actually missing by searching the electoral roll online at the NVSP portal.\n\n**Step 2: File Form 6 Again**\nIf deleted by mistake, you must re-apply for fresh inclusion. Fill out **Form 6**.\n\n**Step 3: Immediate Action**\nSubmit the form immediately to your Electoral Registration Officer (ERO) or Booth Level Officer (BLO). It is your statutory right to be on the voter list if you are an eligible resident.\n\n**Step 4: Physical Verification**\nThe BLO will visit your residence to verify that you are indeed living at that address.`
-    },
-    {
-      label: "Correct Address",
-      response: `![Correct Address](/tab-correct.png)\n\n### How to Correct Your Address on Voter ID\n\nIf your Voter ID has the wrong address or typos, follow these steps:\n\n**Step 1: Obtain Form 8**\nYou must submit an application using **Form 8** for rectification of particulars.\n\n**Step 2: Attach Proof**\nAttach a valid document proving your correct address (e.g., Aadhaar, Bank Passbook, utility bill).\n\n**Step 3: Submission**\nSubmit the form online via NVSP/VHA or offline to your ERO/BLO.\n\n**Step 4: Issuance**\nThe Electoral Registration Officer will issue a new EPIC (Voter ID card) with the exact same EPIC number after making the necessary corrections in their database.`
-    },
-    {
-      label: "Change Constituency",
-      response: `![Change Constituency](/tab-change.png)\n\n### How to Change Your Constituency\n\nIf you have shifted your residence permanently, follow these steps:\n\n**Step 1: Identify your Shift**\n- **Within the same constituency:** Fill out **Form 8A**.\n- **To a completely new constituency:** You must treat this as a new enrollment and fill out **Form 6**.\n\n**Step 2: Declare Previous Address**\nWhen filling out Form 6 for a new constituency, ensure you declare your previous address. This ensures your name is deleted from the old constituency's list, as being registered in two places is illegal.\n\n**Step 3: Submission**\nSubmit the forms to the ERO of your *new* area of residence to ensure you are enrolled there.`
-    },
-    {
-      label: "How to use this app",
-      response: `![App Guide](/tab-guide.png)\n\n### Welcome to VoterHelp!\n\nHere is a step-by-step guide on how to use this assistant:\n\n**1. Ask Custom Questions:**\nType any question about the election process in the text box below (e.g., "What is the Model Code of Conduct?"). The AI will read the official Election Commission guidelines to answer you.\n\n**2. Use Voice Input:**\nClick the microphone icon to speak your question instead of typing! You can select your preferred regional language (Hindi, Bengali, Tamil, etc.) from the dropdown next to the mic.\n\n**3. Quick Static Guides:**\nClick any of the scrolling tabs above to instantly view step-by-step guides on common procedures like registering to vote or correcting your address.`
-    },
-  ];
+  const tabs = translations[appLanguage].tabs;
 
   const handleStaticTabClick = (tab) => {
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    speechChunksRef.current = [];
+    setPlayingIndex(null);
     // Instantly append the user's implicit question and the static response
     setMessages(prev => [
       ...prev,
@@ -145,6 +185,58 @@ export default function ChatInterface({ user }) {
       { role: 'model', parts: [{ text: tab.response }] }
     ]);
     scrollToBottom();
+  };
+
+  const playNextChunk = () => {
+    if (speechChunksRef.current.length === 0) {
+      setPlayingIndex(null);
+      return;
+    }
+    
+    const chunk = speechChunksRef.current.shift();
+    const utterance = new SpeechSynthesisUtterance(chunk);
+    utterance.lang = appLanguage;
+    
+    let voices = window.speechSynthesis.getVoices();
+    if (voices.length === 0) voices = availableVoices;
+    const langPrefix = appLanguage.split('-')[0];
+    const voice = voices.find(v => v.lang === appLanguage) || 
+                  voices.find(v => v.lang.startsWith(langPrefix)) ||
+                  voices.find(v => v.name.toLowerCase().includes(langPrefix));
+                  
+    if (voice) utterance.voice = voice;
+    
+    utterance.onend = () => {
+      playNextChunk();
+    };
+    
+    utterance.onerror = (e) => {
+      console.error("Speech chunk error", e);
+      if (e.error !== 'interrupted') {
+        setPlayingIndex(null);
+        speechChunksRef.current = [];
+      }
+    };
+    
+    window.speechSynthesis._utterance = utterance;
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const playMessage = (text, index) => {
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    speechChunksRef.current = [];
+    
+    if (playingIndex === index) {
+      setPlayingIndex(null);
+      return;
+    }
+
+    setPlayingIndex(index);
+    const cleanText = text.replace(/[*#]/g, '');
+    const chunks = cleanText.match(/[^.!?।\n]+[.!?।\n]*/g) || [cleanText];
+    
+    speechChunksRef.current = chunks.map(c => c.trim()).filter(c => c.length > 0);
+    playNextChunk();
   };
 
   return (
@@ -176,6 +268,36 @@ export default function ChatInterface({ user }) {
         scrollbarWidth: 'none',
         msOverflowStyle: 'none'
       }} className="hide-scrollbar chat-tabs">
+        <div className="tab-btn" style={{ 
+            display: 'flex', alignItems: 'center', gap: '5px', 
+            background: 'var(--primary)', color: 'white', 
+            borderRadius: 'var(--radius-md)', padding: '0 10px',
+            boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
+          }}>
+          <Globe size={16} />
+          <select
+            value={appLanguage}
+            onChange={(e) => setAppLanguage(e.target.value)}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: 'white',
+              outline: 'none',
+              cursor: 'pointer',
+              fontWeight: '500',
+              fontSize: '0.85rem'
+            }}
+            title="Change App Language"
+          >
+            <option value="en-IN" style={{ color: 'black' }}>English</option>
+            <option value="hi-IN" style={{ color: 'black' }}>हिन्दी</option>
+            <option value="bn-IN" style={{ color: 'black' }}>বাংলা</option>
+            <option value="ta-IN" style={{ color: 'black' }}>தமிழ்</option>
+            <option value="te-IN" style={{ color: 'black' }}>తెలుగు</option>
+            <option value="mr-IN" style={{ color: 'black' }}>मराठी</option>
+            <option value="gu-IN" style={{ color: 'black' }}>ગુજરાતી</option>
+          </select>
+        </div>
         {tabs.map((tab, index) => (
           <button
             key={index}
@@ -217,7 +339,32 @@ export default function ChatInterface({ user }) {
               {msg.role === 'user' ? (
                 <p style={{ margin: 0 }}>{msg.parts[0].text}</p>
               ) : (
-                <div className="markdown-body" dangerouslySetInnerHTML={{ __html: marked(msg.parts[0].text) }} />
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <div className="markdown-body" dangerouslySetInnerHTML={{ __html: marked(msg.parts[0].text) }} />
+                  <button 
+                    onClick={() => playMessage(msg.parts[0].text, index)}
+                    title={playingIndex === index ? "Stop playing" : "Read aloud"}
+                    style={{
+                      marginTop: '15px',
+                      background: playingIndex === index ? 'rgba(239, 68, 68, 0.1)' : 'rgba(59, 130, 246, 0.1)',
+                      border: `1px solid ${playingIndex === index ? 'rgba(239, 68, 68, 0.3)' : 'rgba(59, 130, 246, 0.3)'}`,
+                      color: playingIndex === index ? '#ef4444' : '#3b82f6',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      cursor: 'pointer',
+                      fontSize: '0.85rem',
+                      padding: '8px 12px',
+                      borderRadius: 'var(--radius-sm)',
+                      alignSelf: 'flex-start',
+                      fontWeight: '500',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    {playingIndex === index ? <Square size={16} fill="currentColor" /> : <Volume2 size={16} />}
+                    {playingIndex === index ? 'Stop' : 'Listen'}
+                  </button>
+                </div>
               )}
             </div>
           </div>
@@ -227,7 +374,7 @@ export default function ChatInterface({ user }) {
             <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <Loader2 className="animate-spin" size={20} color="white" />
             </div>
-            <div style={{ padding: '15px', color: 'var(--text-muted)' }}>Thinking...</div>
+            <div style={{ padding: '15px', color: 'var(--text-muted)' }}>{translations[appLanguage].thinking}</div>
           </div>
         )}
         <div ref={messagesEndRef} />
@@ -255,31 +402,7 @@ export default function ChatInterface({ user }) {
           >
             <Trash2 size={20} />
           </button>
-          <select
-            className="lang-select"
-            value={speechLanguage}
-            onChange={(e) => setSpeechLanguage(e.target.value)}
-            style={{
-              background: '#ffffff',
-              border: '1px solid #cbd5e1',
-              borderRadius: 'var(--radius-md)',
-              padding: '0 10px',
-              height: '46px',
-              color: 'var(--text-main)',
-              outline: 'none',
-              cursor: 'pointer',
-              boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.05)'
-            }}
-            title="Select Spoken Language"
-          >
-            <option value="en-IN" style={{ color: 'black' }}>English</option>
-            <option value="hi-IN" style={{ color: 'black' }}>Hindi (हिन्दी)</option>
-            <option value="bn-IN" style={{ color: 'black' }}>Bengali (বাংলা)</option>
-            <option value="ta-IN" style={{ color: 'black' }}>Tamil (தமிழ்)</option>
-            <option value="te-IN" style={{ color: 'black' }}>Telugu (తెలుగు)</option>
-            <option value="mr-IN" style={{ color: 'black' }}>Marathi (मराठी)</option>
-            <option value="gu-IN" style={{ color: 'black' }}>Gujarati (ગુજરાતી)</option>
-          </select>
+
           <button
             className="btn-secondary"
             onClick={toggleListening}
@@ -303,7 +426,7 @@ export default function ChatInterface({ user }) {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-            placeholder="Ask about elections..."
+            placeholder={translations[appLanguage].askPlaceholder}
             style={{
               flex: 1,
               background: '#ffffff',
