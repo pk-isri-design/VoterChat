@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { signInWithGoogle } from '../firebase';
 import { ShieldCheck } from 'lucide-react';
 
-export default function AuthScreen() {
+export default function AuthScreen({ onGuestLogin }) {
   const [error, setError] = useState('');
 
   const handleLogin = async () => {
@@ -38,9 +38,19 @@ export default function AuthScreen() {
 
         {error && <div style={{ color: '#ef4444', marginBottom: '20px', fontSize: '0.9rem' }}>{error}</div>}
 
-        <button className="btn-primary" onClick={handleLogin} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+        <button className="btn-primary" onClick={handleLogin} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: '15px' }}>
           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style={{ width: '20px' }} />
           Sign in with Google
+        </button>
+        
+        <div style={{ position: 'relative', margin: '20px 0', textAlign: 'center' }}>
+          <hr style={{ border: 'none', borderTop: '1px solid var(--glass-border)' }} />
+          <span style={{ position: 'absolute', top: '-10px', left: '50%', transform: 'translateX(-50%)', background: '#fff', padding: '0 10px', color: 'var(--text-muted)', fontSize: '0.85rem' }}>or</span>
+        </div>
+
+        <button className="btn-secondary" onClick={onGuestLogin} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+          <ShieldCheck size={20} />
+          Continue as Guest
         </button>
       </div>
     </div>

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { marked } from 'marked';
 import { logout } from '../firebase';
-import { Send, LogOut, Loader2, Sparkles, User, Info, Trash2, Mic, MicOff, Globe, Volume2, Square } from 'lucide-react';
+import { Send, LogOut, Loader2, Sparkles, User, Info, Trash2, Mic, MicOff, Globe, Volume2, Square, Type, Minus, Plus } from 'lucide-react';
 import { translations } from '../utils/translations';
 
 export default function ChatInterface({ user }) {
@@ -16,6 +16,7 @@ export default function ChatInterface({ user }) {
   const [availableVoices, setAvailableVoices] = useState([]);
   const [speechTrigger, setSpeechTrigger] = useState(null);
   const [playingIndex, setPlayingIndex] = useState(null);
+  const [fontSizeMultiplier, setFontSizeMultiplier] = useState(1);
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
   const speechTimeoutRef = useRef(null);
@@ -239,8 +240,11 @@ export default function ChatInterface({ user }) {
     playNextChunk();
   };
 
+  const handleIncreaseText = () => setFontSizeMultiplier(prev => Math.min(prev + 0.1, 1.5));
+  const handleDecreaseText = () => setFontSizeMultiplier(prev => Math.max(prev - 0.1, 0.8));
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', fontSize: `${fontSizeMultiplier}rem` }}>
       {/* Header */}
       <header className="glass chat-header" style={{ padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '20px 20px 0 20px', borderRadius: '16px 16px 0 0', borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -248,8 +252,16 @@ export default function ChatInterface({ user }) {
           <h2 className="gradient-text" style={{ margin: 0, fontSize: '1.2rem' }}>VoterHelp</h2>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.05)', borderRadius: 'var(--radius-sm)', padding: '2px', marginRight: '10px' }}>
+            <button onClick={handleDecreaseText} style={{ background: 'transparent', border: 'none', padding: '5px', cursor: 'pointer', color: 'var(--text-main)', display: 'flex', alignItems: 'center' }} title="Decrease text size"><Minus size={16} /></button>
+            <Type size={16} color="var(--text-main)" style={{ margin: '0 5px' }} />
+            <button onClick={handleIncreaseText} style={{ background: 'transparent', border: 'none', padding: '5px', cursor: 'pointer', color: 'var(--text-main)', display: 'flex', alignItems: 'center' }} title="Increase text size"><Plus size={16} /></button>
+          </div>
           <span className="header-username" style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>{user.displayName || user.email}</span>
-          <button onClick={logout} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }} title="Logout">
+          <button onClick={() => {
+            logout();
+            if (user.isGuest) window.location.reload();
+          }} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }} title="Logout">
             <LogOut size={20} />
           </button>
         </div>

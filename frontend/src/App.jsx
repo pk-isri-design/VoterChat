@@ -11,11 +11,18 @@ function App() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+      // Don't overwrite a guest user with null if they aren't signed into Firebase
+      if (currentUser || !user?.isGuest) {
+        setUser(currentUser);
+      }
       setLoading(false);
     });
     return () => unsubscribe();
-  }, []);
+  }, [user]);
+
+  const handleGuestLogin = () => {
+    setUser({ displayName: 'Guest', email: 'guest@voterhelp.com', isGuest: true });
+  };
 
   if (loading) {
     return (
@@ -30,7 +37,7 @@ function App() {
       <Routes>
         <Route 
           path="/login" 
-          element={!user ? <AuthScreen /> : <Navigate to="/" />} 
+          element={!user ? <AuthScreen onGuestLogin={handleGuestLogin} /> : <Navigate to="/" />} 
         />
         <Route 
           path="/" 
