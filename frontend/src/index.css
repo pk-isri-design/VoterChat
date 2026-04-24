@@ -142,6 +142,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 .markdown-body li { margin-bottom: 0.25em; }
 .markdown-body strong { color: #000; font-weight: 600; }
+.markdown-body a {
+  color: var(--primary);
+  text-decoration: underline;
+  font-weight: 600;
+  background: rgba(217, 119, 6, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.markdown-body a:hover {
+  background: rgba(217, 119, 6, 0.2);
+}
 .markdown-body img { 
   max-width: 100%; 
   max-height: 250px; 
