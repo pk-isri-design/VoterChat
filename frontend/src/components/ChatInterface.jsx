@@ -64,6 +64,14 @@ export default function ChatInterface({ user }) {
   }, [appLanguage]);
 
   useEffect(() => {
+    if (highContrast) {
+      document.body.classList.add('high-contrast-mode');
+    } else {
+      document.body.classList.remove('high-contrast-mode');
+    }
+  }, [highContrast]);
+
+  useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
       recognitionRef.current = new SpeechRecognition();

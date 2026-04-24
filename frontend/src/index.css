@@ -238,3 +238,63 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 400px) {
   .header-username { display: none; } /* hide name on very small phones */
 }
+
+/* ============================================
+   ACCESSIBILITY & HIGH CONTRAST
+   ============================================ */
+:focus-visible { 
+  outline: 3px solid var(--primary) !important; 
+  outline-offset: 3px; 
+  border-radius: var(--radius-sm); 
+}
+
+.high-contrast-mode {
+  --bg-color: #000000;
+  --bg-dark: #000000;
+  --bg-darker: #000000;
+  --primary: #ffff00;
+  --secondary: #00ffff;
+  --text-main: #ffffff;
+  --text-muted: #cccccc;
+  --glass-bg: #000000;
+  --glass-border: #ffffff;
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+.high-contrast-mode .chat-bubble.model {
+  background: #000000 !important;
+  border: 2px solid #ffff00 !important;
+  color: #ffffff !important;
+}
+
+.high-contrast-mode .chat-bubble.user {
+  background: #000000 !important;
+  border: 2px solid #00ffff !important;
+  color: #ffffff !important;
+}
+
+.high-contrast-mode .glass, 
+.high-contrast-mode .glass-panel {
+  background: #000000 !important;
+  border: 2px solid #ffffff !important;
+}
+
+.high-contrast-mode input, 
+.high-contrast-mode select, 
+.high-contrast-mode button {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+}
+
+.high-contrast-mode .gradient-text {
+  background: none !important;
+  color: #ffff00 !important;
+  -webkit-text-fill-color: #ffff00 !important;
+}
+
+.high-contrast-mode :focus-visible {
+  outline: 3px solid #ffff00 !important;
+  outline-offset: 3px;
+}
