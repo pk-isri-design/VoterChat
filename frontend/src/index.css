@@ -263,9 +263,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .high-contrast-mode .chat-bubble.model {
-  background: #000000 !important;
+  background: #ffff00 !important;
   border: 2px solid #ffff00 !important;
-  color: #ff0000 !important;
+  color: #000000 !important;
+}
+
+.high-contrast-mode .chat-bubble.model * {
+  color: #000000 !important;
 }
 
 .high-contrast-mode .chat-bubble.user {
@@ -294,11 +298,38 @@ h1, h2, h3, h4, h5, h6 {
   color: #ffffff !important;
 }
 
-.high-contrast-mode .tab-btn {
+/* Language tab overrides the broad button/select black rule */
+.high-contrast-mode .tab-btn,
+.high-contrast-mode div.tab-btn {
   background: #ffff00 !important;
   color: #000000 !important;
   border: 2px solid #ffff00 !important;
-  font-weight: bold;
+}
+
+.high-contrast-mode .tab-btn button,
+.high-contrast-mode .tab-btn select {
+  background: #ffff00 !important;
+  color: #000000 !important;
+  border: none !important;
+}
+
+.high-contrast-mode .tab-btn select option {
+  background: #ffff00 !important;
+  color: #000000 !important;
+}
+
+/* model answer bubble: all child text black on yellow */
+.high-contrast-mode .chat-bubble.model .markdown-body,
+.high-contrast-mode .chat-bubble.model .markdown-body * {
+  color: #000000 !important;
+}
+
+/* Listen/Stop button inside model bubble: yellow text, visible on yellow bg */
+.high-contrast-mode .chat-bubble.model .listen-btn,
+.high-contrast-mode .chat-bubble.model .listen-btn * {
+  background: #000000 !important;
+  color: #ffff00 !important;
+  border: 1px solid #ffff00 !important;
 }
 
 .high-contrast-mode .gradient-text {

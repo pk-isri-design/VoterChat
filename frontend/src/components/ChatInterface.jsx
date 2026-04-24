@@ -373,7 +373,7 @@ export default function ChatInterface({ user }) {
             <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: msg.role === 'user' ? 'var(--primary)' : 'var(--secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               {msg.role === 'user' ? <User size={20} color="white" /> : <Info size={20} color="white" />}
             </div>
-            <div className="chat-bubble" style={{
+            <div className={`chat-bubble ${msg.role}`} style={{
               background: msg.role === 'user' ? 'rgba(217, 119, 6, 0.15)' : 'rgba(255, 255, 255, 0.8)',
               padding: '15px 20px',
               borderRadius: 'var(--radius-md)',
@@ -387,6 +387,7 @@ export default function ChatInterface({ user }) {
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <div className="markdown-body" dangerouslySetInnerHTML={{ __html: marked(msg.parts[0].text) }} />
                   <button 
+                    className="listen-btn"
                     onClick={() => playMessage(msg.parts[0].text, index)}
                     title={playingIndex === index ? "Stop playing" : "Read aloud"}
                     style={{
