@@ -6,9 +6,17 @@ VoterHelp is an intelligent, non-partisan AI election assistant designed to help
 
 - **Conversational UI**: A modern, glassmorphism-themed chat interface.
 - **Deep Knowledge Base**: Integrated directly with the Election Commission of India's FAQs to provide accurate, official information regarding registration, voting, EPIC cards, and more.
-- **Voice Input (Speech-to-Text)**: Speak your questions directly! Powered natively by the browser's Web Speech API, this feature supports English, Hindi, Bengali, Tamil, Telugu, Marathi, and Gujarati—100% free with no backend setup needed.
-- **Interactive Quick Actions**: One-click buttons to simulate voting days, generate timelines, or get simple "Explain Like I'm 12" breakdowns.
-- **Secure Authentication**: Integrated with Google Firebase Auth to ensure personalized, secure usage.
+- **Voice Input (Speech-to-Text)**: Speak your questions directly! Powered natively by the browser's Web Speech API, this feature supports English, Hindi, Bengali, Tamil, Telugu, Marathi, and Gujarati—100% free with no backend setup needed. Includes a smart 3-second auto-send pause detection.
+- **Voice Output (Text-to-Speech)**: The AI can read its answers aloud directly in your selected regional language using advanced chunking to prevent browser timeouts.
+- **Accessibility Settings**: Easily increase or decrease the chat text size with the built-in dynamic font resizer for better readability.
+- **Progressive Web App (PWA)**: Fully installable on mobile and desktop for a native app-like experience.
+- **Interactive Quick Actions**: One-click scrolling tabs for instant step-by-step guides on:
+  - Register as Voter
+  - Missing from List (SIR)
+  - Correct Address
+  - Change Constituency
+  - How to use this app
+- **Authentication**: Secure Google Firebase Auth, along with a newly added **Guest Login** feature that lets users access election information entirely anonymously.
 
 ## Tech Stack 🛠️
 
@@ -71,6 +79,19 @@ npm run dev
 ```
 
 Navigate to `http://localhost:5173` in your browser to interact with VoterHelp AI!
+
+## Testing 🧪
+The frontend is fully tested using **Vitest** and **React Testing Library**. It includes tests for:
+- Microphone activation and SpeechRecognition API mocks.
+- Text-to-Speech (TTS) consistency and language matching.
+- Multi-language UI changes.
+- Authentication states.
+
+To run the test suite:
+```bash
+cd frontend
+npm run test
+```
 
 ## Security 🔒
 All `.env` files containing API keys are ignored via `.gitignore` to prevent accidental commits to public repositories.
