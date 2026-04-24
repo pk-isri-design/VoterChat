@@ -265,13 +265,13 @@ h1, h2, h3, h4, h5, h6 {
 .high-contrast-mode .chat-bubble.model {
   background: #000000 !important;
   border: 2px solid #ffff00 !important;
-  color: #ffffff !important;
+  color: #ff0000 !important;
 }
 
 .high-contrast-mode .chat-bubble.user {
   background: #000000 !important;
   border: 2px solid #00ffff !important;
-  color: #ffffff !important;
+  color: #ff0000 !important;
 }
 
 .high-contrast-mode .glass, 
@@ -286,6 +286,19 @@ h1, h2, h3, h4, h5, h6 {
   background: #000000 !important;
   color: #ffffff !important;
   border: 1px solid #ffffff !important;
+}
+
+.high-contrast-mode select option:checked,
+.high-contrast-mode select:focus {
+  background-color: #ff0000 !important;
+  color: #ffffff !important;
+}
+
+.high-contrast-mode .tab-btn {
+  background: #ffff00 !important;
+  color: #000000 !important;
+  border: 2px solid #ffff00 !important;
+  font-weight: bold;
 }
 
 .high-contrast-mode .gradient-text {

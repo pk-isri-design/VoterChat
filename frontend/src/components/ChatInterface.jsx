@@ -334,13 +334,13 @@ export default function ChatInterface({ user }) {
             title="Change App Language"
             aria-label="Change App Language"
           >
-            <option value="en-IN" style={{ color: 'black' }}>English</option>
-            <option value="hi-IN" style={{ color: 'black' }}>हिन्दी</option>
-            <option value="bn-IN" style={{ color: 'black' }}>বাংলা</option>
-            <option value="ta-IN" style={{ color: 'black' }}>தமிழ்</option>
-            <option value="te-IN" style={{ color: 'black' }}>తెలుగు</option>
-            <option value="mr-IN" style={{ color: 'black' }}>मराठी</option>
-            <option value="gu-IN" style={{ color: 'black' }}>ગુજરાતી</option>
+            <option value="en-IN">English</option>
+            <option value="hi-IN">हिन्दी</option>
+            <option value="bn-IN">বাংলা</option>
+            <option value="ta-IN">தமிழ்</option>
+            <option value="te-IN">తెలుగు</option>
+            <option value="mr-IN">मराठी</option>
+            <option value="gu-IN">ગુજરાતી</option>
           </select>
         </div>
         {tabs.map((tab, index) => (
