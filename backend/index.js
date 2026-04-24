@@ -70,18 +70,7 @@ app.post('/api/chat', async (req, res) => {
       'gu-IN': 'Gujarati'
     };
     const langName = languageMap[language] || 'the same language as the user query';
-    const dynamicSystemPrompt = SYSTEM_PROMPT + `\n9. You MUST respond in ${langName}. Do not respond in English if the user asked in another language.\n10. If you mention any official form, you MUST format it as a markdown link pointing directly to its official PDF download URL. Do this consistently across all languages. Here is the mapping you must use:
-- Form 6: [Form 6](https://www.eci.gov.in/eci_main/forms/FORM6.pdf)
-- Form 6A: [Form 6A](https://www.eci.gov.in/eci_main/forms/FORM6A.pdf)
-- Form 7: [Form 7](https://www.eci.gov.in/eci_main/forms/FORM7.pdf)
-- Form 8: [Form 8](https://www.eci.gov.in/eci_main/forms/FORM8.pdf)
-- Form 8A: [Form 8A](https://www.eci.gov.in/eci_main/forms/FORM8A.pdf)
-- Form 13F: [Form 13F](https://www.eci.gov.in/eci_main/forms/FORM13F.pdf)
-- Form 17: [Form 17](https://www.eci.gov.in/eci_main/forms/FORM17.pdf)
-- Form 18: [Form 18](https://www.eci.gov.in/eci_main/forms/FORM18.pdf)
-- Form 19: [Form 19](https://www.eci.gov.in/eci_main/forms/FORM19.pdf)
-- Form 22: [Form 22](https://www.eci.gov.in/eci_main/forms/FORM22.pdf)
-- Form 26: [Form 26](https://www.eci.gov.in/eci_main/forms/FORM26.pdf)`;
+    const dynamicSystemPrompt = SYSTEM_PROMPT + `\n9. You MUST respond in ${langName}. Do not respond in English if the user asked in another language.\n10. If you mention any official form (e.g., Form 6, Form 7, Form 8, Form 9, Form 6A, Form 8A, etc.), you MUST format it as a markdown link pointing to https://voters.eci.gov.in/home/forms. For example: [Form 6](https://voters.eci.gov.in/home/forms). Do this consistently across all languages.`;
 
     if (!process.env.GEMINI_API_KEY) {
       return res.status(500).json({ error: "Gemini API key is not configured on the server." });
