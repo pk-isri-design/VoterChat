@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { marked } from 'marked';
 import { logout } from '../firebase';
-import { Send, LogOut, Loader2, Sparkles, User, Info, Trash2, Mic, MicOff, Globe, Volume2, Square, Type, Minus, Plus } from 'lucide-react';
+import { Send, LogOut, Loader2, Sparkles, User, Info, Trash2, Mic, MicOff, Globe, Volume2, Square, Type, Minus, Plus, Moon, Sun } from 'lucide-react';
 import { translations } from '../utils/translations';
 
 export default function ChatInterface({ user }) {
@@ -17,6 +17,7 @@ export default function ChatInterface({ user }) {
   const [speechTrigger, setSpeechTrigger] = useState(null);
   const [playingIndex, setPlayingIndex] = useState(null);
   const [fontSizeMultiplier, setFontSizeMultiplier] = useState(1);
+  const [highContrast, setHighContrast] = useState(false);
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
   const speechTimeoutRef = useRef(null);
@@ -34,7 +35,19 @@ export default function ChatInterface({ user }) {
 
   useEffect(() => {
     if (speechTrigger) {
-      handleSend(speechTrigger, true);
+      const lowerCmd = speechTrigger.toLowerCase().trim();
+      if (lowerCmd === "clear chat" || lowerCmd === "chat clear" || lowerCmd === "clear") {
+        clearChat();
+        setInput('');
+      } else if (lowerCmd.includes("change language to hindi") || lowerCmd.includes("switch to hindi")) {
+        setAppLanguage('hi-IN');
+        setInput('');
+      } else if (lowerCmd.includes("change language to english") || lowerCmd.includes("switch to english")) {
+        setAppLanguage('en-IN');
+        setInput('');
+      } else {
+        handleSend(speechTrigger, true);
+      }
       setSpeechTrigger(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -252,7 +265,7 @@ export default function ChatInterface({ user }) {
   const handleDecreaseText = () => setFontSizeMultiplier(prev => Math.max(prev - 0.1, 0.8));
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', fontSize: `${fontSizeMultiplier}rem` }}>
+    <div className={highContrast ? "high-contrast-mode" : ""} style={{ display: 'flex', flexDirection: 'column', height: '100vh', fontSize: `${fontSizeMultiplier}rem` }}>
       {/* Header */}
       <header className="glass chat-header" style={{ padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '20px 20px 0 20px', borderRadius: '16px 16px 0 0', borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -261,15 +274,18 @@ export default function ChatInterface({ user }) {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
           <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.05)', borderRadius: 'var(--radius-sm)', padding: '2px', marginRight: '10px' }}>
-            <button onClick={handleDecreaseText} style={{ background: 'transparent', border: 'none', padding: '5px', cursor: 'pointer', color: 'var(--text-main)', display: 'flex', alignItems: 'center' }} title="Decrease text size"><Minus size={16} /></button>
-            <Type size={16} color="var(--text-main)" style={{ margin: '0 5px' }} />
-            <button onClick={handleIncreaseText} style={{ background: 'transparent', border: 'none', padding: '5px', cursor: 'pointer', color: 'var(--text-main)', display: 'flex', alignItems: 'center' }} title="Increase text size"><Plus size={16} /></button>
+            <button onClick={() => setHighContrast(!highContrast)} style={{ background: 'transparent', border: 'none', padding: '5px', cursor: 'pointer', color: 'var(--text-main)', display: 'flex', alignItems: 'center', marginRight: '5px' }} title="Toggle High Contrast" aria-label="Toggle High Contrast">
+              {highContrast ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+            <button onClick={handleDecreaseText} style={{ background: 'transparent', border: 'none', padding: '5px', cursor: 'pointer', color: 'var(--text-main)', display: 'flex', alignItems: 'center' }} title="Decrease text size" aria-label="Decrease text size"><Minus size={16} /></button>
+            <Type size={16} color="var(--text-main)" style={{ margin: '0 5px' }} aria-hidden="true" />
+            <button onClick={handleIncreaseText} style={{ background: 'transparent', border: 'none', padding: '5px', cursor: 'pointer', color: 'var(--text-main)', display: 'flex', alignItems: 'center' }} title="Increase text size" aria-label="Increase text size"><Plus size={16} /></button>
           </div>
           <span className="header-username" style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>{user.displayName || user.email}</span>
           <button onClick={() => {
             logout();
             if (user.isGuest) window.location.reload();
-          }} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }} title="Logout">
+          }} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }} title="Logout" aria-label="Logout">
             <LogOut size={20} />
           </button>
         </div>
@@ -308,6 +324,7 @@ export default function ChatInterface({ user }) {
               fontSize: '0.85rem'
             }}
             title="Change App Language"
+            aria-label="Change App Language"
           >
             <option value="en-IN" style={{ color: 'black' }}>English</option>
             <option value="hi-IN" style={{ color: 'black' }}>हिन्दी</option>
@@ -406,6 +423,7 @@ export default function ChatInterface({ user }) {
           <button
             onClick={clearChat}
             title="Clear Chat"
+            aria-label="Clear Chat"
             style={{
               background: 'rgba(239, 68, 68, 0.1)',
               color: '#ef4444',
@@ -437,6 +455,7 @@ export default function ChatInterface({ user }) {
               flexShrink: 0
             }}
             title={isListening ? "Stop listening" : "Start speaking"}
+            aria-label={isListening ? "Stop listening" : "Start speaking"}
           >
             {isListening ? <MicOff size={20} /> : <Mic size={20} />}
           </button>
@@ -447,6 +466,7 @@ export default function ChatInterface({ user }) {
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
             placeholder={translations[appLanguage].askPlaceholder}
+            aria-label="Chat input"
             style={{
               flex: 1,
               background: '#ffffff',
@@ -464,6 +484,7 @@ export default function ChatInterface({ user }) {
             className="btn-primary"
             onClick={() => handleSend()}
             disabled={loading || !input.trim()}
+            aria-label="Send message"
             style={{
               display: 'flex',
               alignItems: 'center',
