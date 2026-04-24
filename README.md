@@ -9,8 +9,10 @@ VoterHelp is an intelligent, non-partisan AI election assistant designed to help
 - **Voice Input (Speech-to-Text)**: Speak your questions directly! Powered natively by the browser's Web Speech API, this feature supports English, Hindi, Bengali, Tamil, Telugu, Marathi, and Gujarati—100% free with no backend setup needed. Includes a smart 3-second auto-send pause detection.
 - **Voice Output (Text-to-Speech)**: The AI can read its answers aloud directly in your selected regional language using advanced chunking to prevent browser timeouts.
 - **Accessibility Settings**: Easily increase or decrease the chat text size with the built-in dynamic font resizer for better readability.
+- **Auto-Linked ECI Forms**: Whenever the AI mentions an official form (like Form 6 or Form 8), it automatically converts it into a highlighted, clickable link pointing directly to the ECI forms portal.
 - **Progressive Web App (PWA)**: Fully installable on mobile and desktop for a native app-like experience.
 - **Interactive Quick Actions**: One-click scrolling tabs for instant step-by-step guides on:
+  - Download Forms (direct link to official portal)
   - Register as Voter
   - Missing from List (SIR)
   - Correct Address
