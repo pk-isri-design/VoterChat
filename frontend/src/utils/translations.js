@@ -5,6 +5,10 @@ export const translations = {
     askPlaceholder: "Ask about elections...",
     tabs: [
       {
+        label: "Download Forms",
+        response: `### Official Forms Portal\n\nAll official forms (like Form 6, Form 7, Form 8) can be accessed and submitted at the official portal.\n\n**[Access All Forms Here](https://voters.eci.gov.in/home/forms)**`
+      },
+      {
         label: "Register as Voter",
         response: `![Register as Voter](/tab-register.png)\n\n### How to Register as a Voter in India\n\n**Step 1: Check Eligibility**\nYou must be an Indian citizen, 18 years or older as of January 1st of the revision year, and an ordinary resident of the polling area.\n\n**Step 2: Obtain the Form**\nFill out **[Form 6](https://voters.eci.gov.in/home/forms)**.\n\n**Step 3: Gather Documents**\nYou will need a recent passport-sized photograph, a valid Proof of Age (like a birth certificate or 10th marksheet), and a valid Proof of Residence (like an Aadhaar card, electricity bill, or passport).\n\n**Step 4: Submission**\n- **Online:** Visit the NVSP portal (nvsp.in) or use the Voter Helpline App (VHA) to upload your documents and submit.\n- **Offline:** Submit physical copies to your local Electoral Registration Officer (ERO) or Booth Level Officer (BLO).\n\n**Step 5: Verification**\nA BLO will visit your residence to verify your address. Once approved, your name will be added to the electoral roll!`
       },
@@ -32,6 +36,10 @@ export const translations = {
     askPlaceholder: "चुनाव के बारे में पूछें...",
     tabs: [
       {
+        label: "Download Forms",
+        response: `### Official Forms Portal\n\nAll official forms (like Form 6, Form 7, Form 8) can be accessed and submitted at the official portal.\n\n**[Access All Forms Here](https://voters.eci.gov.in/home/forms)**`
+      },
+      {
         label: "मतदाता के रूप में पंजीकरण",
         response: `![Register as Voter](/tab-register.png)\n\n### भारत में मतदाता के रूप में पंजीकरण कैसे करें\n\n**चरण 1: पात्रता जांचें**\nआप एक भारतीय नागरिक होने चाहिए, संशोधन वर्ष के 1 जनवरी तक 18 वर्ष या उससे अधिक आयु के होने चाहिए।\n\n**चरण 2: फॉर्म प्राप्त करें**\n**[फॉर्म 6](https://voters.eci.gov.in/home/forms)** भरें।\n\n**चरण 3: दस्तावेज़ एकत्र करें**\nआपको एक पासपोर्ट आकार की तस्वीर, आयु का प्रमाण और निवास का प्रमाण चाहिए।\n\n**चरण 4: जमा करना**\n- **ऑनलाइन:** NVSP पोर्टल या Voter Helpline App (VHA) का उपयोग करें।\n- **ऑफ़लाइन:** अपने स्थानीय ERO या BLO को भौतिक प्रतियां जमा करें।\n\n**चरण 5: सत्यापन**\nएक BLO आपके पते को सत्यापित करेगा और आपका नाम जोड़ दिया जाएगा!`
       },
@@ -58,6 +66,10 @@ export const translations = {
     thinking: "ভাবছি...",
     askPlaceholder: "নির্বাচন সম্পর্কে জিজ্ঞাসা করুন...",
     tabs: [
+      {
+        label: "Download Forms",
+        response: `### Official Forms Portal\n\nAll official forms (like Form 6, Form 7, Form 8) can be accessed and submitted at the official portal.\n\n**[Access All Forms Here](https://voters.eci.gov.in/home/forms)**`
+      },
       { label: "ভোটার হিসেবে নিবন্ধন", response: `![Register as Voter](/tab-register.png)\n\n### কীভাবে ভোটার হিসেবে নিবন্ধন করবেন\n\nফর্ম 6 পূরণ করুন এবং NVSP পোর্টালে জমা দিন।` },
       { label: "তালিকা থেকে নিখোঁজ", response: `![Missing from List](/tab-missing.png)\n\n### ভুল করে মুছে ফেলা হলে কী করবেন\n\nফর্ম 6 পুনরায় পূরণ করুন এবং BLO-এর কাছে জমা দিন।` },
       { label: "ঠিকানা সংশোধন", response: `![Correct Address](/tab-correct.png)\n\n### ভোটার আইডিতে ঠিকানা সংশোধন\n\nফর্ম 8 ব্যবহার করে সঠিক প্রমাণের সাথে জমা দিন।` },
@@ -70,6 +82,10 @@ export const translations = {
     thinking: "சிந்திக்கிறது...",
     askPlaceholder: "தேர்தல் பற்றி கேளுங்கள்...",
     tabs: [
+      {
+        label: "Download Forms",
+        response: `### Official Forms Portal\n\nAll official forms (like Form 6, Form 7, Form 8) can be accessed and submitted at the official portal.\n\n**[Access All Forms Here](https://voters.eci.gov.in/home/forms)**`
+      },
       { label: "வாக்காளராக பதிவு", response: `![Register as Voter](/tab-register.png)\n\n### வாக்காளராக பதிவு செய்வது எப்படி\n\nபடிவம் 6 ஐ நிரப்பி NVSP போர்ட்டலில் சமர்ப்பிக்கவும்.` },
       { label: "பட்டியலில் இல்லை", response: `![Missing from List](/tab-missing.png)\n\n### தவறாக நீக்கப்பட்டால்\n\nபடிவம் 6 ஐ மீண்டும் நிரப்பி BLO-விடம் சமர்ப்பிக்கவும்.` },
       { label: "முகவரி திருத்தம்", response: `![Correct Address](/tab-correct.png)\n\n### வாக்காளர் அட்டையில் முகவரி திருத்தம்\n\nபடிவம் 8 ஐப் பயன்படுத்தி சரியான ஆதாரத்துடன் சமர்ப்பிக்கவும்.` },
@@ -82,6 +98,10 @@ export const translations = {
     thinking: "ఆలోచిస్తున్నాను...",
     askPlaceholder: "ఎన్నికల గురించి అడగండి...",
     tabs: [
+      {
+        label: "Download Forms",
+        response: `### Official Forms Portal\n\nAll official forms (like Form 6, Form 7, Form 8) can be accessed and submitted at the official portal.\n\n**[Access All Forms Here](https://voters.eci.gov.in/home/forms)**`
+      },
       { label: "ఓటరుగా నమోదు", response: `![Register as Voter](/tab-register.png)\n\n### ఓటరుగా ఎలా నమోదు చేసుకోవాలి\n\nఫారం 6 పూరించి NVSP పోర్టల్‌లో సమర్పించండి.` },
       { label: "జాబితాలో లేరు", response: `![Missing from List](/tab-missing.png)\n\n### పొరపాటున తొలగించబడితే\n\nమళ్ళీ ఫారం 6 పూరించి BLO కు సమర్పించండి.` },
       { label: "చిరునామా సవరణ", response: `![Correct Address](/tab-correct.png)\n\n### ఓటరు కార్డులో చిరునామా సవరణ\n\nఫారం 8 ఉపయోగించి సరైన ఆధారాలతో సమర్పించండి.` },
@@ -94,6 +114,10 @@ export const translations = {
     thinking: "विचार करत आहे...",
     askPlaceholder: "निवडणुकीबद्दल विचारा...",
     tabs: [
+      {
+        label: "Download Forms",
+        response: `### Official Forms Portal\n\nAll official forms (like Form 6, Form 7, Form 8) can be accessed and submitted at the official portal.\n\n**[Access All Forms Here](https://voters.eci.gov.in/home/forms)**`
+      },
       { label: "मतदार म्हणून नोंदणी", response: `![Register as Voter](/tab-register.png)\n\n### मतदार म्हणून नोंदणी कशी करावी\n\nफॉर्म 6 भरा आणि NVSP पोर्टलवर सबमिट करा.` },
       { label: "यादीतून बेपत्ता", response: `![Missing from List](/tab-missing.png)\n\n### चुकून वगळल्यास काय करावे\n\nफॉर्म 6 पुन्हा भरा आणि BLO कडे सबमिट करा.` },
       { label: "पत्ता दुरुस्ती", response: `![Correct Address](/tab-correct.png)\n\n### मतदार ओळखपत्रावरील पत्ता दुरुस्ती\n\nफॉर्म 8 वापरून योग्य पुराव्यांसह सबमिट करा.` },
@@ -106,6 +130,10 @@ export const translations = {
     thinking: "વિચારી રહ્યો છું...",
     askPlaceholder: "ચૂંટણી વિશે પૂછો...",
     tabs: [
+      {
+        label: "Download Forms",
+        response: `### Official Forms Portal\n\nAll official forms (like Form 6, Form 7, Form 8) can be accessed and submitted at the official portal.\n\n**[Access All Forms Here](https://voters.eci.gov.in/home/forms)**`
+      },
       { label: "મતદાર તરીકે નોંધણી", response: `![Register as Voter](/tab-register.png)\n\n### મતદાર તરીકે નોંધણી કેવી રીતે કરવી\n\nફોર્મ 6 ભરો અને NVSP પોર્ટલ પર સબમિટ કરો.` },
       { label: "યાદીમાંથી ગુમ", response: `![Missing from List](/tab-missing.png)\n\n### ભૂલથી કાઢી નાખવામાં આવે તો શું કરવું\n\nફોર્મ 6 ફરીથી ભરો અને BLO ને સબમિટ કરો.` },
       { label: "સરનામું સુધારો", response: `![Correct Address](/tab-correct.png)\n\n### મતદાર આઈડી પર સરનામું સુધારો\n\nફોર્મ 8 નો ઉપયોગ કરીને સાચા પુરાવા સાથે સબમિટ કરો.` },
