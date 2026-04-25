@@ -8,11 +8,21 @@ VoterHelp is an intelligent, non-partisan AI election assistant designed to help
 - **Deep Knowledge Base**: Integrated directly with the Election Commission of India's FAQs to provide accurate, official information regarding registration, voting, EPIC cards, and more.
 - **Voice Input (Speech-to-Text)**: Speak your questions directly! Powered natively by the browser's Web Speech API, this feature supports English, Hindi, Bengali, Tamil, Telugu, Marathi, and Gujarati—100% free with no backend setup needed. Includes a smart 3-second auto-send pause detection.
 - **Voice Output (Text-to-Speech)**: The AI can read its answers aloud directly in your selected regional language using advanced chunking to prevent browser timeouts.
-- **Accessibility Settings**: Easily increase or decrease the chat text size with the built-in dynamic font resizer for better readability.
+- **Accessibility Settings**: Global text zoom control. Easily increase or decrease the entire application's font size (Login, Timeline, Quiz, and Chat) with a single click.
+- **Election Timeline 🗳️**: A comprehensive, 7-phase interactive guide to the Indian election process. Features static, high-quality content that works offline and includes:
+  - **Key Fact Banners**: Quick insights into each phase.
+  - **Detailed Breakdowns**: What Happens, Key Authorities, Rules, and "Did You Know" sections.
+  - **Multilingual Support**: Fully translated into all 7 supported languages.
+  - **Listen Mode**: Each section has a dedicated TTS button to read the content aloud in your local language.
+- **Quiz Mode 🎯**: Test your election knowledge with situational challenges.
+  - **30-Question Bank**: A pool of real-life scenarios (e.g., "What if I moved cities?").
+  - **Randomized Sessions**: 5 random questions per attempt to keep it engaging.
+  - **Instant Feedback**: Score tracking and review screens to help you learn from mistakes.
+  - **Multilingual UI**: The quiz is fully playable in all 7 supported languages.
 - **High Contrast (Dark) Mode**: Toggle a fully accessible high-contrast theme from the header. In this mode:
   - AI answer bubbles switch to a **yellow background with black text** for maximum legibility.
   - All **Quick Action tabs** (Register, Forms, etc.) and the **Language selector** tab display with a yellow background and black text, consistent with the high-contrast palette.
-  - The **Listen / Stop** audio button inside answer bubbles inverts to a **black background with yellow text** so it remains clearly visible against the yellow bubble.
+  - The **Listen / Stop** audio button inside answer bubbles and **Timeline sections** inverts to a **black background with yellow text** so it remains clearly visible against high-contrast backgrounds.
   - Focus indicators, gradient text, and form controls are all remapped to WCAG-safe contrast ratios.
 - **Auto-Linked ECI Forms**: Whenever the AI mentions an official form (like Form 6 or Form 8), it automatically converts it into a highlighted, clickable link pointing directly to the ECI forms portal.
 - **Progressive Web App (PWA)**: Fully installable on mobile and desktop for a native app-like experience.

@@ -1,177 +1,189 @@
-import React, { useState, useCallback } from 'react';
-import axios from 'axios';
-import { Loader2, CheckCircle, XCircle, ChevronRight, Trophy, RotateCcw } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { CheckCircle, XCircle, Trophy, RotateCcw, ChevronRight } from 'lucide-react';
+import { getQuizQuestions } from '../data/quizData';
 
-const OPTION_LABELS = ['A', 'B', 'C', 'D'];
+const QUESTIONS_PER_QUIZ = 5;
 
-export default function QuizMode({ appLanguage }) {
-  const [question, setQuestion] = useState(null);
-  const [selectedIndex, setSelectedIndex] = useState(null);
-  const [revealed, setRevealed] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [score, setScore] = useState({ correct: 0, total: 0 });
-  const [error, setError] = useState(null);
-  const [started, setStarted] = useState(false);
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
-  const fetchQuestion = useCallback(async () => {
-    setLoading(true);
-    setQuestion(null);
-    setSelectedIndex(null);
-    setRevealed(false);
-    setError(null);
-
-    try {
-      const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-      const response = await axios.post(`${apiBase}/api/chat`, {
-        message: 'Generate a new quiz question about Indian elections.',
-        history: [],
-        language: appLanguage,
-        mode: 'quiz',
-      });
-
-      const raw = response.data.text.trim();
-      // Strip possible markdown code fences
-      const jsonStr = raw.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '').trim();
-      const parsed = JSON.parse(jsonStr);
-      setQuestion(parsed);
-    } catch (err) {
-      console.error('Quiz fetch error:', err);
-      setError('Failed to load a question. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  }, [appLanguage]);
-
-  const handleOptionSelect = (idx) => {
-    if (revealed) return;
-    setSelectedIndex(idx);
-    setRevealed(true);
-    const isCorrect = idx === question.correctIndex;
-    setScore(prev => ({
-      correct: prev.correct + (isCorrect ? 1 : 0),
-      total: prev.total + 1,
-    }));
+/* ── Splash ── */
+function Splash({ onStart, lang }) {
+  const labels = {
+    'en-IN': { title: 'Election Quiz', desc: 'Read each situation carefully. You\'ll get 5 random questions.', btn: 'Start Quiz 🚀' },
+    'hi-IN': { title: 'चुनाव प्रश्नोत्तरी', desc: 'प्रत्येक स्थिति को ध्यान से पढ़ें। आपको 5 यादृच्छिक प्रश्न मिलेंगे।', btn: 'प्रश्नोत्तरी शुरू करें 🚀' },
+    'bn-IN': { title: 'নির্বাচন কুইজ', desc: 'প্রতিটি পরিস্থিতি মনোযোগ সহকারে পড়ুন। আপনি ৫টি র্যান্ডম প্রশ্ন পাবেন।', btn: 'কুইজ শুরু করুন 🚀' },
+    'ta-IN': { title: 'தேர்தல் வினாடி வினா', desc: 'ஒவ்வொரு சூழ்நிலையையும் கவனமாகப் படியுங்கள். உங்களுக்கு 5 சீரற்ற கேள்விகள் கிடைக்கும்.', btn: 'வினாடி வினாவைத் தொடங்கு 🚀' },
+    'te-IN': { title: 'ఎన్నికల క్విజ్', desc: 'ప్రతి పరిస్థితిని జాగ్రత్తగా చదవండి. మీరు 5 యాదృచ్ఛిక ప్రశ్నలను పొందుతారు.', btn: 'క్విజ్ ప్రారంభించండి 🚀' },
+    'mr-IN': { title: 'निवडणूक क्विझ', desc: 'प्रत्येक परिस्थिती काळजीपूर्वक वाचा. तुम्हाला ५ यादृच्छिक प्रश्न मिळतील.', btn: 'क्विझ सुरू करा 🚀' },
+    'gu-IN': { title: 'ચૂંટણી ક્વિઝ', desc: 'દરેક પરિસ્થિતિને ધ્યાનથી વાંચો. તમને 5 યાદૃચ્છિક પ્રશ્નો મળશે.', btn: 'ક્વિઝ શરૂ કરો 🚀' }
   };
+  const l = labels[lang] || labels['en-IN'];
+  return (
+    <div className="quiz-splash animate-fade-in">
+      <div className="quiz-splash-icon">🎯</div>
+      <h2 className="gradient-text">{l.title}</h2>
+      <p>{l.desc}</p>
+      <button className="btn-primary quiz-start-btn" onClick={onStart}>
+        {l.btn}
+      </button>
+    </div>
+  );
+}
 
-  const handleStart = () => {
-    setStarted(true);
-    fetchQuestion();
+/* ── Results ── */
+function Results({ score, total, answers, questions, onRestart, lang }) {
+  const labels = {
+    'en-IN': { title: 'Quiz Complete!', playAgain: 'Play Again' },
+    'hi-IN': { title: 'प्रश्नोत्तरी पूर्ण!', playAgain: 'फिर से खेलें' },
+    'bn-IN': { title: 'কুইজ সম্পন্ন!', playAgain: 'আবার খেলুন' },
+    'ta-IN': { title: 'வினாடி வினா முடிந்தது!', playAgain: 'மீண்டும் விளையாடு' },
+    'te-IN': { title: 'క్విజ్ పూర్తయింది!', playAgain: 'మళ్ళీ ఆడండి' },
+    'mr-IN': { title: 'क्विझ पूर्ण झाले!', playAgain: 'पुन्हा खेळा' },
+    'gu-IN': { title: 'ક્વિઝ પૂર્ણ!', playAgain: 'ફરીથી રમો' }
   };
-
-  const handleReset = () => {
-    setScore({ correct: 0, total: 0 });
-    setStarted(false);
-    setQuestion(null);
-    setError(null);
-  };
-
-  const percentage = score.total > 0 ? Math.round((score.correct / score.total) * 100) : 0;
-
-  // --- Splash screen ---
-  if (!started) {
-    return (
-      <div className="quiz-splash animate-fade-in">
-        <div className="quiz-splash-icon">🎯</div>
-        <h2 className="gradient-text">Election Quiz</h2>
-        <p>Test your knowledge of Indian elections! Answer multiple-choice questions on voter rights, EVMs, Election Commission rules, and more.</p>
-        <div className="quiz-rules">
-          <div className="quiz-rule-item">📋 One question at a time</div>
-          <div className="quiz-rule-item">✅ Instant feedback after each answer</div>
-          <div className="quiz-rule-item">📊 Score tracked throughout</div>
-        </div>
-        <button className="btn-primary quiz-start-btn" onClick={handleStart}>
-          Start Quiz 🚀
-        </button>
+  const l = labels[lang] || labels['en-IN'];
+  const pct = Math.round((score / total) * 100);
+  return (
+    <div className="quiz-results animate-fade-in">
+      <div className="results-trophy">🏆</div>
+      <h2 className="gradient-text results-title">{l.title}</h2>
+      <div className="results-score-ring">
+        <span className="results-score-num">{score}<span className="results-score-total">/{total}</span></span>
+        <span className="results-score-pct">{pct}%</span>
       </div>
+      <button className="btn-primary quiz-start-btn" onClick={onRestart}>
+        <RotateCcw size={16} /> {l.playAgain}
+      </button>
+    </div>
+  );
+}
+
+/* ── Main Quiz ── */
+export default function QuizMode({ appLanguage }) {
+  const [phase, setPhase] = useState('splash');
+  const [questions, setQuestions] = useState([]);
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [selected, setSelected] = useState(null);
+  const [answers, setAnswers] = useState([]);
+
+  const startQuiz = () => {
+    const picked = shuffle(getQuizQuestions(appLanguage)).slice(0, QUESTIONS_PER_QUIZ);
+    setQuestions(picked);
+    setCurrentIdx(0);
+    setSelected(null);
+    setAnswers([]);
+    setPhase('quiz');
+  };
+
+  const handleNext = () => {
+    const newAnswers = [...answers, selected];
+    if (currentIdx < questions.length - 1) {
+      setAnswers(newAnswers);
+      setCurrentIdx(i => i + 1);
+      setSelected(null);
+    } else {
+      // Submit
+      setAnswers(newAnswers);
+      setPhase('results');
+    }
+  };
+
+  if (phase === 'splash') return <Splash onStart={startQuiz} lang={appLanguage} />;
+
+  if (phase === 'results') {
+    const score = answers.filter((a, i) => a === questions[i].correct).length;
+    return (
+      <Results
+        score={score}
+        total={questions.length}
+        answers={answers}
+        questions={questions}
+        onRestart={() => setPhase('splash')}
+        lang={appLanguage}
+      />
     );
   }
 
+  /* ── Quiz phase ── */
+  const q = questions[currentIdx];
+  const isLast = currentIdx === questions.length - 1;
+  const progress = ((currentIdx) / questions.length) * 100;
+
+  const labels = {
+    'en-IN': { q: 'Question', of: 'of', situation: 'Situation' },
+    'hi-IN': { q: 'प्रश्न', of: 'का', situation: 'स्थिति' },
+    'bn-IN': { q: 'প্রশ্ন', of: 'এর', situation: 'পরিস্থিতি' },
+    'ta-IN': { q: 'கேள்வி', of: 'இல்', situation: 'சூழ்நிலை' },
+    'te-IN': { q: 'ప్రశ్న', of: 'లో', situation: 'పరిస్థితి' },
+    'mr-IN': { q: 'प्रश्न', of: 'पैकी', situation: 'परिस्थिती' },
+    'gu-IN': { q: 'પ્રશ્ન', of: 'ના', situation: 'પરિસ્થિતિ' }
+  };
+  const l = labels[appLanguage] || labels['en-IN'];
+
   return (
-    <div className="quiz-mode">
-      {/* Score bar */}
-      <div className="quiz-score-bar">
-        <div className="quiz-score-label">
-          <Trophy size={16} color="#f59e0b" />
-          <span>Score: <strong>{score.correct}/{score.total}</strong></span>
-        </div>
+    <div className="quiz-mode animate-fade-in">
+      {/* Progress bar */}
+      <div className="quiz-progress-header">
+        <span className="quiz-progress-label">{l.q} {currentIdx + 1} {l.of} {questions.length}</span>
         <div className="quiz-progress-track">
-          <div
-            className="quiz-progress-fill"
-            style={{ width: `${percentage}%`, background: percentage >= 70 ? '#10b981' : percentage >= 40 ? '#f59e0b' : '#ef4444' }}
-          />
+          <div className="quiz-progress-fill" style={{ width: `${progress}%` }} />
         </div>
-        <span className="quiz-pct">{percentage}%</span>
-        <button className="quiz-reset-btn" onClick={handleReset} title="Reset quiz">
-          <RotateCcw size={14} />
-        </button>
       </div>
 
-      {/* Question card */}
-      {loading && (
-        <div className="quiz-loading animate-fade-in">
-          <Loader2 className="animate-spin" size={32} color="#d97706" />
-          <p>Generating question…</p>
+      {/* Card */}
+      <div className="quiz-card">
+        {/* Situation */}
+        <div className="quiz-situation">
+          <span className="quiz-situation-badge">📌 {l.situation}</span>
+          <p>{q.situation}</p>
         </div>
-      )}
 
-      {error && !loading && (
-        <div className="quiz-error animate-fade-in">
-          <p>{error}</p>
-          <button className="btn-primary" onClick={fetchQuestion}>Try Again</button>
+        {/* Question */}
+        <h3 className="quiz-question">{q.question}</h3>
+
+        {/* Radio options */}
+        <div className="quiz-options" role="radiogroup" aria-label="Answer options">
+          {q.options.map((opt, idx) => (
+            <label
+              key={idx}
+              className={`quiz-option-label-wrap ${selected === idx ? 'selected' : ''}`}
+            >
+              <input
+                type="radio"
+                name={`q${q.id}`}
+                value={idx}
+                checked={selected === idx}
+                onChange={() => setSelected(idx)}
+                className="quiz-radio"
+              />
+              <span className="quiz-option-letter">{String.fromCharCode(65 + idx)}</span>
+              <span className="quiz-option-text">{opt}</span>
+            </label>
+          ))}
         </div>
-      )}
+      </div>
 
-      {question && !loading && (
-        <div className="quiz-card animate-fade-in">
-          <div className="quiz-question-number">Question #{score.total}</div>
-          <h3 className="quiz-question">{question.question}</h3>
-
-          <div className="quiz-options">
-            {question.options.map((opt, idx) => {
-              const isCorrect = idx === question.correctIndex;
-              const isSelected = idx === selectedIndex;
-              let stateClass = '';
-              if (revealed) {
-                if (isCorrect) stateClass = 'correct';
-                else if (isSelected) stateClass = 'wrong';
-                else stateClass = 'dimmed';
-              }
-
-              return (
-                <button
-                  key={idx}
-                  className={`quiz-option ${stateClass}`}
-                  onClick={() => handleOptionSelect(idx)}
-                  disabled={revealed}
-                >
-                  <span className="quiz-option-label">{OPTION_LABELS[idx]}</span>
-                  <span className="quiz-option-text">{opt}</span>
-                  {revealed && isCorrect && <CheckCircle size={18} className="quiz-option-icon" />}
-                  {revealed && isSelected && !isCorrect && <XCircle size={18} className="quiz-option-icon" />}
-                </button>
-              );
-            })}
-          </div>
-
-          {revealed && (
-            <div className={`quiz-feedback animate-fade-in ${selectedIndex === question.correctIndex ? 'correct' : 'wrong'}`}>
-              <div className="quiz-feedback-header">
-                {selectedIndex === question.correctIndex
-                  ? <><CheckCircle size={20} /> Correct! Well done!</>
-                  : <><XCircle size={20} /> Incorrect — the right answer was <strong>{OPTION_LABELS[question.correctIndex]}</strong></>
-                }
-              </div>
-              <p className="quiz-explanation">{question.explanation}</p>
-            </div>
+      {/* Navigation */}
+      <div className="quiz-nav">
+        <button
+          className="btn-primary quiz-nav-btn"
+          onClick={handleNext}
+          disabled={selected === null}
+        >
+          {isLast ? (
+            <>Submit <Trophy size={16} /></>
+          ) : (
+            <>Next <ChevronRight size={16} /></>
           )}
-
-          {revealed && (
-            <button className="btn-primary quiz-next-btn animate-fade-in" onClick={fetchQuestion}>
-              Next Question <ChevronRight size={18} />
-            </button>
-          )}
-        </div>
-      )}
+        </button>
+      </div>
     </div>
   );
 }

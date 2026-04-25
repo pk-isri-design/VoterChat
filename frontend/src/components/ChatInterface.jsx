@@ -74,6 +74,16 @@ export default function ChatInterface({ user }) {
     }
   }, [highContrast]);
 
+  // Apply zoom to the entire page by changing the CSS root font-size.
+  // All rem-based sizes across the app (CSS, inline styles, all components) scale with it.
+  useEffect(() => {
+    document.documentElement.style.fontSize = `${fontSizeMultiplier * 100}%`;
+    return () => {
+      // Reset to default when component unmounts (e.g. logout)
+      document.documentElement.style.fontSize = '';
+    };
+  }, [fontSizeMultiplier]);
+
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
@@ -277,7 +287,7 @@ export default function ChatInterface({ user }) {
   const handleDecreaseText = () => setFontSizeMultiplier(prev => Math.max(prev - 0.1, 0.8));
 
   return (
-    <div className={highContrast ? "high-contrast-mode" : ""} style={{ display: 'flex', flexDirection: 'column', height: '100vh', fontSize: `${fontSizeMultiplier}rem` }}>
+    <div className={highContrast ? "high-contrast-mode" : ""} style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       {/* Header */}
       <header className="glass chat-header" style={{ padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '20px 20px 0 20px', borderRadius: '16px 16px 0 0', borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -303,12 +313,12 @@ export default function ChatInterface({ user }) {
         </div>
       </header>
 
-      {/* Mode Switcher */}
-      <div className="mode-switcher" style={{ margin: '0 20px', background: 'rgba(255,255,255,0.6)', borderLeft: '1px solid var(--glass-border)', borderRight: '1px solid var(--glass-border)', padding: '10px 20px', display: 'flex', gap: '8px' }}>
+      {/* Mode Switcher + Language Selector */}
+      <div className="mode-switcher" style={{ margin: '0 20px', background: 'rgba(255,255,255,0.6)', borderLeft: '1px solid var(--glass-border)', borderRight: '1px solid var(--glass-border)', padding: '10px 20px', display: 'flex', gap: '8px', alignItems: 'center' }}>
         {[
-          { id: 'chat',     icon: <MessageCircle size={16} />, label: '🧠 Ask AI' },
-          { id: 'timeline', icon: <Clock size={16} />,         label: '🗳️ Timeline' },
-          { id: 'quiz',     icon: <Gamepad2 size={16} />,      label: '🎯 Quiz' },
+          { id: 'chat',     label: '🧠 Ask AI' },
+          { id: 'timeline', label: '🗳️ Timeline' },
+          { id: 'quiz',     label: '🎯 Quiz' },
         ].map(tab => (
           <button
             key={tab.id}
@@ -320,6 +330,33 @@ export default function ChatInterface({ user }) {
             {tab.label}
           </button>
         ))}
+
+        {/* Divider */}
+        <div style={{ width: '1px', height: '24px', background: 'rgba(0,0,0,0.12)', margin: '0 4px', flexShrink: 0 }} />
+
+        {/* Language Selector */}
+        <div className="tab-btn mode-lang-tab" style={{
+          display: 'flex', alignItems: 'center', gap: '5px',
+          background: 'var(--primary)', color: 'white',
+          borderRadius: 'var(--radius-md)', padding: '6px 10px',
+          boxShadow: '0 2px 5px rgba(0,0,0,0.1)', flexShrink: 0
+        }}>
+          <Globe size={15} />
+          <select
+            value={appLanguage}
+            onChange={(e) => setAppLanguage(e.target.value)}
+            style={{ background: 'transparent', border: 'none', color: 'white', outline: 'none', cursor: 'pointer', fontWeight: '600', fontSize: '0.82rem' }}
+            title="Change App Language" aria-label="Change App Language"
+          >
+            <option value="en-IN" style={{ background: '#fff', color: '#1e293b' }}>English</option>
+            <option value="hi-IN" style={{ background: '#fff', color: '#1e293b' }}>हिन्दी</option>
+            <option value="bn-IN" style={{ background: '#fff', color: '#1e293b' }}>বাংলা</option>
+            <option value="ta-IN" style={{ background: '#fff', color: '#1e293b' }}>தமிழ்</option>
+            <option value="te-IN" style={{ background: '#fff', color: '#1e293b' }}>తెలుగు</option>
+            <option value="mr-IN" style={{ background: '#fff', color: '#1e293b' }}>मराठी</option>
+            <option value="gu-IN" style={{ background: '#fff', color: '#1e293b' }}>ગુજરાતી</option>
+          </select>
+        </div>
       </div>
 
       {/* Static Quick-Action Tabs — Chat mode only */}
@@ -336,37 +373,6 @@ export default function ChatInterface({ user }) {
         scrollbarWidth: 'none',
         msOverflowStyle: 'none'
       }} className="hide-scrollbar chat-tabs">
-        <div className="tab-btn" style={{ 
-            display: 'flex', alignItems: 'center', gap: '5px', 
-            background: 'var(--primary)', color: 'white', 
-            borderRadius: 'var(--radius-md)', padding: '0 10px',
-            boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
-          }}>
-          <Globe size={16} />
-          <select
-            value={appLanguage}
-            onChange={(e) => setAppLanguage(e.target.value)}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              color: 'white',
-              outline: 'none',
-              cursor: 'pointer',
-              fontWeight: '500',
-              fontSize: '0.85rem'
-            }}
-            title="Change App Language"
-            aria-label="Change App Language"
-          >
-            <option value="en-IN" style={{ background: '#fff', color: '#1e293b' }}>English</option>
-            <option value="hi-IN" style={{ background: '#fff', color: '#1e293b' }}>हिन्दी</option>
-            <option value="bn-IN" style={{ background: '#fff', color: '#1e293b' }}>বাংলা</option>
-            <option value="ta-IN" style={{ background: '#fff', color: '#1e293b' }}>தமிழ்</option>
-            <option value="te-IN" style={{ background: '#fff', color: '#1e293b' }}>తెలుగు</option>
-            <option value="mr-IN" style={{ background: '#fff', color: '#1e293b' }}>मराठी</option>
-            <option value="gu-IN" style={{ background: '#fff', color: '#1e293b' }}>ગુજરાતી</option>
-          </select>
-        </div>
         {tabs.map((tab, index) => (
           <button
             key={index}
