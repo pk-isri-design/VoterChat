@@ -2,11 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { marked } from 'marked';
 import { logout } from '../firebase';
-import { Send, LogOut, Loader2, Sparkles, User, Info, Trash2, Mic, MicOff, Globe, Volume2, Square, Type, Minus, Plus, Moon, Sun } from 'lucide-react';
+import { Send, LogOut, Loader2, Sparkles, User, Info, Trash2, Mic, MicOff, Globe, Volume2, Square, Type, Minus, Plus, Moon, Sun, MessageCircle, Clock, Gamepad2 } from 'lucide-react';
 import { translations } from '../utils/translations';
+import TimelineMode from './TimelineMode';
+import QuizMode from './QuizMode';
 
 export default function ChatInterface({ user }) {
   const [appLanguage, setAppLanguage] = useState('en-IN');
+  const [appMode, setAppMode] = useState('chat'); // 'chat' | 'timeline' | 'quiz'
   const [messages, setMessages] = useState([
     { role: 'model', parts: [{ text: translations['en-IN'].welcome }] }
   ]);
@@ -164,7 +167,8 @@ export default function ChatInterface({ user }) {
       const response = await axios.post(`${apiBase}/api/chat`, {
         message: textToSend,
         history: history,
-        language: appLanguage
+        language: appLanguage,
+        mode: 'chat',
       });
 
       const responseText = response.data.text;
@@ -299,7 +303,27 @@ export default function ChatInterface({ user }) {
         </div>
       </header>
 
-      {/* Static Tabs */}
+      {/* Mode Switcher */}
+      <div className="mode-switcher" style={{ margin: '0 20px', background: 'rgba(255,255,255,0.6)', borderLeft: '1px solid var(--glass-border)', borderRight: '1px solid var(--glass-border)', padding: '10px 20px', display: 'flex', gap: '8px' }}>
+        {[
+          { id: 'chat',     icon: <MessageCircle size={16} />, label: '🧠 Ask AI' },
+          { id: 'timeline', icon: <Clock size={16} />,         label: '🗳️ Timeline' },
+          { id: 'quiz',     icon: <Gamepad2 size={16} />,      label: '🎯 Quiz' },
+        ].map(tab => (
+          <button
+            key={tab.id}
+            id={`mode-tab-${tab.id}`}
+            className={`mode-tab ${appMode === tab.id ? 'active' : ''}`}
+            onClick={() => setAppMode(tab.id)}
+            aria-pressed={appMode === tab.id}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Static Quick-Action Tabs — Chat mode only */}
+      {appMode === 'chat' && (
       <div style={{
         display: 'flex',
         gap: '10px',
@@ -360,8 +384,10 @@ export default function ChatInterface({ user }) {
           </button>
         ))}
       </div>
+      )}
 
-      {/* Chat Area */}
+      {/* Chat Area — chat mode only */}
+      {appMode === 'chat' ? (
       <div className="glass-panel chat-area" style={{ flex: 1, margin: '0 20px', borderRadius: '0', borderTop: 'none', borderBottom: 'none', overflowY: 'auto', padding: '20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
         {messages.length === 1 && (
           <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }} className="animate-fade-in">
@@ -425,8 +451,18 @@ export default function ChatInterface({ user }) {
         )}
         <div ref={messagesEndRef} />
       </div>
+      ) : appMode === 'timeline' ? (
+        <div className="glass-panel chat-area" style={{ flex: 1, margin: '0 20px', borderTop: 'none', borderBottom: 'none', overflowY: 'auto', padding: '20px' }}>
+          <TimelineMode appLanguage={appLanguage} />
+        </div>
+      ) : (
+        <div className="glass-panel chat-area" style={{ flex: 1, margin: '0 20px', borderTop: 'none', borderBottom: 'none', overflowY: 'auto', padding: '20px' }}>
+          <QuizMode appLanguage={appLanguage} />
+        </div>
+      )}
 
-      {/* Input Area */}
+      {/* Input Area — chat mode only */}
+      {appMode === 'chat' && (
       <footer className="glass chat-footer" style={{ padding: '20px', margin: '0 20px 20px 20px', borderRadius: '0 0 16px 16px' }}>
         <div className="footer-row" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <button
@@ -508,6 +544,7 @@ export default function ChatInterface({ user }) {
           </button>
         </div>
       </footer>
+      )}
     </div>
   );
 }
