@@ -5,8 +5,11 @@ require("dotenv").config();
 
 async function verifyKnowledgeBase() {
   const API_KEY = process.env.GEMINI_API_KEY;
+  console.log("Starting verification process...");
+  
   if (!API_KEY) {
-    console.error("GEMINI_API_KEY is missing.");
+    console.error("❌ ERROR: GEMINI_API_KEY is missing from environment variables.");
+    console.log("Please ensure you have added it to GitHub Secrets as 'GEMINI_API_KEY'.");
     process.exit(1);
   }
 
