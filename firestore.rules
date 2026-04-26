@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Deny all by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Example: Allow users to read and write only their own profiles
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Example: Allow users to read chat history that belongs to them
+    match /chat_sessions/{sessionId} {
+      allow read, write: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+  }
+}

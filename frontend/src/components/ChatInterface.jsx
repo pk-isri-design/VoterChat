@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { marked } from 'marked';
-import { logout } from '../firebase';
+import { logout, logCustomEvent } from '../firebase';
 import { Send, LogOut, Loader2, Sparkles, User, Info, Trash2, Mic, MicOff, Globe, Volume2, Square, Type, Minus, Plus, Moon, Sun, MessageCircle, Clock, Gamepad2 } from 'lucide-react';
 import { translations } from '../utils/translations';
 import TimelineMode from './TimelineMode';
@@ -174,6 +174,12 @@ export default function ChatInterface({ user }) {
       }
 
       const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      
+      logCustomEvent('chat_message_sent', {
+        language: appLanguage,
+        is_voice: isVoiceCommand
+      });
+
       const response = await axios.post(`${apiBase}/api/chat`, {
         message: textToSend,
         history: history,

@@ -1,4 +1,10 @@
 {
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "functions": {
+    "source": "functions"
+  },
   "hosting": {
     "site": "voterhelp-60466",
     "public": "dist",

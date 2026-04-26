@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { CheckCircle, XCircle, Trophy, RotateCcw, ChevronRight } from 'lucide-react';
 import { getQuizQuestions } from '../data/quizData';
+import { logCustomEvent } from '../firebase';
 
 const QUESTIONS_PER_QUIZ = 5;
 
@@ -80,6 +81,7 @@ export default function QuizMode({ appLanguage }) {
     setSelected(null);
     setAnswers([]);
     setPhase('quiz');
+    logCustomEvent('quiz_started', { language: appLanguage });
   };
 
   const handleNext = () => {
@@ -99,6 +101,16 @@ export default function QuizMode({ appLanguage }) {
 
   if (phase === 'results') {
     const score = answers.filter((a, i) => a === questions[i].correct).length;
+    
+    // Log completion once
+    React.useEffect(() => {
+      logCustomEvent('quiz_completed', {
+        score: score,
+        total: questions.length,
+        percentage: Math.round((score / questions.length) * 100)
+      });
+    }, []);
+
     return (
       <Results
         score={score}

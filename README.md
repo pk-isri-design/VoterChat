@@ -34,6 +34,9 @@ VoterHelp is an intelligent, non-partisan AI election assistant designed to help
   - Change Constituency
   - How to use this app
 - **Authentication**: Secure Google Firebase Auth, along with a newly added **Guest Login** feature that lets users access election information entirely anonymously.
+- **Firebase Cloud Functions**: Heavy AI processing is handled by scalable serverless functions, keeping the frontend lightweight.
+- **Granular Security Rules**: Strict Firestore security rules ensure data integrity and prevent unauthorized access.
+- **Engagement Analytics**: Integrated Google Analytics for Firebase to track user journeys, quiz completions, and chat interactions.
 
 ## Tech Stack 🛠️
 
