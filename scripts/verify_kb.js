@@ -17,7 +17,7 @@ async function verifyKnowledgeBase() {
   const currentKB = fs.readFileSync(kbPath, "utf8");
 
   const genAI = new GoogleGenerativeAI(API_KEY);
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
 
   const prompt = `You are an expert on Indian Election Law and ECI (Election Commission of India) procedures.
 Your task is to verify and update the following Election Knowledge Base.
