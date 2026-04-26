@@ -35,3 +35,13 @@ jobs:
           git add backend/knowledge_base.txt frontend/functions/knowledge_base.txt
           git commit -m "chore: Automated monthly knowledge base update [$(date +'%Y-%m-%d')]" || echo "No changes to commit"
           git push origin master
+
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Full Firebase Deploy
+        run: |
+          cd frontend
+          npm install
+          npm run build
+          firebase deploy --only hosting,firestore,functions --project voterhelp-60466 --token "${{ secrets.FIREBASE_TOKEN }}"
