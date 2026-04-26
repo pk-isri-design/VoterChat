@@ -37,6 +37,7 @@ VoterHelp is an intelligent, non-partisan AI election assistant designed to help
 - **Firebase Cloud Functions**: Heavy AI processing is handled by scalable serverless functions, keeping the frontend lightweight.
 - **Granular Security Rules**: Strict Firestore security rules ensure data integrity and prevent unauthorized access.
 - **Engagement Analytics**: Integrated Google Analytics for Firebase to track user journeys, quiz completions, and chat interactions.
+- **Monthly Auto-Updation**: A GitHub Action automatically audits and updates the knowledge base on the 2nd of every month using Gemini AI to ensure compliance with the latest ECI regulations.
 
 ## Tech Stack 🛠️
 
@@ -113,5 +114,27 @@ cd frontend
 npm run test
 ```
 
-## Security 🔒
-All `.env` files containing API keys are ignored via `.gitignore` to prevent accidental commits to public repositories.
+## Security & Data Integrity 🔒
+
+### 1. Firebase Security Rules
+The application uses strict, granular security rules for Firestore to ensure that user data is protected:
+- **User Privacy**: Users can only read and write to their own specific document in the `/users/{userId}` collection.
+- **Chat History**: Access to the `/chat_sessions` collection is restricted to the authenticated owner of the session.
+- **Public Lockdown**: All other collections and documents are locked for public read/write access by default.
+
+### 2. Automated Knowledge Base Audit
+To ensure that election procedures (like qualifying dates and State/UT counts) are always accurate:
+- **Schedule**: A GitHub Action runs on the **2nd of every month**.
+- **AI Verification**: The workflow executes `scripts/verify_kb.js`, which uses the Gemini 1.5 Flash model to audit `knowledge_base.txt` against current ECI standards.
+- **Auto-Sync**: Updated data is automatically committed back to the repository and synced with the Firebase Cloud Functions layer.
+
+## Analytics & Engagement 📊
+
+VoterHelp uses **Google Analytics for Firebase** to monitor platform health and user education metrics.
+- **Tracked Events**:
+  - `chat_message_sent`: Monitors language preferences and input methods (voice vs. text).
+  - `quiz_started` & `quiz_completed`: Tracks user progress and election knowledge scores.
+  - `timeline_listen`: Monitors usage of the Text-to-Speech feature across different phases.
+
+---
+*VoterHelp AI is a non-partisan educational tool and is not officially affiliated with the Election Commission of India.*
