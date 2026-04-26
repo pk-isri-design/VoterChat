@@ -1,8 +1,7 @@
 Q1. What are the main categories of electors in India?
 Ans.- There are 3 categories of electors in India: –(i) General electors (ii) Oversees (NRI) electors , and (iii) Service Electors.
 
-Q2. What is the relevant date for determining the age of 18 years? Can I get myself registered as a voter on the day when I have completed 18 years of age?
-Ans. According to Section 14 (b) of the Representation of People Act, 1950 the relevant date (qualifying date) for determining the age of an applicant is the first day of January of the year in which the electoral roll after revision is finally published. For example, if you have completed or are completing 18 years of age on any date from and after 2nd January 2013 but upto to 1st January 2014, you will be eligible for registration as a voter in the elector roll going to be finally published in January, 2014
+Ans. Previously, there was only one qualifying date (1st January). However, following the Election Laws (Amendment) Act, 2021, there are now four qualifying dates in a year: 1st January, 1st April, 1st July, and 1st October. This means if you turn 18 on or before any of these dates in a year, you can apply for registration in the subsequent quarter. For example, if you complete 18 years on 5th June, you become eligible for the July 1st qualifying date and can apply in advance.
 
 Q3. Can a non-citizen of India become a voter in the electoral rolls in India?
 Ans. No. A person who is not a citizen of India is not eligible for registration as a voter in the electoral rolls in India. Even those who have ceased to be citizens of India on acquiring the citizenship of another country are not eligible to be enrolled in the electoral rolls in India.
@@ -55,8 +54,7 @@ Ans. Applicant should be i. An Indian citizen, ii. of 18 years or more of age wi
 Q.19 When will the ERO process the advance claims received with respect to the subsequent qualifying dates of the year?
 Ans. Such advance claims received during Annual Summary Revision and also after final publication shall be disposed of by the EROs in the concerned subsequent quarters only under continuous updation, in the first month of subsequent quarter
 
-Q.20 What is the relevant date for revision of electoral roll after the Election Laws (Amendment) Act, 2021 came into existence?
-Ans. The Annual Summary Revision is conducted with reference to 01st January of the year only, in which the roll is finally published, as qualifying date. During a non election year, no regular revision activities would be there for the subsequent qualifying dates of the year. However, during a year when general election to State Assembly of House of People is due, a second Summary Revision may be conducted w.r.t. the qualifying date proximate to the said general election. However, there would be no restriction on filing of advance application with reference to the subsequent qualifying dates of summary revision in a year and such advance applications will be disposed of under continuous updation.
+Ans. Following the Election Laws (Amendment) Act, 2021, there are now four qualifying dates: 1st January, 1st April, 1st July, and 1st October. The Annual Summary Revision is typically conducted with reference to 1st January. However, advance applications can be filed for the subsequent dates (April, July, October) and will be processed in the respective quarters.
 
 Q.21 How can one get registered/enrolled in the electoral roll?
 Ans. One has to file the application for the purpose, in prescribed Form 6(6A in case of overseas Indian), before the Electoral Registration Officer (ERO)/Assistant Electoral Registration Officer (AERO) of the constituency within which the place of ordinary residence of the applicant falls. The application accompanied by copies of the relevant documents can be filed in person before the concerned ERO/AERO or sent by post or can be handed over to the Booth Level Officer of polling area concerned, or can be filed online through NVSP portal/VHA mobile application or on website of Chief Electoral Officer of the concerned state/ECI. While filing Form 6 on line, the copies of necessary documents should also be uploaded.
@@ -256,14 +254,11 @@ Ans. 47 For Scheduled Tribes, 47 seats are reserved in Lok Sabha. The 1st schedu
 Q 7. Which are the States having the minimum number of seats in Lok Sabha?
 Ans. The following States and Union Territories have one seat each in the Lok Sabha Mizoram,Nagaland,Sikkim,Andaman and Nicobar Islands,Chandigarh,Dadra and Nagar Haveli,Daman and Diu,Lakshadweep,Pondicherry
 
-Q 8. How many States are there in India?
-Ans. 29 There are 29 states in India viz. Andhra Pradesh, Arunachal Pradesh, Assam, Bihar, Chhattisgarh, Goa, Gujarat, Haryana, Himachal Pradesh, Jammu and Kashmir, Jharkhand, Karnataka, Kerala, Madhya Pradesh, Maharashtra, Manipur, Meghalaya, Mizoram, Nagaland, Orissa, Punjab, Rajasthan, Sikkim, Tamil Nadu, Telangana, Tripura, Uttar Pradesh, Uttaranchal and West Bengal.
+Ans. 28 There are 28 states in India viz. Andhra Pradesh, Arunachal Pradesh, Assam, Bihar, Chhattisgarh, Goa, Gujarat, Haryana, Himachal Pradesh, Jharkhand, Karnataka, Kerala, Madhya Pradesh, Maharashtra, Manipur, Meghalaya, Mizoram, Nagaland, Odisha, Punjab, Rajasthan, Sikkim, Tamil Nadu, Telangana, Tripura, Uttar Pradesh, Uttarakhand and West Bengal. (Note: Jammu & Kashmir is now a Union Territory).
 
-Q 9. How many Union Territories are in India?
-Ans. Seven There are 7 Union Territories in India. Andaman and Nicobar Islands, Chandigarh, Dadra and Nagar Haveli, Daman and Diu, Delhi, Lakshadweep and Pondicherry.
+Ans. Eight There are 8 Union Territories in India: 1. Andaman and Nicobar Islands, 2. Chandigarh, 3. Dadra and Nagar Haveli and Daman and Diu (merged in 2020), 4. Delhi, 5. Jammu and Kashmir, 6. Ladakh, 7. Lakshadweep, 8. Puducherry.
 
-Q 10. For every State, there has to be a Legislative Assembly, but it is not so in the case of all Union Territories. Which are the U.Ts. having a Legislative Assembly?
-Ans. Two Out of the 7 Union Territories, only Delhi and Pondicherry have Legislative Assemblies.
+Ans. Three Out of the 8 Union Territories, Delhi, Puducherry, and Jammu & Kashmir have provisions for Legislative Assemblies.
 
 Q 1. What is the composition of Parliament of India?
 Ans. According to Article 79 of the Constitution of India, the Parliament consists of President of India and the two Houses of Parliament known as Council of States (Rajya Sabha) and House of the People (Lok Sabha).
