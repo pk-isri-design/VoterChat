@@ -1,0 +1,37 @@
+name: Monthly Knowledge Base Update
+
+on:
+  schedule:
+    - cron: '0 0 2 * *' # Midnight on the 2nd of every month
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-kb:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: |
+          cd scripts
+          npm install
+
+      - name: Run Verification Script
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/verify_kb.js
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "VoterHelp Bot"
+          git config --global user.email "bot@voterhelp.ai"
+          git add backend/knowledge_base.txt frontend/functions/knowledge_base.txt
+          git commit -m "chore: Automated monthly knowledge base update [$(date +'%Y-%m-%d')]" || echo "No changes to commit"
+          git push origin master
