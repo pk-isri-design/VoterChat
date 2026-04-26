@@ -22,14 +22,14 @@ jobs:
           node-version: '20'
 
       - name: Install Dependencies
-        run: |
-          cd scripts
-          npm install
+        run: npm install
+        working-directory: scripts
 
       - name: Run Verification Script
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: node scripts/verify_kb.js
+        run: node verify_kb.js
+        working-directory: scripts
 
       - name: Commit and Push Changes
         run: |
