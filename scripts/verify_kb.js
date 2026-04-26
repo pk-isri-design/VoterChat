@@ -18,10 +18,38 @@ async function verifyKnowledgeBase() {
 
   const genAI = new GoogleGenerativeAI(API_KEY);
   
-  // Use the full canonical model name and FORCE API v1 to avoid v1beta 404s
-  const modelName = process.env.GEMINI_MODEL || "gemini-1.5-flash"; 
-  console.log(`Using model: ${modelName} (Forcing API v1)`);
-  const model = genAI.getGenerativeModel({ model: modelName }, { apiVersion: "v1" });
+  // Robust fallback logic for different environments
+  const modelsToTry = [
+    process.env.GEMINI_MODEL, // 1. User defined
+    "gemini-1.5-flash",       // 2. Fast/Modern
+    "gemini-1.5-pro",         // 3. Smart/Modern
+    "gemini-1.0-pro",         // 4. Stable Fallback (Recommended for CI)
+  ].filter(Boolean);
+
+  let model;
+  let successfulModelName = "";
+
+  for (const modelName of modelsToTry) {
+    try {
+      console.log(`Attempting to use model: ${modelName}...`);
+      const tempModel = genAI.getGenerativeModel({ model: modelName });
+      
+      // Test the model with a simple prompt to verify connectivity
+      await tempModel.generateContent("ping");
+      
+      model = tempModel;
+      successfulModelName = modelName;
+      console.log(`✅ Successfully connected using ${modelName}`);
+      break;
+    } catch (e) {
+      console.warn(`⚠️ Model ${modelName} failed or is not available. Trying next...`);
+    }
+  }
+
+  if (!model) {
+    console.error("❌ ERROR: All attempted models failed. Please check your API key permissions and regional availability.");
+    process.exit(1);
+  }
 
   const prompt = `You are an expert on Indian Election Law and ECI (Election Commission of India) procedures.
 Your task is to verify and update the following Election Knowledge Base.
