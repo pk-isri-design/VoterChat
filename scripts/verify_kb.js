@@ -18,7 +18,8 @@ async function verifyKnowledgeBase() {
 
   const genAI = new GoogleGenerativeAI(API_KEY, { apiVersion: "v1" });
   
-  let modelName = "gemini-1.5-flash"; 
+  // Future-proof: Use environment variable or fallback to 1.5 Flash
+  const modelName = process.env.GEMINI_MODEL || "gemini-1.5-flash"; 
   console.log(`Using model: ${modelName} on API v1`);
   const model = genAI.getGenerativeModel({ model: modelName });
 
