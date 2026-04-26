@@ -16,11 +16,11 @@ async function verifyKnowledgeBase() {
   const kbPath = path.join(__dirname, "../backend/knowledge_base.txt");
   const currentKB = fs.readFileSync(kbPath, "utf8");
 
-  const genAI = new GoogleGenerativeAI(API_KEY, { apiVersion: "v1" });
+  const genAI = new GoogleGenerativeAI(API_KEY);
   
-  // Future-proof: Use environment variable or fallback to 1.5 Flash
-  const modelName = process.env.GEMINI_MODEL || "gemini-1.5-flash"; 
-  console.log(`Using model: ${modelName} on API v1`);
+  // Use the full canonical model name
+  const modelName = process.env.GEMINI_MODEL || "models/gemini-1.5-flash"; 
+  console.log(`Using model: ${modelName}`);
   const model = genAI.getGenerativeModel({ model: modelName });
 
   const prompt = `You are an expert on Indian Election Law and ECI (Election Commission of India) procedures.
