@@ -18,10 +18,10 @@ async function verifyKnowledgeBase() {
 
   const genAI = new GoogleGenerativeAI(API_KEY);
   
-  // Use the full canonical model name
-  const modelName = process.env.GEMINI_MODEL || "models/gemini-1.5-flash"; 
-  console.log(`Using model: ${modelName}`);
-  const model = genAI.getGenerativeModel({ model: modelName });
+  // Use the full canonical model name and FORCE API v1 to avoid v1beta 404s
+  const modelName = process.env.GEMINI_MODEL || "gemini-1.5-flash"; 
+  console.log(`Using model: ${modelName} (Forcing API v1)`);
+  const model = genAI.getGenerativeModel({ model: modelName }, { apiVersion: "v1" });
 
   const prompt = `You are an expert on Indian Election Law and ECI (Election Commission of India) procedures.
 Your task is to verify and update the following Election Knowledge Base.
