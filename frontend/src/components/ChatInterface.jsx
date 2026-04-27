@@ -294,21 +294,35 @@ export default function ChatInterface({ user }) {
 
   return (
     <div className={highContrast ? "high-contrast-mode" : ""} style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#f8fafc' }}>
-      {/* Header & Mode Switcher (Grok Style Upper Middle) */}
-      <header className="glass chat-header" style={{ 
+      {/* Header & Mode Switcher */}
+      <header className="glass chat-header responsive-header" style={{ 
         padding: '12px 20px', 
         display: 'flex', 
-        flexDirection: 'column',
-        gap: '12px',
         margin: '10px 10px 0 10px', 
         borderRadius: 'var(--radius-lg)',
         zIndex: 10
       }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <Sparkles color="var(--primary)" />
             <h2 className="gradient-text" style={{ margin: 0, fontSize: '1.1rem' }}>VoterHelp</h2>
           </div>
+
+          {/* Mode Pill (Hidden in header on desktop, handled by CSS) */}
+          <div className="header-mode-pill-wrap">
+            <div className="mode-pill">
+              {['chat', 'timeline', 'quiz'].map(id => (
+                <button
+                  key={id}
+                  className={`mode-pill-tab ${appMode === id ? 'active' : ''}`}
+                  onClick={() => setAppMode(id)}
+                >
+                  {id === 'chat' ? '🧠 Ask' : id === 'timeline' ? '🗳️ Time' : '🎯 Quiz'}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div className="header-controls" style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.03)', borderRadius: '999px', padding: '2px' }}>
               <button onClick={() => setHighContrast(!highContrast)} className="icon-btn" title="Toggle Contrast"><Moon size={14} /></button>
@@ -319,8 +333,8 @@ export default function ChatInterface({ user }) {
           </div>
         </div>
 
-        {/* Centralized Mode Pill */}
-        <div className="mode-pill-container" style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+        {/* Mobile-only Mode Pill Container */}
+        <div className="mobile-mode-pill-container" style={{ marginTop: '12px', display: 'none', justifyContent: 'center', width: '100%' }}>
           <div className="mode-pill">
             {[
               { id: 'chat',     label: '🧠 Ask AI' },
