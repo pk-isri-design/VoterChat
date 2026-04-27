@@ -1315,7 +1315,11 @@ h1, h2, h3, h4, h5, h6 {
 .high-contrast-mode .glass-panel,
 .high-contrast-mode .timeline-node,
 .high-contrast-mode .timeline-content,
-.high-contrast-mode .quiz-card {
+.high-contrast-mode .quiz-card,
+.high-contrast-mode .quiz-splash,
+.high-contrast-mode .quiz-results,
+.high-contrast-mode .quiz-score-bar,
+.high-contrast-mode .quiz-rule-item {
   background: #000000 !important;
   border: 2px solid #ffffff !important;
 }
@@ -1396,8 +1400,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .high-contrast-mode .timeline-summary,
-.high-contrast-mode .timeline-header p {
+.high-contrast-mode .timeline-header p,
+.high-contrast-mode .quiz-explanation,
+.high-contrast-mode .results-score-num,
+.high-contrast-mode .results-score-pct {
   color: #cccccc !important;
+}
+
+.high-contrast-mode .results-score-num {
+  color: #ffff00 !important;
 }
 
 .high-contrast-mode .gradient-text {
