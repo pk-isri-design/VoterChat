@@ -3,7 +3,7 @@ name: Monthly Knowledge Base Update
 on:
   push:
     branches:
-      - master # Trigger test 4
+      - master
   schedule:
     - cron: '0 0 2 * *' # Midnight on the 2nd of every month
   workflow_dispatch: # Allow manual trigger
