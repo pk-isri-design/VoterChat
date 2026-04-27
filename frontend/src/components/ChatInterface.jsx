@@ -293,269 +293,209 @@ export default function ChatInterface({ user }) {
   const handleDecreaseText = () => setFontSizeMultiplier(prev => Math.max(prev - 0.1, 0.8));
 
   return (
-    <div className={highContrast ? "high-contrast-mode" : ""} style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      {/* Header */}
-      <header className="glass chat-header" style={{ padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '20px 20px 0 20px', borderRadius: '16px 16px 0 0', borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <Sparkles color="var(--primary)" />
-          <h2 className="gradient-text" style={{ margin: 0, fontSize: '1.2rem' }}>VoterHelp</h2>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.05)', borderRadius: 'var(--radius-sm)', padding: '2px', marginRight: '10px' }}>
-            <button onClick={() => setHighContrast(!highContrast)} style={{ background: 'transparent', border: 'none', padding: '5px', cursor: 'pointer', color: 'var(--text-main)', display: 'flex', alignItems: 'center', marginRight: '5px' }} title="Toggle High Contrast" aria-label="Toggle High Contrast">
-              {highContrast ? <Sun size={16} /> : <Moon size={16} />}
-            </button>
-            <button onClick={handleDecreaseText} style={{ background: 'transparent', border: 'none', padding: '5px', cursor: 'pointer', color: 'var(--text-main)', display: 'flex', alignItems: 'center' }} title="Decrease text size" aria-label="Decrease text size"><Minus size={16} /></button>
-            <Type size={16} color="var(--text-main)" style={{ margin: '0 5px' }} aria-hidden="true" />
-            <button onClick={handleIncreaseText} style={{ background: 'transparent', border: 'none', padding: '5px', cursor: 'pointer', color: 'var(--text-main)', display: 'flex', alignItems: 'center' }} title="Increase text size" aria-label="Increase text size"><Plus size={16} /></button>
+    <div className={highContrast ? "high-contrast-mode" : ""} style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#f8fafc' }}>
+      {/* Header & Mode Switcher (Grok Style Upper Middle) */}
+      <header className="glass chat-header" style={{ 
+        padding: '12px 20px', 
+        display: 'flex', 
+        flexDirection: 'column',
+        gap: '12px',
+        margin: '10px 10px 0 10px', 
+        borderRadius: 'var(--radius-lg)',
+        zIndex: 10
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <Sparkles color="var(--primary)" />
+            <h2 className="gradient-text" style={{ margin: 0, fontSize: '1.1rem' }}>VoterHelp</h2>
           </div>
-          <span className="header-username" style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>{user.displayName || user.email}</span>
-          <button onClick={() => {
-            logout();
-            if (user.isGuest) window.location.reload();
-          }} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }} title="Logout" aria-label="Logout">
-            <LogOut size={20} />
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div className="header-controls" style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.03)', borderRadius: '999px', padding: '2px' }}>
+              <button onClick={() => setHighContrast(!highContrast)} className="icon-btn" title="Toggle Contrast"><Moon size={14} /></button>
+              <button onClick={handleDecreaseText} className="icon-btn" title="Small text"><Minus size={14} /></button>
+              <button onClick={handleIncreaseText} className="icon-btn" title="Large text"><Plus size={14} /></button>
+            </div>
+            <button onClick={logout} className="logout-btn" title="Logout"><LogOut size={18} /></button>
+          </div>
+        </div>
+
+        {/* Centralized Mode Pill */}
+        <div className="mode-pill-container" style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+          <div className="mode-pill">
+            {[
+              { id: 'chat',     label: '🧠 Ask AI' },
+              { id: 'timeline', label: '🗳️ Timeline' },
+              { id: 'quiz',     label: '🎯 Quiz' },
+            ].map(tab => (
+              <button
+                key={tab.id}
+                className={`mode-pill-tab ${appMode === tab.id ? 'active' : ''}`}
+                onClick={() => setAppMode(tab.id)}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
       </header>
 
-      {/* Mode Switcher + Language Selector */}
-      <div className="mode-switcher" style={{ margin: '0 20px', background: 'rgba(255,255,255,0.6)', borderLeft: '1px solid var(--glass-border)', borderRight: '1px solid var(--glass-border)', padding: '10px 20px', display: 'flex', gap: '8px', alignItems: 'center' }}>
-        {[
-          { id: 'chat',     label: '🧠 Ask AI' },
-          { id: 'timeline', label: '🗳️ Timeline' },
-          { id: 'quiz',     label: '🎯 Quiz' },
-        ].map(tab => (
-          <button
-            key={tab.id}
-            id={`mode-tab-${tab.id}`}
-            className={`mode-tab ${appMode === tab.id ? 'active' : ''}`}
-            onClick={() => setAppMode(tab.id)}
-            aria-pressed={appMode === tab.id}
-          >
-            {tab.label}
-          </button>
-        ))}
-
-        {/* Divider */}
-        <div style={{ width: '1px', height: '24px', background: 'rgba(0,0,0,0.12)', margin: '0 4px', flexShrink: 0 }} />
-
-        {/* Language Selector */}
-        <div className="tab-btn mode-lang-tab" style={{
-          display: 'flex', alignItems: 'center', gap: '5px',
-          background: 'var(--primary)', color: 'white',
-          borderRadius: 'var(--radius-md)', padding: '6px 10px',
-          boxShadow: '0 2px 5px rgba(0,0,0,0.1)', flexShrink: 0
-        }}>
-          <Globe size={15} />
-          <select
-            value={appLanguage}
-            onChange={(e) => setAppLanguage(e.target.value)}
-            style={{ background: 'transparent', border: 'none', color: 'white', outline: 'none', cursor: 'pointer', fontWeight: '600', fontSize: '0.82rem' }}
-            title="Change App Language" aria-label="Change App Language"
-          >
-            <option value="en-IN" style={{ background: '#fff', color: '#1e293b' }}>English</option>
-            <option value="hi-IN" style={{ background: '#fff', color: '#1e293b' }}>हिन्दी</option>
-            <option value="bn-IN" style={{ background: '#fff', color: '#1e293b' }}>বাংলা</option>
-            <option value="ta-IN" style={{ background: '#fff', color: '#1e293b' }}>தமிழ்</option>
-            <option value="te-IN" style={{ background: '#fff', color: '#1e293b' }}>తెలుగు</option>
-            <option value="mr-IN" style={{ background: '#fff', color: '#1e293b' }}>मराठी</option>
-            <option value="gu-IN" style={{ background: '#fff', color: '#1e293b' }}>ગુજરાતી</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Static Quick-Action Tabs — Chat mode only */}
-      {appMode === 'chat' && (
-      <div style={{
-        display: 'flex',
-        gap: '10px',
-        padding: '15px 20px',
-        margin: '0 20px',
-        overflowX: 'auto',
-        background: 'rgba(255, 255, 255, 0.4)',
-        borderLeft: '1px solid var(--glass-border)',
-        borderRight: '1px solid var(--glass-border)',
-        scrollbarWidth: 'none',
-        msOverflowStyle: 'none'
-      }} className="hide-scrollbar chat-tabs">
-        {tabs.map((tab, index) => (
-          <button
-            key={index}
-            className="btn-secondary tab-btn"
-            onClick={() => handleStaticTabClick(tab)}
-            style={{
-              whiteSpace: 'nowrap',
-              fontSize: '0.85rem',
-              background: 'white',
-              boxShadow: '0 2px 5px rgba(0,0,0,0.02)',
-              border: '1px solid rgba(0,0,0,0.05)'
-            }}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-      )}
-
-      {/* Chat Area — chat mode only */}
-      {appMode === 'chat' ? (
-      <div className="glass-panel chat-area" style={{ flex: 1, margin: '0 20px', borderRadius: '0', borderTop: 'none', borderBottom: 'none', overflowY: 'auto', padding: '20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-        {messages.length === 1 && (
-          <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }} className="animate-fade-in">
-            <img src="/chat_timeline_graphic.png" alt="Election Timeline" className="welcome-img" style={{ width: '100%', maxWidth: '900px', height: 'auto', objectFit: 'contain', opacity: 0.95, borderRadius: 'var(--radius-md)' }} />
-          </div>
-        )}
-        {messages.map((msg, index) => (
-          <div key={index} style={{ display: 'flex', gap: '15px', flexDirection: msg.role === 'user' ? 'row-reverse' : 'row' }} className="animate-fade-in">
-            <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: msg.role === 'user' ? 'var(--primary)' : 'var(--secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              {msg.role === 'user' ? <User size={20} color="white" /> : <Info size={20} color="white" />}
-            </div>
-            <div className={`chat-bubble ${msg.role}`} style={{
-              background: msg.role === 'user' ? 'rgba(217, 119, 6, 0.15)' : 'rgba(255, 255, 255, 0.8)',
-              padding: '15px 20px',
-              borderRadius: 'var(--radius-md)',
-              maxWidth: '75%',
-              border: `1px solid ${msg.role === 'user' ? 'rgba(217, 119, 6, 0.3)' : 'var(--glass-border)'}`,
-              boxShadow: '0 2px 10px rgba(0,0,0,0.02)'
-            }}>
-              {msg.role === 'user' ? (
-                <p style={{ margin: 0 }}>{msg.parts[0].text}</p>
-              ) : (
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div className="markdown-body" dangerouslySetInnerHTML={{ __html: marked(msg.parts[0].text) }} />
-                  <button 
-                    className="listen-btn"
-                    onClick={() => playMessage(msg.parts[0].text, index)}
-                    title={playingIndex === index ? "Stop playing" : "Read aloud"}
-                    style={{
-                      marginTop: '15px',
-                      background: playingIndex === index ? 'rgba(239, 68, 68, 0.1)' : 'rgba(59, 130, 246, 0.1)',
-                      border: `1px solid ${playingIndex === index ? 'rgba(239, 68, 68, 0.3)' : 'rgba(59, 130, 246, 0.3)'}`,
-                      color: playingIndex === index ? '#ef4444' : '#3b82f6',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      cursor: 'pointer',
-                      fontSize: '0.85rem',
-                      padding: '8px 12px',
-                      borderRadius: 'var(--radius-sm)',
-                      alignSelf: 'flex-start',
-                      fontWeight: '500',
-                      transition: 'all 0.2s ease'
-                    }}
-                  >
-                    {playingIndex === index ? <Square size={16} fill="currentColor" /> : <Volume2 size={16} />}
-                    {playingIndex === index ? 'Stop' : 'Listen'}
-                  </button>
+      {/* Main Content Area */}
+      <main style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+        {appMode === 'chat' && (
+          <div className="chat-area" style={{ flex: 1, overflowY: 'auto', padding: '20px 10px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            {messages.length === 1 && (
+              <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }} className="animate-fade-in">
+                <img src="/chat_timeline_graphic.png" alt="Election Timeline" className="welcome-img" style={{ width: '90%', maxWidth: '600px', height: 'auto', opacity: 0.8, borderRadius: 'var(--radius-md)' }} />
+              </div>
+            )}
+            {messages.map((msg, index) => (
+              <div key={index} style={{ display: 'flex', gap: '12px', flexDirection: msg.role === 'user' ? 'row-reverse' : 'row', alignItems: 'flex-start' }} className="animate-fade-in">
+                <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: msg.role === 'user' ? 'var(--primary)' : 'var(--secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '4px' }}>
+                  {msg.role === 'user' ? <User size={16} color="white" /> : <Info size={16} color="white" />}
                 </div>
-              )}
-            </div>
-          </div>
-        ))}
-        {loading && (
-          <div style={{ display: 'flex', gap: '15px' }}>
-            <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <Loader2 className="animate-spin" size={20} color="white" />
-            </div>
-            <div style={{ padding: '15px', color: 'var(--text-muted)' }}>{translations[appLanguage].thinking}</div>
+                <div className={`chat-bubble ${msg.role}`} style={{
+                  background: msg.role === 'user' ? 'white' : 'rgba(255, 255, 255, 0.9)',
+                  padding: '12px 16px',
+                  borderRadius: '18px',
+                  borderBottomRightRadius: msg.role === 'user' ? '4px' : '18px',
+                  borderBottomLeftRadius: msg.role === 'user' ? '18px' : '4px',
+                  maxWidth: '85%',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+                  border: '1px solid rgba(0,0,0,0.05)'
+                }}>
+                  {msg.role === 'user' ? (
+                    <p style={{ margin: 0, fontSize: '0.95rem' }}>{msg.parts[0].text}</p>
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <div className="markdown-body" style={{ fontSize: '0.95rem' }} dangerouslySetInnerHTML={{ __html: marked(msg.parts[0].text) }} />
+                      <button 
+                        className="listen-btn"
+                        onClick={() => playMessage(msg.parts[0].text, index)}
+                        style={{
+                          marginTop: '10px',
+                          background: 'rgba(0,0,0,0.03)',
+                          border: 'none',
+                          color: 'var(--text-muted)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          fontSize: '0.75rem',
+                          padding: '6px 10px',
+                          borderRadius: '999px',
+                          alignSelf: 'flex-start',
+                          fontWeight: '600'
+                        }}
+                      >
+                        {playingIndex === index ? <Square size={12} fill="currentColor" /> : <Volume2 size={12} />}
+                        {playingIndex === index ? 'Stop' : 'Listen'}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+            <div ref={messagesEndRef} />
           </div>
         )}
-        <div ref={messagesEndRef} />
-      </div>
-      ) : appMode === 'timeline' ? (
-        <div className="glass-panel chat-area" style={{ flex: 1, margin: '0 20px', borderTop: 'none', borderBottom: 'none', overflowY: 'auto', padding: '20px' }}>
-          <TimelineMode appLanguage={appLanguage} />
-        </div>
-      ) : (
-        <div className="glass-panel chat-area" style={{ flex: 1, margin: '0 20px', borderTop: 'none', borderBottom: 'none', overflowY: 'auto', padding: '20px' }}>
-          <QuizMode appLanguage={appLanguage} />
-        </div>
-      )}
 
-      {/* Input Area — chat mode only */}
+        {appMode === 'timeline' && <div style={{ flex: 1, overflowY: 'auto', padding: '10px' }}><TimelineMode appLanguage={appLanguage} /></div>}
+        {appMode === 'quiz' && <div style={{ flex: 1, overflowY: 'auto', padding: '10px' }}><QuizMode appLanguage={appLanguage} /></div>}
+
+        {/* Quick Bytes (Floating suggestion tabs) */}
+        {appMode === 'chat' && (
+          <div className="quick-bytes-container" style={{
+            position: 'absolute',
+            bottom: '80px',
+            left: 0,
+            right: 0,
+            padding: '0 10px',
+            zIndex: 5
+          }}>
+            <div className="quick-bytes-scroll hide-scrollbar" style={{
+              display: 'flex',
+              gap: '8px',
+              overflowX: 'auto',
+              paddingBottom: '5px'
+            }}>
+              {tabs.map((tab, index) => (
+                <button
+                  key={index}
+                  className="quick-byte-btn"
+                  onClick={() => handleStaticTabClick(tab)}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </main>
+
+      {/* Footer (Input Bar) */}
       {appMode === 'chat' && (
-      <footer className="glass chat-footer" style={{ padding: '20px', margin: '0 20px 20px 20px', borderRadius: '0 0 16px 16px' }}>
-        <div className="footer-row" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          <button
-            onClick={clearChat}
-            title="Clear Chat"
-            aria-label="Clear Chat"
-            style={{
-              background: 'rgba(239, 68, 68, 0.1)',
-              color: '#ef4444',
-              border: '1px solid rgba(239, 68, 68, 0.3)',
-              padding: '0 15px',
-              height: '46px',
-              borderRadius: 'var(--radius-md)',
-              cursor: 'pointer',
+        <footer className="chat-footer" style={{ 
+          padding: '10px', 
+          background: 'white',
+          borderTop: '1px solid rgba(0,0,0,0.05)',
+          zIndex: 10
+        }}>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', maxWidth: '800px', margin: '0 auto' }}>
+            <div className="lang-pill" style={{
+              background: 'var(--primary)',
+              borderRadius: '999px',
+              padding: '0 10px',
+              height: '44px',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0
-            }}
-          >
-            <Trash2 size={20} />
-          </button>
+              gap: '4px',
+              color: 'white'
+            }}>
+              <Globe size={14} />
+              <select
+                value={appLanguage}
+                onChange={(e) => setAppLanguage(e.target.value)}
+                style={{ background: 'transparent', border: 'none', color: 'white', outline: 'none', fontSize: '0.75rem', fontWeight: '700', cursor: 'pointer' }}
+              >
+                <option value="en-IN">EN</option>
+                <option value="hi-IN">हि</option>
+                <option value="bn-IN">বা</option>
+                <option value="ta-IN">த</option>
+                <option value="te-IN">తె</option>
+                <option value="mr-IN">म</option>
+                <option value="gu-IN">ગુ</option>
+              </select>
+            </div>
 
-          <button
-            className="btn-secondary"
-            onClick={toggleListening}
-            style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              padding: '0 15px',
-              height: '46px',
-              background: isListening ? 'rgba(239, 68, 68, 0.1)' : '#ffffff',
-              color: isListening ? '#ef4444' : 'var(--text-main)',
-              border: `1px solid ${isListening ? 'rgba(239, 68, 68, 0.4)' : '#cbd5e1'}`,
-              boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-              flexShrink: 0
-            }}
-            title={isListening ? "Stop listening" : "Start speaking"}
-            aria-label={isListening ? "Stop listening" : "Start speaking"}
-          >
-            {isListening ? <MicOff size={20} /> : <Mic size={20} />}
-          </button>
-          <input
-            className="footer-input"
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-            placeholder={translations[appLanguage].askPlaceholder}
-            aria-label="Chat input"
-            style={{
+            <div className="input-container" style={{
               flex: 1,
-              background: '#ffffff',
-              border: '1px solid #cbd5e1',
-              borderRadius: 'var(--radius-md)',
-              padding: '0 15px',
-              height: '46px',
-              color: 'var(--text-main)',
-              outline: 'none',
-              fontSize: '1rem',
-              boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.05)'
-            }}
-          />
-          <button
-            className="btn-primary"
-            onClick={() => handleSend()}
-            disabled={loading || !input.trim()}
-            aria-label="Send message"
-            style={{
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              padding: '0 20px',
-              height: '46px',
-              opacity: (loading || !input.trim()) ? 0.5 : 1,
-              flexShrink: 0
-            }}
-          >
-            <Send size={20} />
-          </button>
-        </div>
-      </footer>
+              background: '#f1f5f9',
+              borderRadius: '999px',
+              padding: '0 12px',
+              height: '44px'
+            }}>
+              <button onClick={toggleListening} style={{ background: 'transparent', border: 'none', color: isListening ? '#ef4444' : '#64748b', display: 'flex', alignItems: 'center' }}>
+                {isListening ? <MicOff size={18} /> : <Mic size={18} />}
+              </button>
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                placeholder={translations[appLanguage].askPlaceholder}
+                style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', padding: '0 10px', fontSize: '0.9rem', color: 'var(--text-main)' }}
+              />
+              <button 
+                onClick={() => handleSend()} 
+                disabled={loading || !input.trim()}
+                style={{ background: 'var(--primary)', color: 'white', border: 'none', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: (loading || !input.trim()) ? 0.5 : 1 }}
+              >
+                {loading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
+              </button>
+            </div>
+          </div>
+        </footer>
       )}
     </div>
   );

@@ -1195,6 +1195,84 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================
+   GROK UI - MODE PILL & QUICK BYTES
+   ============================================ */
+.mode-pill {
+  display: flex;
+  background: rgba(0, 0, 0, 0.04);
+  padding: 4px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  gap: 4px;
+}
+
+.mode-pill-tab {
+  border: none;
+  background: transparent;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.mode-pill-tab.active {
+  background: white;
+  color: var(--primary);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.quick-byte-btn {
+  background: white;
+  color: var(--text-main);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+}
+
+.quick-byte-btn:hover {
+  border-color: var(--primary);
+  background: var(--bg-darker);
+  transform: translateY(-1px);
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.icon-btn:hover {
+  background: rgba(0,0,0,0.05);
+  color: var(--text-main);
+}
+
+.logout-btn {
+  background: transparent;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+}
+
+/* ============================================
    MOBILE RESPONSIVE STYLES
    ============================================ */
 
@@ -1409,6 +1487,30 @@ h1, h2, h3, h4, h5, h6 {
 
 .high-contrast-mode .results-score-num {
   color: #ffff00 !important;
+}
+
+.high-contrast-mode .mode-pill {
+  background: #000000 !important;
+  border: 1px solid #ffffff !important;
+}
+
+.high-contrast-mode .mode-pill-tab.active {
+  background: #ffff00 !important;
+  color: #000000 !important;
+}
+
+.high-contrast-mode .mode-pill-tab {
+  color: #ffffff !important;
+}
+
+.high-contrast-mode .quick-byte-btn {
+  background: #000000 !important;
+  color: #ffff00 !important;
+  border: 1px solid #ffff00 !important;
+}
+
+.high-contrast-mode .icon-btn {
+  color: #ffffff !important;
 }
 
 .high-contrast-mode .gradient-text {
