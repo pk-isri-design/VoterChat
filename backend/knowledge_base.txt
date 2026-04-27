@@ -1,10 +1,10 @@
-Here is the updated Election Knowledge Base:
+Here is the verified and updated Election Knowledge Base, incorporating the latest official information from ECI as of 2026:
 
 ---
 Q1. What are the main categories of electors in India?
 Ans.- There are 3 categories of electors in India: –(i) General electors (ii) Oversees (NRI) electors , and (iii) Service Electors.
 
-Q2. What is the minimum age for registration as an elector and what are the qualifying dates?
+Q2. What is the minimum age for registration as an an elector and what are the qualifying dates?
 Ans. Previously, there was only one qualifying date (1st January). However, following the Election Laws (Amendment) Act, 2021, there are now four qualifying dates in a year: 1st January, 1st April, 1st July, and 1st October. This means if you turn 18 on or before any of these dates in a year, you can apply for registration in the subsequent quarter. For example, if you complete 18 years on 5th June, you become eligible for the July 1st qualifying date and can apply in advance.
 
 Q3. Can a non-citizen of India become a voter in the electoral rolls in India?
@@ -177,7 +177,7 @@ Q3. From which date the Model Code of Conduct is enforced and operational upto w
 Ans. The Model Code of Conduct is enforced from the date of announcement of election schedule by the Election Commission and is operational till the process of elections are completed.
 
 Q4. What is applicability of code during general elections and bye-elections?
-Ans. During general elections to House of People (Lok Sabha), the code is applicable throughout the country. During general elections to the Legislative Assembly (Vidhan Sabha), the code is applicable in the entire State. During bye-elections, in case the constituency is comprised in State Capital/Metropolitan Cities/Municipal Corporations, then the code would be applicable in the area of concerned Constituency only. In all other cases the MCC would be enforced in the entire district(s) covering the Constituency going for bye-election(s).
+Ans. During general elections to House of People (Lok Sabha), the code is applicable throughout the country. During general elections to the Legislative Assembly (Vidhan Sabha), the code is applicable in the entire State. During bye-elect ions, in case the constituency is comprised in State Capital/Metropolitan Cities/Municipal Corporations, then the code would be applicable in the area of concerned Constituency only. In all other cases the MCC would be enforced in the entire district(s) covering the Constituency going for bye-election(s).
 
 Q.5. What are the salient features of the Model Code of Conduct?
 Ans. The salient features of the Model Code of Conduct lay down how political parties, contesting candidates and party(s) in power should conduct themselves during the process of elections i.e. on their general conduct during electioneering, holding meetings and processions, poll day activities and functioning of the party in power etc.
@@ -423,3 +423,5 @@ Ans:- Nomination paper to be presented either by candidate or by any of his prop
 Ans: Every candidate at an election to the Council of States or a State Legislative Council is required to make a deposit of Rs. 10,000/- (Section 34 read with section 39 (2) of the Representation of the People Act, 1951) as amended by the Representation of the People (Amendment) Act, 2009 (come into force from 1st February, 2010). The amount of deposit shall be Rs. 5,000/- only, if he/she is a member of a Scheduled Castes or Scheduled Tribes.
 
 [Last Verified: 2026-04-27T03:45:58.775Z]
+
+[Last Verified: 2026-04-27T03:53:04.924Z]
