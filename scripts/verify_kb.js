@@ -18,7 +18,16 @@ async function verifyKnowledgeBase() {
 
   const genAI = new GoogleGenerativeAI(API_KEY);
   
-  // Robust fallback logic for different environments
+  // Diagnostic: List authorized models
+  console.log("--- AUTHORIZED MODELS LIST ---");
+  try {
+    const models = await genAI.listModels();
+    models.models.forEach(m => console.log(`- ${m.name} (${m.supportedGenerationMethods.join(", ")})`));
+  } catch (e) {
+    console.error(`⚠️ Could not list models via SDK: ${e.message}`);
+  }
+  console.log("------------------------------");
+
   const modelsToTry = [
     process.env.GEMINI_MODEL, // 1. User defined
     "gemini-1.5-flash",       // 2. Fast/Modern
