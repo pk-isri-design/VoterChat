@@ -54,4 +54,4 @@ jobs:
           cd functions
           npm install
           cd ..
-          firebase deploy --only hosting,firestore,functions --project voterhelp-60466 --token "${{ secrets.FIREBASE_TOKEN }}"
+          firebase deploy --only hosting,firestore,functions --project voterhelp-60466 --token "${{ secrets.FIREBASE_TOKEN }}" --force
