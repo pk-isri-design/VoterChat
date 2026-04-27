@@ -21,11 +21,6 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Diagnostic API Check
-        run: |
-          echo "Checking API connectivity and listing authorized models..."
-          curl -s "https://generativelanguage.googleapis.com/v1/models?key=${{ secrets.GEMINI_API_KEY }}" | grep "name" || echo "Failed to fetch models"
-
       - name: Install Dependencies
         run: npm install
         working-directory: scripts

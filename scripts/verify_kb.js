@@ -5,11 +5,12 @@ require("dotenv").config();
 
 async function verifyKnowledgeBase() {
   const API_KEY = process.env.GEMINI_API_KEY;
+  const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-1.5-flash";
+  
   console.log("Starting verification process...");
   
   if (!API_KEY) {
-    console.error("❌ ERROR: GEMINI_API_KEY is missing from environment variables.");
-    console.log("Please ensure you have added it to GitHub Secrets as 'GEMINI_API_KEY'.");
+    console.error("❌ ERROR: GEMINI_API_KEY is missing.");
     process.exit(1);
   }
 
@@ -17,47 +18,32 @@ async function verifyKnowledgeBase() {
   const currentKB = fs.readFileSync(kbPath, "utf8");
 
   const genAI = new GoogleGenerativeAI(API_KEY);
-  
-  // Diagnostic: List authorized models
+
+  // Diagnostic: List authorized models via REST
   console.log("--- AUTHORIZED MODELS LIST ---");
   try {
-    const models = await genAI.listModels();
-    models.models.forEach(m => console.log(`- ${m.name} (${m.supportedGenerationMethods.join(", ")})`));
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1/models?key=${API_KEY}`);
+    const data = await res.json();
+    if (data.models) {
+      data.models.forEach(m => console.log(`- ${m.name}`));
+    } else {
+      console.log("No models returned in list.");
+    }
   } catch (e) {
-    console.error(`⚠️ Could not list models via SDK: ${e.message}`);
+    console.log(`Could not list models via REST: ${e.message}`);
   }
   console.log("------------------------------");
 
-  const modelsToTry = [
-    process.env.GEMINI_MODEL, // 1. User defined
-    "gemini-1.5-flash",       // 2. Fast/Modern
-    "gemini-1.5-pro",         // 3. Smart/Modern
-    "gemini-1.0-pro",         // 4. Stable Fallback (Recommended for CI)
-  ].filter(Boolean);
-
   let model;
-  let successfulModelName = "";
-
-  for (const modelName of modelsToTry) {
-    try {
-      console.log(`Attempting to use model: ${modelName} on API v1...`);
-      // Explicitly force 'v1' to avoid the v1beta 404 issue in CI
-      const tempModel = genAI.getGenerativeModel({ model: modelName }, { apiVersion: "v1" });
-      
-      // Test the model with a simple prompt to verify connectivity
-      await tempModel.generateContent("ping");
-      
-      model = tempModel;
-      successfulModelName = modelName;
-      console.log(`✅ Successfully connected using ${modelName} on API v1`);
-      break;
-    } catch (e) {
-      console.warn(`⚠️ Model ${modelName} failed on API v1. Reason: ${e.message}`);
-    }
-  }
-
-  if (!model) {
-    console.error("❌ ERROR: All attempted models failed. Please check your API key permissions and regional availability.");
+  try {
+    console.log(`Connecting to model: ${MODEL_NAME}`);
+    model = genAI.getGenerativeModel({ model: MODEL_NAME });
+    
+    // Quick health check
+    await model.generateContent("ping");
+    console.log(`✅ Connected successfully to ${MODEL_NAME}`);
+  } catch (e) {
+    console.error(`❌ Model connection failed: ${e.message}`);
     process.exit(1);
   }
 
@@ -87,8 +73,8 @@ ${currentKB}
     const result = await model.generateContent(prompt);
     const updatedKB = result.response.text();
 
-    if (updatedKB && updatedKB.length > currentKB.length * 0.5) {
-      // Add a hidden timestamp to ensure a commit happens during the test phase
+    if (updatedKB && updatedKB.length > 100) {
+      // Add a hidden timestamp
       const finalKB = updatedKB.trim() + `\n\n[Last Verified: ${new Date().toISOString()}]`;
       
       fs.writeFileSync(kbPath, finalKB);
@@ -98,10 +84,9 @@ ${currentKB}
       const functionsKBPath = path.join(__dirname, "../frontend/functions/knowledge_base.txt");
       if (fs.existsSync(functionsKBPath)) {
         fs.writeFileSync(functionsKBPath, updatedKB);
-        console.log("Functions knowledge base successfully updated.");
       }
     } else {
-      console.error("Received an invalid or truncated response from the AI.");
+      console.error("❌ ERROR: Received an invalid or empty response from the AI.");
     }
   } catch (error) {
     console.error("Error during verification:", error);
