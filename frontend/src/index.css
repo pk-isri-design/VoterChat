@@ -1312,7 +1312,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .high-contrast-mode .glass, 
-.high-contrast-mode .glass-panel {
+.high-contrast-mode .glass-panel,
+.high-contrast-mode .timeline-node,
+.high-contrast-mode .timeline-content,
+.high-contrast-mode .quiz-card {
   background: #000000 !important;
   border: 2px solid #ffffff !important;
 }
@@ -1333,10 +1336,17 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Language tab overrides the broad button/select black rule */
 .high-contrast-mode .tab-btn,
-.high-contrast-mode div.tab-btn {
+.high-contrast-mode div.tab-btn,
+.high-contrast-mode .mode-tab.active {
   background: #ffff00 !important;
   color: #000000 !important;
   border: 2px solid #ffff00 !important;
+}
+
+.high-contrast-mode .mode-tab {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff !important;
 }
 
 .high-contrast-mode .tab-btn button,
@@ -1367,10 +1377,27 @@ h1, h2, h3, h4, h5, h6 {
   border: 2px solid #ffff00 !important;
 }
 
+.high-contrast-mode .chat-bubble.model .listen-btn,
+.high-contrast-mode .chat-bubble.model .listen-btn * {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
 .high-contrast-mode .listen-btn.playing,
 .high-contrast-mode .timeline-listen-btn.playing {
   background: #ffff00 !important;
   color: #000000 !important;
+}
+
+.high-contrast-mode .timeline-title,
+.high-contrast-mode .timeline-section-heading {
+  color: #ffff00 !important;
+}
+
+.high-contrast-mode .timeline-summary,
+.high-contrast-mode .timeline-header p {
+  color: #cccccc !important;
 }
 
 .high-contrast-mode .gradient-text {
