@@ -4,7 +4,7 @@ Here is the verified and updated Election Knowledge Base, incorporating the late
 Q1. What are the main categories of electors in India?
 Ans.- There are 3 categories of electors in India: –(i) General electors (ii) Oversees (NRI) electors , and (iii) Service Electors.
 
-Q2. What is the minimum age for registration as an an elector and what are the qualifying dates?
+Q2. What is the minimum age for registration as an elector and what are the qualifying dates?
 Ans. Previously, there was only one qualifying date (1st January). However, following the Election Laws (Amendment) Act, 2021, there are now four qualifying dates in a year: 1st January, 1st April, 1st July, and 1st October. This means if you turn 18 on or before any of these dates in a year, you can apply for registration in the subsequent quarter. For example, if you complete 18 years on 5th June, you become eligible for the July 1st qualifying date and can apply in advance.
 
 Q3. Can a non-citizen of India become a voter in the electoral rolls in India?
@@ -386,7 +386,7 @@ Q.8 Who is appointed the Returning Officer/Assistant Returning Officer for the e
 Answer: By convention, the Secretary General, Lok Sabha or the Secretary General, Rajya Sabha is appointed as the Returning Officer, by rotation. Two other senior officers of the Lok Sabha/Raj Sabha Secretariat and the Secretaries and one more senior officer of Legislative Assemblies of all States including the Union Territories of Delhi, Puducherry, and Jammu & Kashmir, are also appointed as the Assistant Returning Officers. The Election Commission of India makes such appointments.
 
 Q.9 Can a Candidate submit more than one nomination paper? What would be the security deposit to be made by such candidate?
-Answer: Yes. A candidate can file a maximum of four nomination papers. However, he is required to make only one security deposit in this regard. [see Section 5B (6) and 5C of the President and Vice-President Elections Act, 1952]
+Answer: Yes. A candidate can file a maximum of four nomination papers. However, he is required to make only one security deposit in this regard. [see Sections 5B (6) and 5C of the President and Vice-President Elections Act, 1952]
 
 Q.10 Can an elector propose or second the nomination of more than one candidate at a Presidential election?
 Answer: No. An elector can propose or second the name of only one candidate at a Presidential election. If he subscribes as proposer or seconder, the nomination papers of more than one candidate, his signature shall be deemed operative only on the nomination paper first delivered to the Returning Officer. [see Section 5B(5) of the President and Vice-President Elections Act, 1952]
@@ -427,3 +427,5 @@ Ans: Every candidate at an election to the Council of States or a State Legislat
 [Last Verified: 2026-04-27T03:53:04.924Z]
 
 [Last Verified: 2026-04-27T04:11:30.184Z]
+
+[Last Verified: 2026-04-27T04:19:42.854Z]
