@@ -31,18 +31,19 @@ async function verifyKnowledgeBase() {
 
   for (const modelName of modelsToTry) {
     try {
-      console.log(`Attempting to use model: ${modelName}...`);
-      const tempModel = genAI.getGenerativeModel({ model: modelName });
+      console.log(`Attempting to use model: ${modelName} on API v1...`);
+      // Explicitly force 'v1' to avoid the v1beta 404 issue in CI
+      const tempModel = genAI.getGenerativeModel({ model: modelName }, { apiVersion: "v1" });
       
       // Test the model with a simple prompt to verify connectivity
       await tempModel.generateContent("ping");
       
       model = tempModel;
       successfulModelName = modelName;
-      console.log(`✅ Successfully connected using ${modelName}`);
+      console.log(`✅ Successfully connected using ${modelName} on API v1`);
       break;
     } catch (e) {
-      console.warn(`⚠️ Model ${modelName} failed. Reason: ${e.message}`);
+      console.warn(`⚠️ Model ${modelName} failed on API v1. Reason: ${e.message}`);
     }
   }
 
