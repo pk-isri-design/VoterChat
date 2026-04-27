@@ -49,7 +49,7 @@ jobs:
       - name: Full Firebase Deploy
         run: |
           cd frontend
-          npm install
+          npm install --legacy-peer-deps
           npm run build
           cd functions
           npm install
