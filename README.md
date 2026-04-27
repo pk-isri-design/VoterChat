@@ -39,12 +39,26 @@ VoterHelp is an intelligent, non-partisan AI election assistant designed to help
 - **Engagement Analytics**: Integrated Google Analytics for Firebase to track user journeys, quiz completions, and chat interactions.
 - **Monthly Auto-Updation**: A GitHub Action automatically audits and updates the knowledge base on the 2nd of every month using Gemini AI to ensure compliance with the latest ECI regulations.
 
+## Automated Audit Workflow 🤖
+
+To ensure that **VoterHelp** remains the most accurate election assistant in India, we have implemented a "Self-Healing" knowledge base system:
+
+- **Schedule**: On the **2nd of every month**, a GitHub Action automatically triggers a deep audit of the knowledge base.
+- **AI-Driven Verification**: The system leverages **Gemini 2.5 Flash** to compare the current app data against the latest official ECI regulations (as of 2026).
+- **Auto-Deployment**: If the AI identifies outdated rules or new procedures, it automatically:
+  1.  Updates the `knowledge_base.txt` files in both the backend and cloud functions.
+  2.  Commits the changes back to the repository with a timestamp.
+  3.  Triggers a fresh **Firebase Deployment** to push the updates live to [voterhelp-60466.web.app](https://voterhelp-60466.web.app).
+
+This ensures that users always receive the most up-to-date and legally compliant election information without any manual intervention.
+
 ## Tech Stack 🛠️
 
-- **Frontend**: React.js (Vite), CSS3 (Custom Glassmorphism styling), Axios, Lucide-React
+- **Frontend**: React.js (Vite 8), CSS3 (Custom Glassmorphism styling), Axios, Lucide-React
 - **Backend**: Node.js, Express
-- **AI Model**: Google Gemini Flash via `@google/generative-ai`
+- **AI Model**: Google Gemini 2.5 Flash via `@google/generative-ai`
 - **Authentication**: Firebase Authentication
+- **CI/CD**: GitHub Actions & Firebase Hosting
 
 ## Project Structure 📁
 
