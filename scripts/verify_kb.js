@@ -42,7 +42,7 @@ async function verifyKnowledgeBase() {
       console.log(`✅ Successfully connected using ${modelName}`);
       break;
     } catch (e) {
-      console.warn(`⚠️ Model ${modelName} failed or is not available. Trying next...`);
+      console.warn(`⚠️ Model ${modelName} failed. Reason: ${e.message}`);
     }
   }
 
