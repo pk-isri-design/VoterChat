@@ -5,7 +5,7 @@ require("dotenv").config();
 
 async function verifyKnowledgeBase() {
   const API_KEY = process.env.GEMINI_API_KEY;
-  const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-1.5-flash";
+  const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-2.5-flash";
   
   console.log("Starting verification process...");
   

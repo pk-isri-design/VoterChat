@@ -28,7 +28,7 @@ jobs:
       - name: Run Verification Script
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GEMINI_MODEL: gemini-1.5-flash
+          GEMINI_MODEL: gemini-2.5-flash
         run: node verify_kb.js
         working-directory: scripts
 
