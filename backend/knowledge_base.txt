@@ -1,4 +1,4 @@
-Here is the verified and updated Election Knowledge Base, incorporating the latest official information from ECI as of 2026:
+Here is the verified and updated Election Knowledge Base, incorporating the latest official information from ECI as of 2026, based on the rules provided:
 
 ---
 Q1. What are the main categories of electors in India?
@@ -383,7 +383,7 @@ Q.7 Apart from the above what are the conditions to be fulfilled by a candidate 
 Answer: A nomination paper of a candidate for the election has to be made in the prescribed form (Form 2 appended to the Presidential and Vice-Presidential Elections Rules, 1974) and it has to be subscribed by at least fifty electors as proposers and at least fifty electors as seconders. The nomination paper duly completed in all respects has to be presented to the Returning Officer, between 11AM and 3PM on any day other than on a public holiday appointed for the purpose by the Election Commission, either by the candidate himself or by any of his proposers or seconders. Here ǲElectorsǳ mean elected MPs and elected MLAs who are electors for Presidential Election. The Security Deposit for the election, of Rs.15000/- should also be deposited either in cash with the Returning Officer or a receipt showing that the amount has been deposited by the candidate or on his behalf in the Reserve Bank of India or in a Government Treasury should be furnished along with the nomination paper. The candidate is also required to furnish a certified copy of the entry showing his name in the current electoral roll for the Parliamentary Constituency in which the candidate is registered as an elector. [see Sections 5B and 5C of the President and Vice-President Elections Act, 1952]
 
 Q.8 Who is appointed the Returning Officer/Assistant Returning Officer for the election to the Office of President of India? Who makes such appointment?
-Answer: By convention, the Secretary General, Lok Sabha or the Secretary General, Rajya Sabha is appointed as the Returning Officer, by rotation. Two other senior officers of the Lok Sabha/Rajya Sabha Secretariat and the Secretaries and one more senior officer of Legislative Assemblies of all States including the Union Territories of Delhi, Puducherry, and Jammu & Kashmir, are also appointed as the Assistant Returning Officers. The Election Commission of India makes such appointments.
+Answer: By convention, the Secretary General, Lok Sabha or the Secretary General, Rajya Sabha is appointed as the Returning Officer, by rotation. Two other senior officers of the Lok Sabha/Raj Sabha Secretariat and the Secretaries and one more senior officer of Legislative Assemblies of all States including the Union Territories of Delhi, Puducherry, and Jammu & Kashmir, are also appointed as the Assistant Returning Officers. The Election Commission of India makes such appointments.
 
 Q.9 Can a Candidate submit more than one nomination paper? What would be the security deposit to be made by such candidate?
 Answer: Yes. A candidate can file a maximum of four nomination papers. However, he is required to make only one security deposit in this regard. [see Section 5B (6) and 5C of the President and Vice-President Elections Act, 1952]
@@ -425,3 +425,5 @@ Ans: Every candidate at an election to the Council of States or a State Legislat
 [Last Verified: 2026-04-27T03:45:58.775Z]
 
 [Last Verified: 2026-04-27T03:53:04.924Z]
+
+[Last Verified: 2026-04-27T04:11:30.184Z]
