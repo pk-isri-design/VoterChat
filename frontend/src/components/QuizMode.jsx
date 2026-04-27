@@ -129,13 +129,13 @@ export default function QuizMode({ appLanguage }) {
   const progress = ((currentIdx) / questions.length) * 100;
 
   const labels = {
-    'en-IN': { q: 'Question', of: 'of', situation: 'Situation' },
-    'hi-IN': { q: 'प्रश्न', of: 'का', situation: 'स्थिति' },
-    'bn-IN': { q: 'প্রশ্ন', of: 'এর', situation: 'পরিস্থিতি' },
-    'ta-IN': { q: 'கேள்வி', of: 'இல்', situation: 'சூழ்நிலை' },
-    'te-IN': { q: 'ప్రశ్న', of: 'లో', situation: 'పరిస్థితి' },
-    'mr-IN': { q: 'प्रश्न', of: 'पैकी', situation: 'परिस्थिती' },
-    'gu-IN': { q: 'પ્રશ્ન', of: 'ના', situation: 'પરિસ્થિતિ' }
+    'en-IN': { q: 'Question', of: 'of', situation: 'Situation', correct: 'Correct!', incorrect: 'Incorrect' },
+    'hi-IN': { q: 'प्रश्न', of: 'का', situation: 'स्थिति', correct: 'सही!', incorrect: 'गलत' },
+    'bn-IN': { q: 'প্রশ্ন', of: 'এর', situation: 'পরিস্থিতি', correct: 'সঠিক!', incorrect: 'ভুল' },
+    'ta-IN': { q: 'கேள்வி', of: 'இல்', situation: 'சூழ்நிலை', correct: 'சரி!', incorrect: 'தவறு' },
+    'te-IN': { q: 'ప్రశ్న', of: 'లో', situation: 'పరిస్థితి', correct: 'సరైనది!', incorrect: 'తప్పు' },
+    'mr-IN': { q: 'प्रश्न', of: 'पैकी', situation: 'परिस्थिती', correct: 'बरोबर!', incorrect: 'चूक' },
+    'gu-IN': { q: 'પ્રશ્ન', of: 'ના', situation: 'પરિસ્થિતિ', correct: 'સાચું!', incorrect: 'ખોટું' }
   };
   const l = labels[appLanguage] || labels['en-IN'];
 
@@ -180,6 +180,17 @@ export default function QuizMode({ appLanguage }) {
             </label>
           ))}
         </div>
+
+        {/* Feedback Area - Only shows when selected */}
+        {selected !== null && (
+          <div className={`quiz-feedback ${selected === q.correct ? 'correct' : 'wrong'} animate-fade-in`} style={{ marginTop: '20px' }}>
+            <div className="quiz-feedback-header">
+              {selected === q.correct ? <CheckCircle size={18} color="#10b981" /> : <XCircle size={18} color="#ef4444" />}
+              <span style={{ fontWeight: 700 }}>{selected === q.correct ? l.correct : l.incorrect}</span>
+            </div>
+            <p className="quiz-explanation">{q.explanation}</p>
+          </div>
+        )}
       </div>
 
       {/* Navigation */}
