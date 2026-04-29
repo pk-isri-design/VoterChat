@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import { User, Info, Loader2, Volume2, Square } from 'lucide-react';
 import { marked } from 'marked';
 import { translations } from '../utils/translations';
 
-export default function MessageList({
+const MessageList = memo(({
   messages,
   loading,
   appLanguage,
   playingIndex,
   playMessage,
   messagesEndRef
-}) {
+}) => {
   return (
     <div className="glass-panel chat-area" style={{ flex: 1, margin: '0 20px', borderRadius: '0', borderTop: 'none', borderBottom: 'none', overflowY: 'auto', padding: '20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
       {messages.length === 1 && (
@@ -76,4 +77,27 @@ export default function MessageList({
       <div ref={messagesEndRef} />
     </div>
   );
-}
+});
+
+MessageList.propTypes = {
+  messages: PropTypes.arrayOf(
+    PropTypes.shape({
+      role: PropTypes.string.isRequired,
+      parts: PropTypes.arrayOf(
+        PropTypes.shape({
+          text: PropTypes.string.isRequired
+        })
+      ).isRequired
+    })
+  ).isRequired,
+  loading: PropTypes.bool.isRequired,
+  appLanguage: PropTypes.string.isRequired,
+  playingIndex: PropTypes.number,
+  playMessage: PropTypes.func.isRequired,
+  messagesEndRef: PropTypes.oneOfType([
+    PropTypes.func, 
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+  ])
+};
+
+export default MessageList;

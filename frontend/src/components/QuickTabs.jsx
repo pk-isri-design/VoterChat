@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import { translations } from '../utils/translations';
 
-export default function QuickTabs({ appLanguage, handleStaticTabClick }) {
+const QuickTabs = memo(({ appLanguage, handleStaticTabClick }) => {
   const tabs = translations[appLanguage]?.tabs || [];
 
   return (
@@ -35,4 +36,11 @@ export default function QuickTabs({ appLanguage, handleStaticTabClick }) {
       ))}
     </div>
   );
-}
+});
+
+QuickTabs.propTypes = {
+  appLanguage: PropTypes.string.isRequired,
+  handleStaticTabClick: PropTypes.func.isRequired
+};
+
+export default QuickTabs;

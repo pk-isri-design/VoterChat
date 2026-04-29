@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { signInWithGoogle } from '../firebase';
 import { ShieldCheck } from 'lucide-react';
 
@@ -56,3 +57,7 @@ export default function AuthScreen({ onGuestLogin }) {
     </div>
   );
 }
+
+AuthScreen.propTypes = {
+  onGuestLogin: PropTypes.func.isRequired
+};

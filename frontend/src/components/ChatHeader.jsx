@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import { Sparkles, LogOut, Sun, Moon, Minus, Plus, Type, Globe } from 'lucide-react';
 import { logout } from '../firebase';
 
@@ -64,5 +65,19 @@ const ChatHeader = memo(({
     </header>
   );
 });
+
+ChatHeader.propTypes = {
+  user: PropTypes.shape({
+    displayName: PropTypes.string,
+    email: PropTypes.string,
+    isGuest: PropTypes.bool
+  }).isRequired,
+  appLanguage: PropTypes.string.isRequired,
+  setAppLanguage: PropTypes.func.isRequired,
+  highContrast: PropTypes.bool.isRequired,
+  setHighContrast: PropTypes.func.isRequired,
+  handleDecreaseText: PropTypes.func.isRequired,
+  handleIncreaseText: PropTypes.func.isRequired
+};
 
 export default ChatHeader;

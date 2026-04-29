@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, memo } from 'react';
+import PropTypes from 'prop-types';
 import { CheckCircle, XCircle, Trophy, RotateCcw, ChevronRight } from 'lucide-react';
 import { getQuizQuestions } from '../data/quizData';
 import { logCustomEvent } from '../firebase';
@@ -67,7 +68,7 @@ function Results({ score, total, answers, questions, onRestart, lang }) {
 }
 
 /* ── Main Quiz ── */
-export default function QuizMode({ appLanguage }) {
+const QuizMode = memo(({ appLanguage }) => {
   const [phase, setPhase] = useState('splash');
   const [questions, setQuestions] = useState([]);
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -209,4 +210,24 @@ export default function QuizMode({ appLanguage }) {
       </div>
     </div>
   );
-}
+});
+
+Splash.propTypes = {
+  onStart: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired
+};
+
+Results.propTypes = {
+  score: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
+  answers: PropTypes.array,
+  questions: PropTypes.array,
+  onRestart: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired
+};
+
+QuizMode.propTypes = {
+  appLanguage: PropTypes.string.isRequired
+};
+
+export default QuizMode;

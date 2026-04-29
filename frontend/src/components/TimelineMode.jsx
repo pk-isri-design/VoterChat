@@ -1,8 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, memo } from 'react';
+import PropTypes from 'prop-types';
 import { ChevronDown, ChevronUp, Volume2, Square } from 'lucide-react';
 import { getTimelinePhases } from '../data/timelineData';
 
-export default function TimelineMode({ appLanguage }) {
+const TimelineMode = memo(({ appLanguage }) => {
   const [expandedId, setExpandedId] = useState(null);
   const [playingKey, setPlayingKey] = useState(null);
   const synthRef = useRef(null);
@@ -120,4 +121,10 @@ export default function TimelineMode({ appLanguage }) {
       </div>
     </div>
   );
-}
+});
+
+TimelineMode.propTypes = {
+  appLanguage: PropTypes.string.isRequired
+};
+
+export default TimelineMode;

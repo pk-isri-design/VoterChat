@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import { Send, Trash2, Mic, MicOff } from 'lucide-react';
 import { translations } from '../utils/translations';
 
-export default function ChatFooter({
+const ChatFooter = memo(({
   appLanguage,
   input,
   setInput,
@@ -11,7 +12,7 @@ export default function ChatFooter({
   clearChat,
   isListening,
   toggleListening
-}) {
+}) => {
   return (
     <footer className="glass chat-footer" style={{ padding: '20px', margin: '0 20px 20px 20px', borderRadius: '0 0 16px 16px' }}>
       <div className="footer-row" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
@@ -95,4 +96,17 @@ export default function ChatFooter({
       </div>
     </footer>
   );
-}
+});
+
+ChatFooter.propTypes = {
+  appLanguage: PropTypes.string.isRequired,
+  input: PropTypes.string.isRequired,
+  setInput: PropTypes.func.isRequired,
+  handleSend: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  clearChat: PropTypes.func.isRequired,
+  isListening: PropTypes.bool.isRequired,
+  toggleListening: PropTypes.func.isRequired
+};
+
+export default ChatFooter;

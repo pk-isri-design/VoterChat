@@ -4,6 +4,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import AuthScreen from './components/AuthScreen';
 import ChatInterface from './components/ChatInterface';
+import ErrorBoundary from './components/ErrorBoundary';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -33,18 +34,20 @@ function App() {
   }
 
   return (
-    <Router>
-      <Routes>
-        <Route 
-          path="/login" 
-          element={!user ? <AuthScreen onGuestLogin={handleGuestLogin} /> : <Navigate to="/" />} 
-        />
-        <Route 
-          path="/" 
-          element={user ? <ChatInterface user={user} /> : <Navigate to="/login" />} 
-        />
-      </Routes>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <Routes>
+          <Route 
+            path="/login" 
+            element={!user ? <AuthScreen onGuestLogin={handleGuestLogin} /> : <Navigate to="/" />} 
+          />
+          <Route 
+            path="/" 
+            element={user ? <ChatInterface user={user} /> : <Navigate to="/login" />} 
+          />
+        </Routes>
+      </Router>
+    </ErrorBoundary>
   );
 }
 

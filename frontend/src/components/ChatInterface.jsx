@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect, useCallback, lazy, Suspense } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { logCustomEvent } from '../firebase';
 import { translations } from '../utils/translations';
+import { autoLinkForms } from '../utils/formatters';
 
 const TimelineMode = lazy(() => import('./TimelineMode'));
 const QuizMode = lazy(() => import('./QuizMode'));
@@ -124,14 +126,6 @@ export default function ChatInterface({ user }) {
       });
 
       const responseText = response.data.text;
-      
-      const autoLinkForms = (text) => {
-        return text.replace(/(\[.*?\]\(.*?\))|((?:Form|फॉर्म|ফর্ম|படிவம்|ఫారం|ફોર્મ|ഫോറം)\s*[0-9]+[A-Z]?)/gi, (match, existingLink, formMatch) => {
-          if (existingLink) return existingLink;
-          return `[${formMatch}](https://voters.eci.gov.in/home/forms)`;
-        });
-      };
-      
       setMessages([...newMessages, { role: 'model', parts: [{ text: autoLinkForms(responseText) }] }]);
     } catch (error) {
       console.error("Chat error", error);
@@ -217,3 +211,11 @@ export default function ChatInterface({ user }) {
     </div>
   );
 }
+
+ChatInterface.propTypes = {
+  user: PropTypes.shape({
+    displayName: PropTypes.string,
+    email: PropTypes.string,
+    isGuest: PropTypes.bool
+  }).isRequired
+};

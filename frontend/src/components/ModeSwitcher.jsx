@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 
-export default function ModeSwitcher({ appMode, setAppMode }) {
+const ModeSwitcher = memo(({ appMode, setAppMode }) => {
   const modes = [
     { id: 'chat',     label: '🧠 Ask AI' },
     { id: 'timeline', label: '🗳️ Timeline' },
@@ -22,4 +23,11 @@ export default function ModeSwitcher({ appMode, setAppMode }) {
       ))}
     </div>
   );
-}
+});
+
+ModeSwitcher.propTypes = {
+  appMode: PropTypes.string.isRequired,
+  setAppMode: PropTypes.func.isRequired
+};
+
+export default ModeSwitcher;
