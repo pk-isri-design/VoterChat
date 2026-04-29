@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { User, Info, Loader2, Volume2, Square } from 'lucide-react';
 import { marked } from 'marked';
 import { translations } from '../utils/translations';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const MessageList = memo(({
   messages,
@@ -14,13 +15,26 @@ const MessageList = memo(({
 }) => {
   return (
     <div className="glass-panel chat-area" style={{ flex: 1, margin: '0 20px', borderRadius: '0', borderTop: 'none', borderBottom: 'none', overflowY: 'auto', padding: '20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-      {messages.length === 1 && (
-        <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }} className="animate-fade-in">
-          <img src="/chat_timeline_graphic.png" alt="Election Timeline" className="welcome-img" style={{ width: '100%', maxWidth: '900px', height: 'auto', objectFit: 'contain', opacity: 0.95, borderRadius: 'var(--radius-md)' }} />
-        </div>
-      )}
-      {messages.map((msg, index) => (
-        <div key={index} style={{ display: 'flex', gap: '15px', flexDirection: msg.role === 'user' ? 'row-reverse' : 'row' }} className="animate-fade-in">
+      <AnimatePresence initial={false}>
+        {messages.length === 1 && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}
+          >
+            <img src="/chat_timeline_graphic.png" alt="Election Timeline" className="welcome-img" style={{ width: '100%', maxWidth: '900px', height: 'auto', objectFit: 'contain', opacity: 0.95, borderRadius: 'var(--radius-md)' }} />
+          </motion.div>
+        )}
+        {messages.map((msg, index) => (
+          <motion.div 
+            key={index} 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut", delay: index === messages.length - 1 && index !== 0 ? 0.1 : 0 }}
+            style={{ display: 'flex', gap: '15px', flexDirection: msg.role === 'user' ? 'row-reverse' : 'row' }}
+          >
           <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: msg.role === 'user' ? 'var(--primary)' : 'var(--secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             {msg.role === 'user' ? <User size={20} color="white" /> : <Info size={20} color="white" />}
           </div>
@@ -64,16 +78,22 @@ const MessageList = memo(({
               </div>
             )}
           </div>
-        </div>
+        </motion.div>
       ))}
       {loading && (
-        <div style={{ display: 'flex', gap: '15px' }}>
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          style={{ display: 'flex', gap: '15px' }}
+        >
           <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             <Loader2 className="animate-spin" size={20} color="white" />
           </div>
           <div style={{ padding: '15px', color: 'var(--text-muted)' }}>{translations[appLanguage]?.thinking || 'Thinking...'}</div>
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
       <div ref={messagesEndRef} />
     </div>
   );

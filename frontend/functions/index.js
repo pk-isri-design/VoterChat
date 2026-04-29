@@ -75,6 +75,13 @@ exports.chatWithAI = functions.https.onRequest((req, res) => {
         ? message 
         : `${SYSTEM_PROMPTS.chat}\n\nUser Question: ${message}`;
 
+      // Implement basic cache headers for identical requests
+      res.set('Cache-Control', 'public, max-age=300, s-maxage=600');
+      
+      // Basic security headers
+      res.set('X-Content-Type-Options', 'nosniff');
+      res.set('X-Frame-Options', 'DENY');
+
       const result = await chat.sendMessage(prompt);
       const response = await result.response;
       const text = response.text();

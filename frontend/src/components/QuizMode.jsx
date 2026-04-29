@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { CheckCircle, XCircle, Trophy, RotateCcw, ChevronRight } from 'lucide-react';
 import { getQuizQuestions } from '../data/quizData';
 import { logCustomEvent } from '../firebase';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const QUESTIONS_PER_QUIZ = 5;
 
@@ -28,14 +29,20 @@ function Splash({ onStart, lang }) {
   };
   const l = labels[lang] || labels['en-IN'];
   return (
-    <div className="quiz-splash animate-fade-in">
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.4 }}
+      className="quiz-splash"
+    >
       <div className="quiz-splash-icon">🎯</div>
       <h2 className="gradient-text">{l.title}</h2>
       <p>{l.desc}</p>
       <button className="btn-primary quiz-start-btn" onClick={onStart}>
         {l.btn}
       </button>
-    </div>
+    </motion.div>
   );
 }
 
@@ -53,7 +60,12 @@ function Results({ score, total, answers, questions, onRestart, lang }) {
   const l = labels[lang] || labels['en-IN'];
   const pct = Math.round((score / total) * 100);
   return (
-    <div className="quiz-results animate-fade-in">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="quiz-results"
+    >
       <div className="results-trophy">🏆</div>
       <h2 className="gradient-text results-title">{l.title}</h2>
       <div className="results-score-ring">
@@ -63,7 +75,7 @@ function Results({ score, total, answers, questions, onRestart, lang }) {
       <button className="btn-primary quiz-start-btn" onClick={onRestart}>
         <RotateCcw size={16} /> {l.playAgain}
       </button>
-    </div>
+    </motion.div>
   );
 }
 
@@ -151,48 +163,65 @@ const QuizMode = memo(({ appLanguage }) => {
       </div>
 
       {/* Card */}
-      <div className="quiz-card">
-        {/* Situation */}
-        <div className="quiz-situation">
-          <span className="quiz-situation-badge">📌 {l.situation}</span>
-          <p>{q.situation}</p>
-        </div>
-
-        {/* Question */}
-        <h3 className="quiz-question">{q.question}</h3>
-
-        {/* Radio options */}
-        <div className="quiz-options" role="radiogroup" aria-label="Answer options">
-          {q.options.map((opt, idx) => (
-            <label
-              key={idx}
-              className={`quiz-option-label-wrap ${selected === idx ? 'selected' : ''}`}
-            >
-              <input
-                type="radio"
-                name={`q${q.id}`}
-                value={idx}
-                checked={selected === idx}
-                onChange={() => setSelected(idx)}
-                className="quiz-radio"
-              />
-              <span className="quiz-option-letter">{String.fromCharCode(65 + idx)}</span>
-              <span className="quiz-option-text">{opt}</span>
-            </label>
-          ))}
-        </div>
-
-        {/* Feedback Area - Only shows when selected */}
-        {selected !== null && (
-          <div className={`quiz-feedback ${selected === q.correct ? 'correct' : 'wrong'} animate-fade-in`} style={{ marginTop: '20px' }}>
-            <div className="quiz-feedback-header">
-              {selected === q.correct ? <CheckCircle size={18} color="#10b981" /> : <XCircle size={18} color="#ef4444" />}
-              <span style={{ fontWeight: 700 }}>{selected === q.correct ? l.correct : l.incorrect}</span>
-            </div>
-            <p className="quiz-explanation">{q.explanation}</p>
+      <AnimatePresence mode="wait">
+        <motion.div 
+          key={currentIdx}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -20 }}
+          transition={{ duration: 0.3 }}
+          className="quiz-card"
+        >
+          {/* Situation */}
+          <div className="quiz-situation">
+            <span className="quiz-situation-badge">📌 {l.situation}</span>
+            <p>{q.situation}</p>
           </div>
-        )}
-      </div>
+
+          {/* Question */}
+          <h3 className="quiz-question">{q.question}</h3>
+
+          {/* Radio options */}
+          <div className="quiz-options" role="radiogroup" aria-label="Answer options">
+            {q.options.map((opt, idx) => (
+              <label
+                key={idx}
+                className={`quiz-option-label-wrap ${selected === idx ? 'selected' : ''}`}
+              >
+                <input
+                  type="radio"
+                  name={`q${q.id}`}
+                  value={idx}
+                  checked={selected === idx}
+                  onChange={() => setSelected(idx)}
+                  className="quiz-radio"
+                />
+                <span className="quiz-option-letter">{String.fromCharCode(65 + idx)}</span>
+                <span className="quiz-option-text">{opt}</span>
+              </label>
+            ))}
+          </div>
+
+          {/* Feedback Area - Only shows when selected */}
+          <AnimatePresence>
+            {selected !== null && (
+              <motion.div 
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className={`quiz-feedback ${selected === q.correct ? 'correct' : 'wrong'}`} 
+                style={{ marginTop: '20px', overflow: 'hidden' }}
+              >
+                <div className="quiz-feedback-header">
+                  {selected === q.correct ? <CheckCircle size={18} color="#10b981" /> : <XCircle size={18} color="#ef4444" />}
+                  <span style={{ fontWeight: 700 }}>{selected === q.correct ? l.correct : l.incorrect}</span>
+                </div>
+                <p className="quiz-explanation">{q.explanation}</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      </AnimatePresence>
 
       {/* Navigation */}
       <div className="quiz-nav">

@@ -2,6 +2,7 @@ import React, { useState, useRef, memo } from 'react';
 import PropTypes from 'prop-types';
 import { ChevronDown, ChevronUp, Volume2, Square } from 'lucide-react';
 import { getTimelinePhases } from '../data/timelineData';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const TimelineMode = memo(({ appLanguage }) => {
   const [expandedId, setExpandedId] = useState(null);
@@ -80,41 +81,50 @@ const TimelineMode = memo(({ appLanguage }) => {
                   {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                 </span>
               </button>
-
-              {isOpen && (
-                <div className="timeline-content animate-fade-in">
-                  <div className="timeline-keyfact">
-                    <span className="keyfact-label">⚡</span>
-                    <span>{phase.keyFact}</span>
-                  </div>
-
-                  {phase.sections.map((sec, si) => {
-                    const key = `${phase.id}-${si}`;
-                    const isPlaying = playingKey === key;
-                    return (
-                      <div key={si} className="timeline-section">
-                        <div className="timeline-section-header">
-                          <h4 className="timeline-section-heading">{sec.heading}</h4>
-                          <button
-                            className={`listen-btn timeline-listen-btn ${isPlaying ? 'playing' : ''}`}
-                            onClick={() => speak(getSectionText(sec), key)}
-                            title={isPlaying ? 'Stop' : 'Listen'}
-                          >
-                            {isPlaying ? <Square size={13} fill="currentColor" /> : <Volume2 size={13} />}
-                            {isPlaying ? 'Stop' : 'Listen'}
-                          </button>
-                        </div>
-                        {sec.content && <p className="timeline-section-text">{sec.content}</p>}
-                        {sec.items && (
-                          <ul className="timeline-section-list">
-                            {sec.items.map((item, ii) => <li key={ii}>{item}</li>)}
-                          </ul>
-                        )}
+              <AnimatePresence>
+                {isOpen && (
+                  <motion.div 
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    style={{ overflow: 'hidden' }}
+                  >
+                    <div className="timeline-content">
+                      <div className="timeline-keyfact">
+                        <span className="keyfact-label">⚡</span>
+                        <span>{phase.keyFact}</span>
                       </div>
-                    );
-                  })}
-                </div>
-              )}
+
+                      {phase.sections.map((sec, si) => {
+                        const key = `${phase.id}-${si}`;
+                        const isPlaying = playingKey === key;
+                        return (
+                          <div key={si} className="timeline-section">
+                            <div className="timeline-section-header">
+                              <h4 className="timeline-section-heading">{sec.heading}</h4>
+                              <button
+                                className={`listen-btn timeline-listen-btn ${isPlaying ? 'playing' : ''}`}
+                                onClick={() => speak(getSectionText(sec), key)}
+                                title={isPlaying ? 'Stop' : 'Listen'}
+                              >
+                                {isPlaying ? <Square size={13} fill="currentColor" /> : <Volume2 size={13} />}
+                                {isPlaying ? 'Stop' : 'Listen'}
+                              </button>
+                            </div>
+                            {sec.content && <p className="timeline-section-text">{sec.content}</p>}
+                            {sec.items && (
+                              <ul className="timeline-section-list">
+                                {sec.items.map((item, ii) => <li key={ii}>{item}</li>)}
+                              </ul>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           );
         })}
