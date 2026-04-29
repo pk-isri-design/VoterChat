@@ -60,9 +60,14 @@ This ensures that users always receive the most up-to-date and legally compliant
 - **Authentication**: Firebase Authentication
 - **CI/CD**: GitHub Actions & Firebase Hosting
 
-## Project Structure 📁
+## Project Structure & Clean Code Architecture 📁
+
+The frontend has been heavily refactored following strict React best practices to ensure high maintainability, readability, and modularity:
 
 - `/frontend` - The React application
+  - `src/components/` - Modular UI components (`ChatHeader`, `MessageList`, `ChatFooter`, `ModeSwitcher`, `QuickTabs`). This isolates concerns and ensures each component has a single responsibility.
+  - `src/hooks/` - Custom abstracted hooks (`useSpeechRecognition`, `useSpeechSynthesis`, `useAccessibility`). This separates complex browser APIs and lifecycle side-effects from the UI rendering layer.
+  - `src/utils/` - Utility functions and multi-language translation dictionaries.
 - `/backend` - The Express server and AI integration layer
 
 ## Getting Started 🚀
