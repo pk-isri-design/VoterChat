@@ -12,6 +12,19 @@ describe('Speech TTS Feature', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.useFakeTimers();
+
+    window.mockSpeechRecognitionInstance = {
+      start: vi.fn(),
+      stop: vi.fn(),
+      onresult: null,
+      onerror: null,
+      onend: null
+    };
+
+    window.SpeechRecognition = function() {
+      return window.mockSpeechRecognitionInstance;
+    };
+    window.webkitSpeechRecognition = window.SpeechRecognition;
   });
 
   afterEach(() => {
@@ -33,6 +46,7 @@ describe('Speech TTS Feature', () => {
     window.speechSynthesis = {
       speak: mockSpeak,
       cancel: mockCancel,
+      resume: vi.fn(),
       getVoices: mockGetVoices,
       onvoiceschanged: null,
     };

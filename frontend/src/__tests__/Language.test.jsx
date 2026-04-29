@@ -7,6 +7,14 @@ import { translations } from '../utils/translations';
 describe('Language Change Test', () => {
   const mockUser = { email: 'test@example.com', displayName: 'Test User' };
 
+  beforeAll(() => {
+    window.speechSynthesis = {
+      cancel: vi.fn(),
+      resume: vi.fn(),
+      getVoices: vi.fn(() => [])
+    };
+  });
+
   it('renders default language (English)', () => {
     render(<ChatInterface user={mockUser} />);
     // Welcome message in English

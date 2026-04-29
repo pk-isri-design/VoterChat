@@ -6,8 +6,15 @@ import ChatInterface from '../components/ChatInterface';
 describe('Mic Feature Test', () => {
   const mockUser = { email: 'test@example.com', displayName: 'Test User' };
 
+  beforeAll(() => {
+    window.speechSynthesis = { cancel: vi.fn(), resume: vi.fn(), getVoices: vi.fn(() => []) };
+    window.SpeechRecognition = vi.fn().mockImplementation(() => ({
+      start: vi.fn(), stop: vi.fn(), onresult: null, onerror: null, onend: null
+    }));
+    window.webkitSpeechRecognition = window.SpeechRecognition;
+  });
+
   it('initializes speech recognition on mount', () => {
-    // We already mocked window.SpeechRecognition in setupTests.js
     render(<ChatInterface user={mockUser} />);
     expect(window.SpeechRecognition).toBeDefined();
   });
