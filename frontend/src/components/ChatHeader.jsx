@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Sparkles, LogOut, Sun, Moon, Minus, Plus, Type, Globe } from 'lucide-react';
 import { logout } from '../firebase';
 
-export default function ChatHeader({ 
+const ChatHeader = memo(({ 
   user, 
   appLanguage, 
   setAppLanguage, 
@@ -10,7 +10,7 @@ export default function ChatHeader({
   setHighContrast, 
   handleDecreaseText, 
   handleIncreaseText 
-}) {
+}) => {
   return (
     <header className="glass chat-header" style={{ padding: '15px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '20px 20px 0 20px', borderRadius: '16px 16px 0 0', borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -63,4 +63,6 @@ export default function ChatHeader({
       </div>
     </header>
   );
-}
+});
+
+export default ChatHeader;

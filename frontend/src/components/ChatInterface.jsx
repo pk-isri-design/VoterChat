@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, lazy, Suspense } from 'react';
 import axios from 'axios';
 import { logCustomEvent } from '../firebase';
 import { translations } from '../utils/translations';
-import TimelineMode from './TimelineMode';
-import QuizMode from './QuizMode';
+
+const TimelineMode = lazy(() => import('./TimelineMode'));
+const QuizMode = lazy(() => import('./QuizMode'));
 import ChatHeader from './ChatHeader';
 import ModeSwitcher from './ModeSwitcher';
 import QuickTabs from './QuickTabs';
@@ -189,11 +190,15 @@ export default function ChatInterface({ user }) {
         />
       ) : appMode === 'timeline' ? (
         <div className="glass-panel chat-area" style={{ flex: 1, margin: '0 20px', borderTop: 'none', borderBottom: 'none', overflowY: 'auto', padding: '20px' }}>
-          <TimelineMode appLanguage={appLanguage} />
+          <Suspense fallback={<div className="flex items-center justify-center h-full"><div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div></div>}>
+            <TimelineMode appLanguage={appLanguage} />
+          </Suspense>
         </div>
       ) : (
         <div className="glass-panel chat-area" style={{ flex: 1, margin: '0 20px', borderTop: 'none', borderBottom: 'none', overflowY: 'auto', padding: '20px' }}>
-          <QuizMode appLanguage={appLanguage} />
+          <Suspense fallback={<div className="flex items-center justify-center h-full"><div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div></div>}>
+            <QuizMode appLanguage={appLanguage} />
+          </Suspense>
         </div>
       )}
 
