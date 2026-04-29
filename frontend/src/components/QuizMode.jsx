@@ -110,20 +110,24 @@ const QuizMode = memo(({ appLanguage }) => {
     }
   };
 
-  if (phase === 'splash') return <Splash onStart={startQuiz} lang={appLanguage} />;
+  const score = useMemo(() => {
+    if (phase !== 'results' || !questions.length) return 0;
+    return answers.filter((a, i) => a === questions[i]?.correct).length;
+  }, [phase, answers, questions]);
 
-  if (phase === 'results') {
-    const score = answers.filter((a, i) => a === questions[i].correct).length;
-    
-    // Log completion once
-    React.useEffect(() => {
+  React.useEffect(() => {
+    if (phase === 'results' && questions.length > 0) {
       logCustomEvent('quiz_completed', {
         score: score,
         total: questions.length,
         percentage: Math.round((score / questions.length) * 100)
       });
-    }, []);
+    }
+  }, [phase, score, questions.length]);
 
+  if (phase === 'splash') return <Splash onStart={startQuiz} lang={appLanguage} />;
+
+  if (phase === 'results') {
     return (
       <Results
         score={score}
