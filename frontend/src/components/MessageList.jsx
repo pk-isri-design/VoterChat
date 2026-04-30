@@ -5,6 +5,19 @@ import { marked } from 'marked';
 import { translations } from '../utils/translations';
 import { motion, AnimatePresence } from 'framer-motion';
 
+/**
+ * Renders the primary chat interface where user messages and AI responses are displayed.
+ * Includes animated transitions, Markdown parsing, and Text-to-Speech controls.
+ *
+ * @param {Object} props - The component props.
+ * @param {Array} props.messages - Array of message objects containing role, text, and parts.
+ * @param {boolean} props.loading - Indicates if the AI is currently generating a response.
+ * @param {string} props.appLanguage - Current application language code.
+ * @param {number|null} props.playingIndex - Index of the message currently being read aloud via TTS.
+ * @param {Function} props.playMessage - Callback to trigger TTS for a specific message.
+ * @param {Object} props.messagesEndRef - React ref object attached to the bottom of the message list for auto-scrolling.
+ * @returns {JSX.Element} The scrollable message list container.
+ */
 const MessageList = memo(({
   messages,
   loading,

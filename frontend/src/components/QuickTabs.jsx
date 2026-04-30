@@ -2,6 +2,14 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { translations } from '../utils/translations';
 
+/**
+ * Renders a horizontal, scrollable list of quick-action buttons for common election queries.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.appLanguage - The current language code (e.g., 'en-IN').
+ * @param {Function} props.handleStaticTabClick - Callback executed when a tab is clicked, receives the tab object.
+ * @returns {JSX.Element} The quick tabs container.
+ */
 const QuickTabs = memo(({ appLanguage, handleStaticTabClick }) => {
   const tabs = translations[appLanguage]?.tabs || [];
 
@@ -17,12 +25,13 @@ const QuickTabs = memo(({ appLanguage, handleStaticTabClick }) => {
       borderRight: '1px solid var(--glass-border)',
       scrollbarWidth: 'none',
       msOverflowStyle: 'none'
-    }} className="hide-scrollbar chat-tabs">
+    }} className="hide-scrollbar chat-tabs" role="region" aria-label="Quick action queries">
       {tabs.map((tab, index) => (
         <button
           key={index}
           className="btn-secondary tab-btn"
           onClick={() => handleStaticTabClick(tab)}
+          aria-label={`Ask: ${tab.label}`}
           style={{
             whiteSpace: 'nowrap',
             fontSize: '0.85rem',

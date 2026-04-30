@@ -4,6 +4,14 @@ import { ChevronDown, ChevronUp, Volume2, Square } from 'lucide-react';
 import { getTimelinePhases } from '../data/timelineData';
 import { motion, AnimatePresence } from 'framer-motion';
 
+/**
+ * An interactive timeline component that displays the phases of an election.
+ * Supports expanding accordion panels, fluid animations, and localized Text-to-Speech playback.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.appLanguage - The current language code for localization.
+ * @returns {JSX.Element} The timeline container.
+ */
 const TimelineMode = memo(({ appLanguage }) => {
   const [expandedId, setExpandedId] = useState(null);
   const [playingKey, setPlayingKey] = useState(null);

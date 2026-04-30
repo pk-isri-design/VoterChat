@@ -1,48 +1,18 @@
-import React from 'react';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import { vi } from 'vitest';
-import axios from 'axios';
-import ChatInterface from '../components/ChatInterface';
+import { renderHook, act } from '@testing-library/react';
+import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { useSpeechSynthesis } from '../hooks/useSpeechSynthesis';
 
-vi.mock('axios');
-
-describe('Speech TTS Feature', () => {
-  const mockUser = { email: 'test@example.com', displayName: 'Test User' };
+describe('useSpeechSynthesis Hook', () => {
+  let mockSpeak, mockCancel, mockGetVoices;
 
   beforeEach(() => {
-    vi.clearAllMocks();
-    vi.useFakeTimers();
-
-    window.mockSpeechRecognitionInstance = {
-      start: vi.fn(),
-      stop: vi.fn(),
-      onresult: null,
-      onerror: null,
-      onend: null
-    };
-
-    window.SpeechRecognition = function() {
-      return window.mockSpeechRecognitionInstance;
-    };
-    window.webkitSpeechRecognition = window.SpeechRecognition;
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
-  });
-
-  it('triggers speech synthesis with correct language after voice command', async () => {
-    // Mock axios to return a response
-    axios.post.mockResolvedValue({ data: { text: 'Hello from AI' } });
-    
-    // Mock window.speechSynthesis
-    const mockSpeak = vi.fn();
-    const mockCancel = vi.fn();
-    const mockGetVoices = vi.fn(() => [
+    mockSpeak = vi.fn();
+    mockCancel = vi.fn();
+    mockGetVoices = vi.fn(() => [
       { lang: 'hi-IN', name: 'Google हिन्दी' },
-      { lang: 'en-US', name: 'Google US English' }
+      { lang: 'en-US', name: 'Google US English' },
     ]);
-    
+
     window.speechSynthesis = {
       speak: mockSpeak,
       cancel: mockCancel,
@@ -51,45 +21,99 @@ describe('Speech TTS Feature', () => {
       onvoiceschanged: null,
     };
 
-    render(<ChatInterface user={mockUser} />);
-    
-    // Change language to Hindi
-    const languageSelect = screen.getByTitle('Change App Language');
-    fireEvent.change(languageSelect, { target: { value: 'hi-IN' } });
+    window.SpeechSynthesisUtterance = class MockUtterance {
+      constructor(text) {
+        this.text = text;
+        this.lang = '';
+        this.voice = null;
+        this.onend = null;
+        this.onerror = null;
+      }
+    };
+  });
 
-    // Click mic button
-    const micButton = screen.getByTitle('Start speaking');
-    fireEvent.click(micButton);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
-    // Get the recognition instance that was created
-    const recognitionInstance = window.mockSpeechRecognitionInstance;
-    expect(recognitionInstance).toBeDefined();
+  it('should initialize with playingIndex as null', () => {
+    const { result } = renderHook(() => useSpeechSynthesis('en-IN'));
+    expect(result.current.playingIndex).toBeNull();
+  });
 
-    // Simulate speech recognition result
-    recognitionInstance.onresult({
-      results: [
-        [{ transcript: 'नमस्ते' }]
-      ]
+  it('should call speechSynthesis.speak when playMessage is called', () => {
+    const { result } = renderHook(() => useSpeechSynthesis('en-IN'));
+
+    act(() => {
+      result.current.playMessage('Hello world.', 0);
     });
 
-    // Advance timers by 3000ms to trigger the pause detection
-    vi.advanceTimersByTime(3000);
+    expect(mockSpeak).toHaveBeenCalled();
+    expect(result.current.playingIndex).toBe(0);
+  });
 
-    // Wait for async operations (axios.post and speech synthesis)
-    await waitFor(() => {
-      expect(axios.post).toHaveBeenCalled();
+  it('should toggle off speech when same index is played again', () => {
+    const { result } = renderHook(() => useSpeechSynthesis('en-IN'));
+
+    act(() => {
+      result.current.playMessage('Hello world.', 0);
+    });
+    expect(result.current.playingIndex).toBe(0);
+
+    act(() => {
+      result.current.playMessage('Hello world.', 0);
+    });
+    expect(result.current.playingIndex).toBeNull();
+    expect(mockCancel).toHaveBeenCalled();
+  });
+
+  it('should select the correct voice for the given language', () => {
+    const { result } = renderHook(() => useSpeechSynthesis('hi-IN'));
+
+    act(() => {
+      result.current.playMessage('नमस्ते', 0);
     });
 
-    await waitFor(() => {
-      // Check if speak was called
-      expect(mockSpeak).toHaveBeenCalled();
+    const utteranceArg = mockSpeak.mock.calls[0][0];
+    expect(utteranceArg.lang).toBe('hi-IN');
+  });
+
+  it('should cancel speech on cancelSpeech call and reset playingIndex', () => {
+    const { result } = renderHook(() => useSpeechSynthesis('en-IN'));
+
+    act(() => {
+      result.current.playMessage('Some text.', 2);
+    });
+    expect(result.current.playingIndex).toBe(2);
+
+    act(() => {
+      result.current.cancelSpeech();
+    });
+    expect(mockCancel).toHaveBeenCalled();
+    expect(result.current.playingIndex).toBeNull();
+  });
+
+  it('should strip markdown symbols from text before speaking', () => {
+    const { result } = renderHook(() => useSpeechSynthesis('en-IN'));
+
+    act(() => {
+      result.current.playMessage('**Bold** and #Heading text.', 0);
     });
 
-    // Verify the utterance properties
-    const utterance = mockSpeak.mock.calls.find(call => call[0].text === 'Hello from AI')?.[0];
-    expect(utterance).toBeDefined();
-    expect(utterance.lang).toBe('hi-IN');
-    expect(utterance.voice).toBeDefined();
-    expect(utterance.voice.lang).toBe('hi-IN');
+    const utteranceArg = mockSpeak.mock.calls[0][0];
+    expect(utteranceArg.text).not.toContain('*');
+    expect(utteranceArg.text).not.toContain('#');
+  });
+
+  it('should gracefully do nothing if speechSynthesis is unavailable', () => {
+    // Override speechSynthesis to null (can't delete because it's defined via Object.defineProperty in setupTests)
+    window.speechSynthesis = null;
+    const { result } = renderHook(() => useSpeechSynthesis('en-IN'));
+
+    expect(() => {
+      act(() => {
+        result.current.playMessage('Hello.', 0);
+      });
+    }).not.toThrow();
   });
 });

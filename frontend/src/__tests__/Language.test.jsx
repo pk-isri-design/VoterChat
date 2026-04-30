@@ -13,6 +13,11 @@ describe('Language Change Test', () => {
       resume: vi.fn(),
       getVoices: vi.fn(() => [])
     };
+    const mockInstance = { start: vi.fn(), stop: vi.fn(), onresult: null, onerror: null, onend: null };
+    window.SpeechRecognition = vi.fn().mockImplementation(function() {
+      Object.assign(this, mockInstance);
+    });
+    window.webkitSpeechRecognition = window.SpeechRecognition;
   });
 
   it('renders default language (English)', () => {

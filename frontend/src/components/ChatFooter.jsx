@@ -3,6 +3,21 @@ import PropTypes from 'prop-types';
 import { Send, Trash2, Mic, MicOff } from 'lucide-react';
 import { translations } from '../utils/translations';
 
+/**
+ * Renders the bottom action bar for the chat interface, containing the text input field,
+ * send button, microphone toggle, and clear chat button.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.appLanguage - Current application language code.
+ * @param {string} props.input - Current value of the chat input field.
+ * @param {Function} props.setInput - State setter function for the chat input field.
+ * @param {Function} props.handleSend - Callback executed to submit the message to the AI.
+ * @param {boolean} props.loading - Indicates if the AI is currently generating a response.
+ * @param {Function} props.clearChat - Callback to reset the chat history.
+ * @param {boolean} props.isListening - Indicates if the microphone is currently actively recording.
+ * @param {Function} props.toggleListening - Callback to start or stop microphone recording.
+ * @returns {JSX.Element} The chat footer component.
+ */
 const ChatFooter = memo(({
   appLanguage,
   input,

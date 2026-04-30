@@ -8,9 +8,10 @@ describe('Mic Feature Test', () => {
 
   beforeAll(() => {
     window.speechSynthesis = { cancel: vi.fn(), resume: vi.fn(), getVoices: vi.fn(() => []) };
-    window.SpeechRecognition = vi.fn().mockImplementation(() => ({
-      start: vi.fn(), stop: vi.fn(), onresult: null, onerror: null, onend: null
-    }));
+    const mockInstance = { start: vi.fn(), stop: vi.fn(), onresult: null, onerror: null, onend: null };
+    window.SpeechRecognition = vi.fn().mockImplementation(function() {
+      Object.assign(this, mockInstance);
+    });
     window.webkitSpeechRecognition = window.SpeechRecognition;
   });
 

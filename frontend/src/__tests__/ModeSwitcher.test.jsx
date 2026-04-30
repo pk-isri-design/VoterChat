@@ -16,11 +16,11 @@ describe('ModeSwitcher Component', () => {
     
     const timelineBtn = screen.getByText('🗳️ Timeline');
     expect(timelineBtn).toHaveClass('active');
-    expect(timelineBtn).toHaveAttribute('aria-pressed', 'true');
+    expect(timelineBtn).toHaveAttribute('aria-selected', 'true');
     
     const chatBtn = screen.getByText('🧠 Ask AI');
     expect(chatBtn).not.toHaveClass('active');
-    expect(chatBtn).toHaveAttribute('aria-pressed', 'false');
+    expect(chatBtn).toHaveAttribute('aria-selected', 'false');
   });
 
   it('calls setAppMode when a button is clicked', () => {
