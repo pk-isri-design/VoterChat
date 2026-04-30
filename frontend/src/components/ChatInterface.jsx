@@ -79,15 +79,15 @@ export default function ChatInterface({ user }) {
     });
   }, [appLanguage]);
 
-  const scrollToBottom = () => {
+  const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
   }, [messages, loading]);
 
-  const handleSend = async (textOverride = null, isVoiceCommand = false) => {
+  const handleSend = useCallback(async (textOverride = null, isVoiceCommand = false) => {
     cancelSpeech();
     
     const textToSend = textOverride || input;
@@ -115,7 +115,8 @@ export default function ChatInterface({ user }) {
       
       logCustomEvent('chat_message_sent', {
         language: appLanguage,
-        is_voice: isVoiceCommand
+        is_voice: isVoiceCommand,
+        message_length: textToSend.length
       });
 
       const response = await axios.post(`${apiBase}/api/chat`, {
@@ -133,7 +134,8 @@ export default function ChatInterface({ user }) {
     } finally {
       setLoading(false);
     }
-  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [input, messages, appLanguage, cancelSpeech]);
 
   const clearChat = useCallback(() => {
     cancelSpeech();
@@ -157,14 +159,23 @@ export default function ChatInterface({ user }) {
       <ChatHeader 
         user={user}
         appLanguage={appLanguage}
-        setAppLanguage={setAppLanguage}
+        setAppLanguage={(lang) => {
+          logCustomEvent('language_changed', { from: appLanguage, to: lang });
+          setAppLanguage(lang);
+        }}
         highContrast={highContrast}
         setHighContrast={setHighContrast}
         handleDecreaseText={handleDecreaseText}
         handleIncreaseText={handleIncreaseText}
       />
 
-      <ModeSwitcher appMode={appMode} setAppMode={setAppMode} />
+      <ModeSwitcher 
+        appMode={appMode} 
+        setAppMode={(mode) => {
+          logCustomEvent('mode_switched', { from: appMode, to: mode });
+          setAppMode(mode);
+        }} 
+      />
 
       {appMode === 'chat' && (
         <QuickTabs 
