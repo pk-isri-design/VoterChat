@@ -1,0 +1,53 @@
+/* Mobile Responsiveness Utilities */
+@media (max-width: 768px) {
+  .chat-header {
+    flex-direction: column !important;
+    gap: 12px;
+    align-items: flex-start !important;
+    padding: 15px !important;
+    margin: 10px 10px 0 10px !important;
+  }
+  
+  .chat-header-actions {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .header-username {
+    display: none !important; /* Hide username on mobile to save space */
+  }
+
+  .mode-switcher {
+    margin: 0 10px !important;
+    padding: 10px !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  .mode-switcher::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+  .chat-footer {
+    margin: 0 10px 10px 10px !important;
+    padding: 15px !important;
+  }
+
+  .footer-row {
+    flex-wrap: wrap;
+  }
+
+  .chat-area {
+    margin: 0 10px !important;
+    padding: 15px !important;
+  }
+  
+  .quick-tabs {
+    margin: 0 10px !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 0 !important;
+  }
+}

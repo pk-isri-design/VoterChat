@@ -19,7 +19,7 @@ const ChatHeader = memo(({
         <h2 className="gradient-text" style={{ margin: 0, fontSize: '1.2rem' }}>VoterHelp</h2>
       </div>
       
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <div className="chat-header-actions" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         {/* Language Selector */}
         <div className="tab-btn mode-lang-tab" style={{
           display: 'flex', alignItems: 'center', gap: '4px',
