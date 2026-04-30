@@ -17,6 +17,6 @@
     "firebase-functions": "^7.2.5"
   },
   "engines": {
-    "node": "20"
+    "node": "22"
   }
 }
