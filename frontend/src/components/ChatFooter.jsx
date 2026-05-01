@@ -53,23 +53,43 @@ const ChatFooter = memo(({
         </button>
 
         <button
-          className={`btn-secondary ${isListening ? 'mic-active' : ''}`}
+          className="btn-secondary"
           onClick={toggleListening}
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 15px', height: '46px', flexShrink: 0 }}
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: '0 15px',
+            height: '46px',
+            background: isListening ? 'rgba(239, 68, 68, 0.1)' : '#ffffff',
+            color: isListening ? '#ef4444' : 'var(--text-main)',
+            border: `1px solid ${isListening ? 'rgba(239, 68, 68, 0.4)' : '#cbd5e1'}`,
+            boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+            flexShrink: 0
+          }}
           title={isListening ? "Stop listening" : "Start speaking"}
           aria-label={isListening ? "Stop listening" : "Start speaking"}
         >
           {isListening ? <MicOff size={20} /> : <Mic size={20} />}
         </button>
         <input
-          className="chat-input footer-input"
+          className="footer-input"
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={(e) => e.key === 'Enter' && handleSend()}
           placeholder={translations[appLanguage]?.askPlaceholder || 'Type your message...'}
           aria-label="Chat input"
-          style={{ flex: 1, padding: '0 15px', height: '46px', fontSize: '1rem' }}
+          style={{
+            flex: 1,
+            background: '#ffffff',
+            border: '1px solid #cbd5e1',
+            borderRadius: 'var(--radius-md)',
+            padding: '0 15px',
+            height: '46px',
+            color: 'var(--text-main)',
+            outline: 'none',
+            fontSize: '1rem',
+            boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.05)'
+          }}
         />
         <button
           className="btn-primary"

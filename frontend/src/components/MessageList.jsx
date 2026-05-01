@@ -48,20 +48,42 @@ const MessageList = memo(({
             transition={{ duration: 0.3, ease: "easeOut", delay: index === messages.length - 1 && index !== 0 ? 0.1 : 0 }}
             style={{ display: 'flex', gap: '15px', flexDirection: msg.role === 'user' ? 'row-reverse' : 'row' }}
           >
-          <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: msg.role === 'user' ? 'linear-gradient(135deg,#6366f1,#8b5cf6)' : 'linear-gradient(135deg,#06b6d4,#3b82f6)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: msg.role === 'user' ? '0 0 12px rgba(139,92,246,0.4)' : '0 0 12px rgba(6,182,212,0.3)' }}>
+          <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: msg.role === 'user' ? 'var(--primary)' : 'var(--secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             {msg.role === 'user' ? <User size={20} color="white" /> : <Info size={20} color="white" />}
           </div>
-          <div className={`chat-bubble ${msg.role}`}>
+          <div className={`chat-bubble ${msg.role}`} style={{
+            background: msg.role === 'user' ? 'rgba(217, 119, 6, 0.15)' : 'rgba(255, 255, 255, 0.8)',
+            padding: '15px 20px',
+            borderRadius: 'var(--radius-md)',
+            maxWidth: '75%',
+            border: `1px solid ${msg.role === 'user' ? 'rgba(217, 119, 6, 0.3)' : 'var(--glass-border)'}`,
+            boxShadow: '0 2px 10px rgba(0,0,0,0.02)'
+          }}>
             {msg.role === 'user' ? (
               <p style={{ margin: 0 }}>{msg.parts[0].text}</p>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <div className="markdown-body" dangerouslySetInnerHTML={{ __html: marked(msg.parts[0].text) }} />
                 <button 
-                  className={`listen-btn ${playingIndex === index ? 'playing' : ''}`}
+                  className="listen-btn"
                   onClick={() => playMessage(msg.parts[0].text, index)}
                   title={playingIndex === index ? "Stop playing" : "Read aloud"}
-                  style={{ marginTop: '15px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', padding: '8px 12px', alignSelf: 'flex-start' }}
+                  style={{
+                    marginTop: '15px',
+                    background: playingIndex === index ? 'rgba(239, 68, 68, 0.1)' : 'rgba(59, 130, 246, 0.1)',
+                    border: `1px solid ${playingIndex === index ? 'rgba(239, 68, 68, 0.3)' : 'rgba(59, 130, 246, 0.3)'}`,
+                    color: playingIndex === index ? '#ef4444' : '#3b82f6',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    cursor: 'pointer',
+                    fontSize: '0.85rem',
+                    padding: '8px 12px',
+                    borderRadius: 'var(--radius-sm)',
+                    alignSelf: 'flex-start',
+                    fontWeight: '500',
+                    transition: 'all 0.2s ease'
+                  }}
                 >
                   {playingIndex === index ? <Square size={16} fill="currentColor" /> : <Volume2 size={16} />}
                   {playingIndex === index ? 'Stop' : 'Listen'}
