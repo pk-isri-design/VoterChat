@@ -4,6 +4,7 @@ import App from './App.jsx'
 import { registerSW } from 'virtual:pwa-register'
 import './index.css'
 import './mobile.css'
+import './premium.css'
 
 // Register the PWA service worker for offline caching
 const updateSW = registerSW({

@@ -1,0 +1,616 @@
+/* ============================================================
+   VOTERHELP — PREMIUM STATE-OF-THE-ART DESIGN SYSTEM
+   Deep navy dark mode with glass, gradients & micro-animations
+   ============================================================ */
+
+/* ── 1. Google Font Upgrade: Inter (sharp, modern) ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ── 2. Premium Design Tokens (override light theme) ── */
+:root {
+  /* Brand Palette */
+  --p-bg:            #0b0f1a;
+  --p-bg-2:          #111827;
+  --p-bg-3:          #1a2236;
+  --p-card:          rgba(255,255,255,0.04);
+  --p-card-hover:    rgba(255,255,255,0.07);
+  --p-border:        rgba(255,255,255,0.08);
+  --p-border-bright: rgba(255,255,255,0.15);
+
+  /* Gradient Palette */
+  --g-primary:  linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+  --g-green:    linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --g-red:      linear-gradient(135deg, #f43f5e 0%, #ef4444 100%);
+  --g-gold:     linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  --g-accent:   linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+
+  /* Text */
+  --p-text:      #f1f5f9;
+  --p-text-2:    #94a3b8;
+  --p-text-3:    #64748b;
+
+  /* Glow */
+  --glow-purple: 0 0 40px rgba(139,92,246,0.25);
+  --glow-blue:   0 0 40px rgba(59,130,246,0.2);
+  --glow-teal:   0 0 40px rgba(6,182,212,0.2);
+
+  /* Override core vars */
+  --primary:          #8b5cf6;
+  --primary-glow:     rgba(139,92,246,0.4);
+  --secondary:        #06b6d4;
+  --text-main:        #f1f5f9;
+  --text-muted:       #94a3b8;
+  --glass-bg:         rgba(255,255,255,0.04);
+  --glass-border:     rgba(255,255,255,0.08);
+  --glass-shadow:     0 8px 32px rgba(0,0,0,0.4);
+  --background:       #0b0f1a;
+}
+
+/* ── 3. Base Reset ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background: var(--p-bg) !important;
+  color: var(--p-text) !important;
+  font-family: 'Inter', 'Outfit', sans-serif !important;
+  min-height: 100vh;
+}
+
+/* Animated mesh background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(99,102,241,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 90%, rgba(6,182,212,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(139,92,246,0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#root { position: relative; z-index: 1; }
+
+/* ── 4. Glass Utilities ── */
+.glass {
+  background: rgba(255,255,255,0.04) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06) !important;
+}
+
+.glass-panel {
+  background: rgba(255,255,255,0.03) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+}
+
+/* ── 5. Typography ── */
+.gradient-text {
+  background: var(--g-primary) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  font-weight: 800 !important;
+}
+
+/* ── 6. Buttons ── */
+.btn-primary {
+  background: var(--g-primary) !important;
+  border: none !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em;
+  box-shadow: var(--glow-purple) !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 0 60px rgba(139,92,246,0.45) !important;
+  filter: brightness(1.1) !important;
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.06) !important;
+  color: var(--p-text) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  transition: all 0.25s ease !important;
+}
+
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.1) !important;
+  border-color: rgba(255,255,255,0.2) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* ── 7. Chat Header ── */
+.chat-header {
+  background: rgba(15,20,35,0.8) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+  backdrop-filter: blur(24px) !important;
+}
+
+.chat-header h2 {
+  font-size: 1.3rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em;
+}
+
+/* Language selector inside header */
+.mode-lang-tab {
+  background: rgba(139,92,246,0.2) !important;
+  border: 1px solid rgba(139,92,246,0.4) !important;
+  border-radius: 8px !important;
+}
+
+.mode-lang-tab select {
+  color: #c4b5fd !important;
+  font-weight: 700 !important;
+}
+
+/* ── 8. Mode Switcher Tab Bar ── */
+.mode-switcher {
+  background: rgba(15,20,35,0.6) !important;
+  border-top: 1px solid rgba(255,255,255,0.04) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.04) !important;
+  border-left: 1px solid rgba(255,255,255,0.04) !important;
+  border-right: 1px solid rgba(255,255,255,0.04) !important;
+}
+
+.mode-tab {
+  background: rgba(255,255,255,0.04) !important;
+  color: var(--p-text-2) !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em;
+  transition: all 0.25s ease !important;
+}
+
+.mode-tab:hover {
+  background: rgba(139,92,246,0.12) !important;
+  color: #c4b5fd !important;
+  border-color: rgba(139,92,246,0.3) !important;
+  transform: translateY(-1px) !important;
+}
+
+.mode-tab.active {
+  background: var(--g-primary) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 20px rgba(139,92,246,0.5), 0 0 0 1px rgba(139,92,246,0.3) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* ── 9. Quick Tabs ── */
+.chat-tabs {
+  background: rgba(15,20,35,0.5) !important;
+  border-left: 1px solid rgba(255,255,255,0.04) !important;
+  border-right: 1px solid rgba(255,255,255,0.04) !important;
+}
+
+.tab-btn {
+  background: rgba(255,255,255,0.04) !important;
+  color: var(--p-text-2) !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+  border-radius: 999px !important;
+  font-weight: 500 !important;
+  font-size: 0.82rem !important;
+  transition: all 0.2s ease !important;
+  box-shadow: none !important;
+}
+
+.tab-btn:hover {
+  background: rgba(139,92,246,0.15) !important;
+  color: #c4b5fd !important;
+  border-color: rgba(139,92,246,0.35) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* ── 10. Chat Area / Message List ── */
+.chat-area {
+  background: rgba(11,15,26,0.6) !important;
+  border-left: 1px solid rgba(255,255,255,0.04) !important;
+  border-right: 1px solid rgba(255,255,255,0.04) !important;
+}
+
+/* ── 11. Chat Bubbles ── */
+.chat-bubble {
+  border-radius: 16px !important;
+  padding: 14px 18px !important;
+  max-width: 82%;
+  line-height: 1.6;
+  position: relative;
+}
+
+.chat-bubble.user {
+  background: var(--g-primary) !important;
+  color: #fff !important;
+  border-bottom-right-radius: 4px !important;
+  box-shadow: var(--glow-purple) !important;
+  font-weight: 500;
+}
+
+.chat-bubble.model {
+  background: rgba(255,255,255,0.05) !important;
+  color: var(--p-text) !important;
+  border: 1px solid rgba(255,255,255,0.09) !important;
+  border-bottom-left-radius: 4px !important;
+  backdrop-filter: blur(12px);
+}
+
+.chat-bubble.model .markdown-body {
+  color: var(--p-text) !important;
+}
+
+.chat-bubble.model .markdown-body a {
+  color: #a78bfa !important;
+  background: rgba(139,92,246,0.12) !important;
+}
+
+.chat-bubble.model .markdown-body a:hover {
+  background: rgba(139,92,246,0.22) !important;
+}
+
+.chat-bubble.model .markdown-body strong {
+  color: #f1f5f9 !important;
+}
+
+/* Thinking / loading bubble */
+.thinking-bubble {
+  background: rgba(255,255,255,0.04) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 16px;
+  border-bottom-left-radius: 4px;
+  padding: 14px 20px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.thinking-bubble span {
+  width: 8px;
+  height: 8px;
+  background: var(--p-text-2);
+  border-radius: 50%;
+  animation: pulse-dot 1.4s ease-in-out infinite;
+}
+
+.thinking-bubble span:nth-child(2) { animation-delay: 0.2s; }
+.thinking-bubble span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes pulse-dot {
+  0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* Listen button in model bubble */
+.listen-btn {
+  background: rgba(139,92,246,0.1) !important;
+  border: 1px solid rgba(139,92,246,0.2) !important;
+  color: #c4b5fd !important;
+  border-radius: 8px !important;
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+}
+
+.listen-btn:hover {
+  background: rgba(139,92,246,0.2) !important;
+  border-color: rgba(139,92,246,0.4) !important;
+}
+
+.listen-btn.playing {
+  background: rgba(244,63,94,0.12) !important;
+  border-color: rgba(244,63,94,0.3) !important;
+  color: #fb7185 !important;
+}
+
+/* ── 12. Chat Footer ── */
+.chat-footer {
+  background: rgba(15,20,35,0.85) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-top: 1px solid rgba(255,255,255,0.06) !important;
+  backdrop-filter: blur(24px) !important;
+}
+
+.chat-input {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1.5px solid rgba(255,255,255,0.08) !important;
+  color: var(--p-text) !important;
+  border-radius: 12px !important;
+  transition: all 0.2s ease !important;
+}
+
+.chat-input:focus {
+  outline: none !important;
+  border-color: rgba(139,92,246,0.5) !important;
+  background: rgba(255,255,255,0.07) !important;
+  box-shadow: 0 0 0 3px rgba(139,92,246,0.12) !important;
+}
+
+.chat-input::placeholder {
+  color: var(--p-text-3) !important;
+}
+
+/* Mic active state */
+.mic-active {
+  background: rgba(244,63,94,0.15) !important;
+  border-color: rgba(244,63,94,0.4) !important;
+  color: #fb7185 !important;
+  animation: mic-pulse 1.5s ease-in-out infinite !important;
+}
+
+@keyframes mic-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(244,63,94,0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(244,63,94,0); }
+}
+
+/* ── 13. Timeline ── */
+.timeline-header h2 {
+  font-size: 1.6rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em;
+}
+
+.timeline-header p {
+  color: var(--p-text-2) !important;
+}
+
+.timeline-node {
+  background: rgba(255,255,255,0.04) !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+  color: var(--p-text) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3) !important;
+  transition: all 0.25s cubic-bezier(0.4,0,0.2,1) !important;
+}
+
+.timeline-node:hover {
+  background: rgba(255,255,255,0.07) !important;
+  border-color: rgba(139,92,246,0.3) !important;
+  transform: translateX(6px) translateY(-1px) !important;
+  box-shadow: 0 8px 24px rgba(139,92,246,0.2), 0 2px 12px rgba(0,0,0,0.3) !important;
+}
+
+.timeline-item.expanded .timeline-node {
+  background: rgba(139,92,246,0.08) !important;
+  border-color: rgba(139,92,246,0.35) !important;
+  box-shadow: 0 0 0 1px rgba(139,92,246,0.2), 0 8px 32px rgba(139,92,246,0.2) !important;
+}
+
+.timeline-title {
+  color: var(--p-text) !important;
+  font-weight: 700 !important;
+  font-size: 0.97rem !important;
+}
+
+.timeline-summary {
+  color: var(--p-text-2) !important;
+}
+
+.timeline-chevron {
+  color: var(--p-text-3) !important;
+}
+
+.timeline-line {
+  border-color: rgba(139,92,246,0.3) !important;
+  opacity: 1 !important;
+}
+
+/* Expanded content panel */
+.timeline-content {
+  background: rgba(15,20,35,0.8) !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+  border-radius: 14px !important;
+  padding: 24px !important;
+  margin-left: 12px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+.timeline-keyfact {
+  background: rgba(245,158,11,0.08) !important;
+  border: 1px solid rgba(245,158,11,0.2) !important;
+  border-radius: 10px !important;
+  color: var(--p-text) !important;
+}
+
+.keyfact-label {
+  color: #fbbf24 !important;
+}
+
+.timeline-section-heading {
+  color: #e2e8f0 !important;
+  font-weight: 700 !important;
+  font-size: 0.93rem !important;
+  border-bottom-color: rgba(255,255,255,0.07) !important;
+}
+
+.timeline-section-text {
+  color: var(--p-text-2) !important;
+}
+
+.timeline-section-list li {
+  color: var(--p-text-2) !important;
+}
+
+.timeline-listen-btn {
+  background: rgba(99,102,241,0.1) !important;
+  border-color: rgba(99,102,241,0.25) !important;
+  color: #818cf8 !important;
+}
+
+.timeline-listen-btn:hover {
+  background: rgba(99,102,241,0.2) !important;
+}
+
+.timeline-listen-btn.playing {
+  background: rgba(244,63,94,0.1) !important;
+  border-color: rgba(244,63,94,0.3) !important;
+  color: #fb7185 !important;
+}
+
+/* ── 14. Quiz ── */
+.quiz-splash {
+  background: rgba(255,255,255,0.04) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  box-shadow: 0 8px 48px rgba(0,0,0,0.5), var(--glow-purple) !important;
+  backdrop-filter: blur(24px) !important;
+}
+
+.quiz-splash p {
+  color: var(--p-text-2) !important;
+}
+
+.quiz-card {
+  background: rgba(255,255,255,0.04) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4) !important;
+  backdrop-filter: blur(20px) !important;
+}
+
+.quiz-situation {
+  background: rgba(59,130,246,0.08) !important;
+  border-color: rgba(59,130,246,0.2) !important;
+}
+
+.quiz-situation-badge {
+  color: #60a5fa !important;
+}
+
+.quiz-situation p {
+  color: var(--p-text) !important;
+}
+
+.quiz-question {
+  color: var(--p-text) !important;
+  font-weight: 700 !important;
+}
+
+.quiz-option-label-wrap {
+  background: rgba(255,255,255,0.03) !important;
+  border: 1.5px solid rgba(255,255,255,0.07) !important;
+  color: var(--p-text) !important;
+  border-radius: 12px !important;
+  transition: all 0.2s ease !important;
+}
+
+.quiz-option-label-wrap:hover {
+  background: rgba(139,92,246,0.08) !important;
+  border-color: rgba(139,92,246,0.3) !important;
+}
+
+.quiz-option-label-wrap.selected {
+  background: rgba(139,92,246,0.12) !important;
+  border-color: rgba(139,92,246,0.5) !important;
+  box-shadow: 0 0 0 3px rgba(139,92,246,0.12) !important;
+}
+
+.quiz-option-letter {
+  background: rgba(255,255,255,0.07) !important;
+  color: var(--p-text) !important;
+  font-weight: 800 !important;
+}
+
+.quiz-option-label-wrap.selected .quiz-option-letter {
+  background: var(--g-primary) !important;
+  color: #fff !important;
+}
+
+.quiz-option-text {
+  color: var(--p-text) !important;
+}
+
+.quiz-progress-label {
+  color: var(--p-text-2) !important;
+}
+
+.quiz-progress-track {
+  background: rgba(255,255,255,0.07) !important;
+}
+
+.quiz-feedback.correct {
+  background: rgba(16,185,129,0.08) !important;
+  border: 1px solid rgba(16,185,129,0.25) !important;
+  border-radius: 12px !important;
+}
+
+.quiz-feedback.wrong {
+  background: rgba(244,63,94,0.08) !important;
+  border: 1px solid rgba(244,63,94,0.25) !important;
+  border-radius: 12px !important;
+}
+
+.quiz-explanation {
+  color: var(--p-text-2) !important;
+}
+
+/* Results */
+.quiz-results {
+  color: var(--p-text) !important;
+}
+
+.results-score-ring {
+  background: rgba(139,92,246,0.08) !important;
+  border: 3px solid transparent !important;
+  background-clip: padding-box !important;
+  box-shadow: 0 0 0 3px rgba(139,92,246,0.4), var(--glow-purple) !important;
+}
+
+.results-score-num {
+  color: #c4b5fd !important;
+}
+
+.results-score-total,
+.results-score-pct {
+  color: var(--p-text-2) !important;
+}
+
+/* ── 15. Auth Screen ── */
+.auth-screen {
+  background: var(--p-bg) !important;
+}
+
+.auth-card {
+  background: rgba(255,255,255,0.04) !important;
+  border: 1px solid rgba(255,255,255,0.09) !important;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.6), var(--glow-purple) !important;
+  backdrop-filter: blur(32px) !important;
+}
+
+/* ── 16. Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(139,92,246,0.3);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139,92,246,0.5);
+}
+
+/* ── 17. Header username & logout ── */
+.header-username {
+  color: var(--p-text-2) !important;
+  font-size: 0.85rem !important;
+}
+
+/* ── 18. High-contrast overrides (keep accessible) ── */
+.high-contrast-mode .timeline-node,
+.high-contrast-mode .quiz-card,
+.high-contrast-mode .chat-bubble.model {
+  border-color: #ffff00 !important;
+}
+
+/* ── 19. Mobile adjustments for dark theme ── */
+@media (max-width: 768px) {
+  body::before {
+    background:
+      radial-gradient(ellipse 100% 50% at 50% 0%, rgba(99,102,241,0.15) 0%, transparent 60%);
+  }
+}
