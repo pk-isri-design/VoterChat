@@ -178,7 +178,7 @@ Q 2. What is the main basis for allocation of seats to various States in the Lok
 Ans. Population of the State. Population is the basis of allocation of seats of the Lok Sabha. As far as possible, every State gets representation in the Lok Sabha in proportion to its population as per census figures.
 
 Q 3. Is there any reservation of seats for any special category in Lok Sabha?
-Ans. Yes. In Lok Sabha there is reservation of seats for Scheduled Castes and Scheduled Tribes. Here also census figures are taken into account.
+Ans. Yes. In Lok Sabha there is reservation of seats for Scheduled Castes and Scheduled Tribes. Here also census figures are taken into account. (Note: The provision for nomination of two members of the Anglo-Indian community to the Lok Sabha was discontinued by the 104th Constitutional Amendment Act, 2019, effective January 2020.)
 
 Q 4. On what basis is this reservation made?
 Ans. Allocation of seats for Scheduled Castes and Tribes in the Lok Sabha are made on the basis of proportion of Scheduled Castes and Tribes in the State concerned to that of the total population, vide provision contained in Article 330 of the Constitution of India read with Section 3 of the R. P. Act, 1950.
@@ -424,4 +424,4 @@ Q23. Whether fresh release of funds under MPs/MLAs/MLCs Local Area Development F
 Ans. No. Fresh release of funds under MPs/MLAs/MLCs Local Area Development Fund of any scheme shall not be made in any area where election is in progress, till the completion of the election process.
 ---
 
-[Last Verified: 2024-05-15T00:00:00.000Z]
+[Last Verified: 2026-04-27T05:09:02.759Z]
