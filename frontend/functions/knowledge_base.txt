@@ -190,7 +190,7 @@ Q 6. How many seats are reserved for Scheduled Tribes in Lok Sabha?
 Ans. 47. For Scheduled Tribes, 47 seats are reserved in Lok Sabha. The 1st schedule to R. P. Act, 1950 as amended vide Representation of People (Amendment) Act , 2008 gives the Statewise break up.
 
 Q 7. Which are the States and Union Territories having the minimum number of seats in Lok Sabha?
-Ans. The following States and Union Territories have one seat each in the Lok Sabha: Mizoram, Nagaland, Sikkim, Andaman and Nicobar Islands, Chandigarh, Dadra and Nagar Haveli and Daman and Diu, Lakshadweep, Puducherry.
+Ans. The following States and Union Territories have one seat each in the Lok Sabha: Mizoram, Nagaland, Sikkim, Andaman and Nicobar Islands, Chandigarh, Lakshadweep, Ladakh, Puducherry. (Note: The Union Territory of Dadra and Nagar Haveli and Daman and Diu has two Lok Sabha seats.)
 
 Q. How many States are there in India?
 Ans. 28. There are 28 states in India viz. Andhra Pradesh, Arunachal Pradesh, Assam, Bihar, Chhattisgarh, Goa, Gujarat, Haryana, Himachal Pradesh, Jharkhand, Karnataka, Kerala, Madhya Pradesh, Maharashtra, Manipur, Meghalaya, Mizoram, Nagaland, Odisha, Punjab, Rajasthan, Sikkim, Tamil Nadu, Telangana, Tripura, Uttar Pradesh, Uttarakhand and West Bengal. (Note: Jammu & Kashmir is now a Union Territory).
@@ -424,4 +424,4 @@ Q23. Whether fresh release of funds under MPs/MLAs/MLCs Local Area Development F
 Ans. No. Fresh release of funds under MPs/MLAs/MLCs Local Area Development Fund of any scheme shall not be made in any area where election is in progress, till the completion of the election process.
 ---
 
-[Last Verified: 2026-05-02T03:31:53.959Z]
+[Last Verified: 2026-06-02]
