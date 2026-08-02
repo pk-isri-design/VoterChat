@@ -21,7 +21,7 @@ Ans. In case of a student residing at the place of study, in hostel or mess mana
 Q6. Where can the list of claims and objections be seen?
 Ans. It can be seen on the website of the Chief Electoral Officer of the State concerned. It also can be seen on the notice board at the office of the Electoral Registration Officer.
 
-Q7.. How will an applicant know that his/her name is included in the electoral roll?
+Q7. How will an applicant know that his/her name is included in the electoral roll?
 Ans.- The decision of the Electoral Registration Officer will be communicated to the applicant by post on his address given by him in Form 6 and also by SMS on the mobile number given by him in Form 6. Electoral rolls are also available on the website of the Chief Electoral Officer of the State concerned and can be seen by anybody.
 
 Q8. How can corrections be made if there are some mistakes in the entries in the electoral roll pertaining to electors?
@@ -46,7 +46,7 @@ Q14. My neighbour / relative has shifted his residence to a new place but his na
 Ans.- For deletion of name of a shifted / dead / absentee elector from the electoral roll application can be made in Form 7. For deletion of a duplicate entry also, application should be made in Form 7.
 
 Q.15 When can one get registered in electoral roll. Is enrollment is on throughout the year.
-Ans. Enrollment is a continuous process throughout the year. The Election Commission normally orders an Annual Summary Revision of existing electoral rolls, typically with reference to January 1st as the qualifying date. During this period (usually September-October), claims and objections can be submitted in Form 6. Even after the final publication of the revised rolls (usually in the first week of January), electors can apply for registration at any time during continuous updation. With the introduction of four qualifying dates (Jan 1, Apr 1, Jul 1, Oct 1) following the Election Laws (Amendment) Act, 2021, you can apply for registration in Form 6 in advance if you will turn 18 on or before any of these dates, and your application will be processed in the respective quarter.
+Ans. Yes, enrollment is a continuous process throughout the year. The Election Commission normally orders an Annual Summary Revision of existing electoral rolls, typically with reference to January 1st as the qualifying date. However, with the introduction of four qualifying dates (Jan 1, Apr 1, Jul 1, Oct 1) following the Election Laws (Amendment) Act, 2021, electors can apply for registration in Form 6 at any time. If you will turn 18 on or before any of these dates, you can apply in advance, and your application will be processed in the respective quarter. Even after the final publication of the revised rolls, applications can be submitted during continuous updation.
 
 Q.16 Can one be enrolled at more than one place?
 Ans. No. A person cannot be enrolled as a voter at more than one place in view of the provisions contained in Sections 17 and 18 of Representation of People Act, 1950. Likewise, no person can be enrolled as an elector more than once in any electoral roll. Any person while applying for fresh enrolment, makes a statement or declaration whether his / her name is already included in the electoral roll of any other constituency, and if such statement/declaration is false and which the applicant either knows or believes to be false or does not believe to be true, he is liable to be punished under section 31 of the Representation of the People Act, 1950.
@@ -207,13 +207,13 @@ Ans. Three. Out of the 8 Union Territories, Delhi, Puducherry, and Jammu & Kashm
 Q 1. What is the composition of Parliament of India?
 Ans. According to Article 79 of the Constitution of India, the Parliament consists of President of India and the two Houses of Parliament known as Council of States (Rajya Sabha) and House of the People (Lok Sabha).
 
-Q.1 Who elects the President of India?
+Q 2. Who elects the President of India?
 Ans: The President is elected by an Electoral College, which consists of the elected members of both Houses of Parliament and the elected members of the Legislative Assemblies of all the States and also of the Union Territories of Delhi, Puducherry, and Jammu & Kashmir. [Article 54 of the Constitution of India]
 
 Q 3. What is the manner of election of President?
 Ans. According to Article 55 of the Constitution, as far as practicable, there has to be uniformity in the scale of representation of the different states at the election of the President. For the purpose of securing such uniformity among the States, the number of votes to which each State is entitled is determined as follows:- (a) every elected member of the legislative assembly of a State shall have as many votes as there are multiples of one thousand in the quotient obtained by dividing the population of the state by the total number of elected members of the Assembly; (b) If after taking the said multiples of one thousand, the remainder is not less than five hundred, then the vote of each member shall be further increased by one; (c) each elected member of either House of Parliament shall have such number of votes as may be obtained by dividing the total number of votes assigned to the members of the State Legislation Assemblies by the total number of elected members of both the House of Parliament fractions exceeding one-half being counted as one and other fractions being disregarded. The election of the President shall be held in accordance with the system of proportional representation by means of the single transferable vote and the voting shall be by secret ballot.
 
-Q.2 What is the term of the office of the President?
+Q 4. What is the term of the office of the President?
 Ans: The President shall hold office for a term of 5 years from the date on which he enters upon his office. He shall, however, continue to hold office notwithstanding the expiry of his term, until his successor enters upon his office. [Article 56 of the Constitution of India]
 
 Q 5. Will there be any situation in which the President demits office before the five year term?
@@ -225,31 +225,31 @@ Ans. According to Article 61 of the Constitution, when a President is to be impe
 Q 7. Is the President eligible for election for a second term?
 Ans. Yes. According to Article 57 of the Constitution, a President is eligible for re-election to that office.
 
-Q.6 What are the Qualifications required by a candidate to contest the election to the Office of the President of India?
+Q 8. What are the Qualifications required by a candidate to contest the election to the Office of the President of India?
 Ans: Under Article 58, a candidate should fulfill the following eligibility conditions to contest the election to the Office of President: - 1. Must be a citizen of India, 2. Must have completed 35 years of age, 3. Must be eligible to be a member of the Lok Sabha, 4. Should not be holding any office of profit under the Government of India or the Government of any State or under any local or other authority subject to the control of any of the said Governments. However, the candidate may be holding the office of President or Vice-President or Governor of any State or Ministers of the Union or any State and shall be eligible to contest election.
 
 Q 9. Can a Member of Parliament or the State Legislature become the President?
 Ans. The President shall not be a member of either House of Parliament or of a House of the Legislature of any state and if any such member is elected President he shall be claimed to have vacated his seat in that House on the date on which he enters upon office as President.
 
-Q.7 Apart from the above what are the conditions to be fulfilled by a candidate for his nomination to be valid?
+Q 10. Apart from the above what are the conditions to be fulfilled by a candidate for his nomination to be valid?
 Ans: A nomination paper of a candidate for the election has to be made in the prescribed form (Form 2 appended to the Presidential and Vice-Presidential Elections Rules, 1974) and it has to be subscribed by at least fifty electors as proposers and at least fifty electors as seconders. The nomination paper duly completed in all respects has to be presented to the Returning Officer, between 11AM and 3PM on any day other than on a public holiday appointed for the purpose by the Election Commission, either by the candidate himself or by any of his proposers or seconders. Here ǲElectorsǳ mean elected MPs and elected MLAs who are electors for Presidential Election. The Security Deposit for the election, of Rs.15000/- should also be deposited either in cash with the Returning Officer or a receipt showing that the amount has been deposited by the candidate or on his behalf in the Reserve Bank of India or in a Government Treasury should be furnished along with the nomination paper. The candidate is also required to furnish a certified copy of the entry showing his name in the current electoral roll for the Parliamentary Constituency in which the candidate is registered as an elector. [see Sections 5B and 5C of the President and Vice-President Elections Act, 1952]
 
-Q.8 Who is appointed the Returning Officer/Assistant Returning Officer for the election to the Office of President of India? Who makes such appointment?
+Q 11. Who is appointed the Returning Officer/Assistant Returning Officer for the election to the Office of President of India? Who makes such appointment?
 Ans: By convention, the Secretary General, Lok Sabha or the Secretary General, Rajya Sabha is appointed as the Returning Officer, by rotation. Two other senior officers of the Lok Sabha/Raj Sabha Secretariat and the Secretaries and one more senior officer of Legislative Assemblies of all States including the Union Territories of Delhi, Puducherry, and Jammu & Kashmir, are also appointed as the Assistant Returning Officers. The Election Commission of India makes such appointments.
 
-Q.9 Can a Candidate submit more than one nomination paper? What would be the security deposit to be made by such candidate?
+Q 12. Can a Candidate submit more than one nomination paper? What would be the security deposit to be made by such candidate?
 Ans: Yes. A candidate can file a maximum of four nomination papers. However, he is required to make only one security deposit in this regard. [see Sections 5B (6) and 5C of the President and Vice-President Elections Act, 1952]
 
-Q.10 Can an elector propose or second the nomination of more than one candidate at a Presidential election?
+Q 13. Can an elector propose or second the nomination of more than one candidate at a Presidential election?
 Ans: No. An elector can propose or second the name of only one candidate at a Presidential election. If he subscribes as proposer or seconder, the nomination papers of more than one candidate, his signature shall be deemed operative only on the nomination paper first delivered to the Returning Officer. [see Section 5B(5) of the President and Vice-President Elections Act, 1952]
 
-Q 10. Who elects the Vice-President of India?
+Q 14. Who elects the Vice-President of India?
 Ans. The Vice-President is elected by the members of an electoral college consisting of all the members of both Houses of Parliament (i.e., elected and nominated).
 
-Q.3 When is the election of the Office of President of India held?
+Q 15. When is the election of the Office of President of India held?
 Ans: Under the provisions of sub-section (3) of Section 4 of the Presidential and Vice-Presidential Elections Act, 1952, the notification calling the election to the office of the President can be issued by the Election Commission on any day within the period of sixty days before the expiry of the term of office of the outgoing President. The election schedule shall be so fixed, that the President-elect is able to enter upon his office on the day following the expiry of the term of the outgoing President.
 
-Q.5 What electoral system/process is followed for the election to the office of the President?
+Q 16. What electoral system/process is followed for the election to the office of the President?
 Ans: As per Article 55(3) of the Constitution of India, the election of the President shall be held in accordance with the system of proportional representation by means of single transferable vote and the voting at such election shall be by secret ballot.
 
 ---
@@ -424,6 +424,4 @@ Q23. Whether fresh release of funds under MPs/MLAs/MLCs Local Area Development F
 Ans. No. Fresh release of funds under MPs/MLAs/MLCs Local Area Development Fund of any scheme shall not be made in any area where election is in progress, till the completion of the election process.
 ---
 
-[Last Verified: 2026-06-02]
-
-[Last Verified: 2026-07-02T04:06:27.697Z]
+[Last Verified: 2026-08-02T03:32:34.215Z]
