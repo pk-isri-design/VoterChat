@@ -178,7 +178,7 @@ Q 2. What is the main basis for allocation of seats to various States in the Lok
 Ans. Population of the State. Population is the basis of allocation of seats of the Lok Sabha. As far as possible, every State gets representation in the Lok Sabha in proportion to its population as per census figures.
 
 Q 3. Is there any reservation of seats for any special category in Lok Sabha?
-Ans. Yes. In Lok Sabha there is reservation of seats for Scheduled Castes and Scheduled Tribes. Here also census figures are taken into account. (Note: The provision for nomination of two members of the Anglo-Indian community to the Lok Sabha was discontinued by the 104th Constitutional Amendment Act, 2019, effective January 2020.)
+Ans. Yes. In Lok Sabha there is reservation of seats for Scheduled Castes and Scheduled Tribes. The provision for nomination of two members of the Anglo-Indian community to the Lok Sabha was discontinued by the 104th Constitutional Amendment Act, 2019, effective January 2020. Here also census figures are taken into account for SC/ST reservations.
 
 Q 4. On what basis is this reservation made?
 Ans. Allocation of seats for Scheduled Castes and Tribes in the Lok Sabha are made on the basis of proportion of Scheduled Castes and Tribes in the State concerned to that of the total population, vide provision contained in Article 330 of the Constitution of India read with Section 3 of the R. P. Act, 1950.
@@ -307,10 +307,10 @@ Q 6. Has the Election Commission been a multi-member body from the beginning?
 Ans. No. It was not a multi member body from the beginning. It was a single - member body when it was first set up in 1950 and up to 15th October, 1989 with only the Chief Election Commissioner. From 16th October, 1989 upto the 1st January, 1990, it became a three-member body with R.V.S.Peri Sastri (C.E.C) and S.S.Dhanoa and V.S.Seigell as Election Commissioners. From 2nd January, 1990 to 30th September, 1993, it was a single-member Commission and again from 1st October, 1993 it has become a three-member Commission.
 
 Q 7. What is the status Chief Election Commissioner and the Election Commissioners in terms of salaries and allowances etc.?
-Ans. Equivalent to Cabinet Secretary. The Chief Election Commissioner and the two Election Commissioners draw salaries and allowances at par with that of a Cabinet Secretary to the Union Government, as provided for by the Chief Election Commissioner and other Election Commissioners (Conditions of Service) Act, 2023.
+Ans. The Chief Election Commissioner and the two Election Commissioners draw salaries and allowances at par with that of a Judge of the Supreme Court, as provided for by the Chief Election Commissioner and other Election Commissioners (Conditions of Service) Act, 2023.
 
 Q 8. What is the term of office of the Chief Election Commissioner? Is it different from the Election Commissioners?
-Ans. The Chief Election Commissioner or an Election Commissioner holds office for a term of six years from the date on which he assumes his office. However, where the Chief Election Commissioner or an Election Commissioner attains the age of sixty-five years before the expiry of the said term of six years, he shall vacate his office on the the date on which he attains sixty-five years of age.
+Ans. The Chief Election Commissioner or an Election Commissioner holds office for a term of six years from the date on which he assumes his office. However, where the Chief Election Commissioner or an Election Commissioner attains the age of sixty-five years before the expiry of the said term of six years, he shall vacate his office on the date on which he attains sixty-five years of age.
 
 Q 9. When the Commissioner becomes a multi-member Commission, how are the decisions taken, whether by majority or by consensus?
 Ans. As per Section 10 of the Chief Election Commissioner and other Election Commissioners (Conditions of Service) Act, 2023, the Election Commission aims for unanimous decisions. However, if the Chief Election Commissioner and other Election Commissioners differ in opinion on any matter, such matter shall be decided according to the opinion of the majority.
@@ -423,3 +423,5 @@ Ans. Work shall not be started in respect of which work order has been issued be
 Q23. Whether fresh release of funds under MPs/MLAs/MLCs Local Area Development Fund of any scheme can be made?
 Ans. No. Fresh release of funds under MPs/MLAs/MLCs Local Area Development Fund of any scheme shall not be made in any area where election is in progress, till the completion of the election process.
 ---
+
+[Last Verified: 2026-08-02T03:32:34.215Z]
